@@ -5,6 +5,7 @@ namespace GameMain
     public class FieldObject : Model
     {
         public event EventHandler OnLifeUpdated;
+        public event EventHandler OnDead;
 
         protected float _maxLife = 0;
         protected float _life = 0;
@@ -46,6 +47,9 @@ namespace GameMain
 
                 if (OnLifeUpdated != null)
                     OnLifeUpdated();
+                if (!isAlive
+                    && OnDead != null)
+                    OnDead();
             }
         }
     }

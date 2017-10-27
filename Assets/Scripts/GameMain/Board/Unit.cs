@@ -4,9 +4,6 @@ namespace GameMain
 {
     public class Unit : FieldObject
     {
-        public event EventHandler OnDead;
-
-
         private static int s_serialCounter = 0;
         private int _serialId = -1;
 
@@ -20,13 +17,6 @@ namespace GameMain
             _data = data;
 
             life = maxLife = _data.life;
-
-            base.OnLifeUpdated += () => 
-            {
-                if (!isAlive)
-                    if (OnDead != null)
-                        OnDead();
-            };
         }
 
 
