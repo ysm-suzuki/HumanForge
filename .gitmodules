@@ -1,3 +1,6 @@
 [submodule "Assets/Scripts/UnityMVC"]
 	path = Assets/Scripts/UnityMVC
 	url = https://github.com/ysm-suzuki/UnityMVC.git
+[submodule "Assets/Resources/Images"]
+	path = Assets/Resources/Images
+	url = https://github.com/ysm-suzuki/HumanForgeDefaultImages.git
