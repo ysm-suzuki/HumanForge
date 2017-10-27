@@ -11,6 +11,13 @@ namespace GameMain
         protected float _life = 0;
 
 
+        virtual public void Tick(float delta)
+        {
+
+        }
+
+
+
         public bool isAlive
         {
             get { return life > 0; }

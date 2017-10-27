@@ -5,6 +5,8 @@ namespace GameMain
     {
         public static string Tag = "MainPhase";
 
+        private Board _board = new Board();
+
         override public void Initialize()
         {
 
@@ -12,7 +14,7 @@ namespace GameMain
 
         override public void Tick(float delta)
         {
-
+            _board.Tick(delta);
         }
 
         override protected void End()

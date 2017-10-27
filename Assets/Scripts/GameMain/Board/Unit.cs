@@ -10,6 +10,8 @@ namespace GameMain
 
         private UnitData _data;
 
+        private MoveTo _moveTo = null;
+
         public Unit(UnitData data)
         {
             _serialId = ++s_serialCounter;
@@ -21,6 +23,29 @@ namespace GameMain
 
 
 
+        override public void Tick(float delta)
+        {
+            base.Tick(delta);
+
+            if (_moveTo != null)
+            {
+                _moveTo.Tick();
+
+                var positionDelta = _moveTo.GetPositionDelta(delta);
+                position += positionDelta;
+            }
+        }
+
+
+
+        public void MoveTo(Position destination)
+        {
+            _moveTo = new MoveTo(destination, this);
+            _moveTo.OnFinished += () => 
+            {
+                _moveTo = _moveTo.next;
+            };
+        }
 
 
 
