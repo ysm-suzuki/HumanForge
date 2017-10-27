@@ -1,0 +1,3 @@
+[submodule "Assets/Scripts/UnityMVC"]
+	path = Assets/Scripts/UnityMVC
+	url = https://github.com/ysm-suzuki/UnityMVC.git
