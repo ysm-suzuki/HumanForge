@@ -1,4 +1,6 @@
-﻿using UnityMVC;
+﻿using System.Collections.Generic;
+
+using UnityMVC;
 
 namespace GameMain
 {
@@ -19,6 +21,14 @@ namespace GameMain
             _data = data;
 
             life = maxLife = _data.life;
+
+            shapePoints = new List<Position>
+            {
+                Position.Create(-10, 10),
+                Position.Create(10, 10),
+                Position.Create(10, -10),
+                Position.Create(-10, -10)
+            };
         }
 
 
@@ -28,12 +38,7 @@ namespace GameMain
             base.Tick(delta);
 
             if (_moveTo != null)
-            {
-                _moveTo.Tick();
-
-                var positionDelta = _moveTo.GetPositionDelta(delta);
-                position += positionDelta;
-            }
+                _moveTo.Tick(delta);
         }
 
 

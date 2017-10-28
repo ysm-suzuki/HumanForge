@@ -1,4 +1,6 @@
-﻿using UnityMVC;
+﻿using System.Collections.Generic;
+
+using UnityMVC;
 
 namespace GameMain
 {
@@ -10,6 +12,8 @@ namespace GameMain
         protected float _maxLife = 0;
         protected float _life = 0;
 
+        protected Position _velocity = Position.Create(0, 0);
+        protected List<Position> _shapePoints = new List<Position>();
 
         virtual public void Tick(float delta)
         {
@@ -58,6 +62,18 @@ namespace GameMain
                     && OnDead != null)
                     OnDead();
             }
+        }
+
+        public Position velocity
+        {
+            get { return _velocity; }
+            set { _velocity = value; }
+        }
+
+        public List<Position> shapePoints
+        {
+            get { return _shapePoints; }
+            set { _shapePoints = value; }
         }
     }
 }

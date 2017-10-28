@@ -4,9 +4,9 @@ using UnityMVC;
 
 namespace GameMain
 {
-    public class Barricade : FieldObject
+    public class Wall : FieldObject
     {
-        public Barricade()
+        public Wall()
         {
             shapePoints = new List<Position>
             {
