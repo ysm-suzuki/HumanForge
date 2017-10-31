@@ -14,10 +14,16 @@ namespace GameMain
 
         public void Tick(float delta)
         {
+            foreach (var wall in _walls)
+                wall.Tick(delta);
             foreach (var unit in _units)
                 unit.Tick(delta);
 
             SolveMoving();
+
+            foreach (var removingWall in _removingWalls)
+                _walls.Remove(removingWall);
+            _removingWalls.Clear();
 
             foreach (var removnigUnit in _removingUnits)
                 _units.Remove(removnigUnit);
@@ -41,23 +47,77 @@ namespace GameMain
             _removingUnits.Add(unit);
         }
 
+        public void AddWall(Wall wall)
+        {
+            if (_walls.Contains(wall))
+                return;
+            foreach (var aWall in _walls)
+                if (wall == aWall)
+                    return;
+
+            _walls.Add(wall);
+        }
+
+        public void RemoveWall(Wall wall)
+        {
+            _removingWalls.Add(wall);
+        }
+
 
         private void SolveMoving()
         {
+            var vectorBurner = new VectorBurner();
+
             foreach (var unit in _units)
             {
-                unit.position = GetNextPosition(unit.position, unit.velocity);
+                // -------------------------------
+                var fieldObjects = GetFieldObjectsWithout(unit);
+
+                var unitBoundaryLines = new List<Atagoal.Core.Point>();
+                foreach (var point in unit.shapePoints)
+                    unitBoundaryLines.Add(point);
+                
+                var obstacles = new List<VectorBurnerCalculation.Body>();
+                foreach(var fieldObject in fieldObjects)
+                {
+                    var fieldObjectBoundaryLines = new List<Atagoal.Core.Point>();
+                    foreach (var point in fieldObject.shapePoints)
+                        fieldObjectBoundaryLines.Add(point);
+
+                    obstacles.Add(new VectorBurnerCalculation.Body
+                    {
+                        point = fieldObject.position,
+                        boundaryLines = fieldObjectBoundaryLines
+                    });
+                }
+
+                var destination = vectorBurner
+                    .SetTarget(new VectorBurnerCalculation.Body
+                    {
+                        point = unit.position,
+                        boundaryLines = unitBoundaryLines
+                    })
+                    .SetBarricades(obstacles)
+                    .GetDestination(unit.velocity);
+                // -------------------------------
+
+                unit.position = Position.Create(destination.x, destination.y);
                 unit.velocity = Position.Create(0, 0);
             }
         }
 
 
-        private Position GetNextPosition(
-            Position currentPosition,
-            Position velocity)
+        private List<FieldObject> GetFieldObjectsWithout(Unit unit)
         {
-            // kari
-            return currentPosition + velocity;
+            var fieldObjects = new List<FieldObject>();
+
+            foreach (var wall in _walls)
+                fieldObjects.Add(wall);
+            foreach(var fieldUnit in _units)
+                if (!fieldUnit.IsSame(unit))
+                    fieldObjects.Add(fieldUnit);
+            
+            return fieldObjects;
         }
     }
 }
