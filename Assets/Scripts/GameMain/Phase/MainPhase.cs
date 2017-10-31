@@ -1,4 +1,6 @@
-﻿using UnityMVC;
+﻿using System.Collections.Generic;
+
+using UnityMVC;
 
 namespace GameMain
 {
@@ -10,7 +12,6 @@ namespace GameMain
 
         override public void Initialize()
         {
-
             // kari
             var unit = new Unit(new UnitData
             {
@@ -27,6 +28,24 @@ namespace GameMain
 
             _board.AddUnit(unit);
             unit.MoveTo(Position.Create(100,0));
+
+            var wall = new Wall();
+            wall.shapePoints = new List<Position>
+            {
+                Position.Create(-10, 50),
+                Position.Create(0, -50),
+                Position.Create(10, -50),
+                Position.Create(0, 50),
+            };
+            wall.position = Position.Create(60, 0);
+            _board.AddWall(wall);
+
+            DebugShapeView
+                .Attach(ViewManager.Instance.GetRoot(GameMainKicker.BoardRootTag))
+                .SetModel(unit);
+            DebugShapeView
+                .Attach(ViewManager.Instance.GetRoot(GameMainKicker.BoardRootTag))
+                .SetModel(wall);
         }
 
         override public void Tick(float delta)
