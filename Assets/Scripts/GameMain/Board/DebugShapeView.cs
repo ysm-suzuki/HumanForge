@@ -30,9 +30,6 @@ namespace GameMain
                 var to = _model.position.ToVector3() + _model.shapePoints[next].ToVector3();
 
                 Gizmos.DrawLine(from / 100, to / 100);
-
-                Debug.Log("from : " + from);
-                Debug.Log("to : " + to);
             }
         }
 

@@ -87,7 +87,7 @@ namespace GameMain
                     obstacles.Add(new VectorBurnerCalculation.Body
                     {
                         point = fieldObject.position,
-                        boundaryLines = fieldObjectBoundaryLines
+                        vertices = fieldObjectBoundaryLines
                     });
                 }
 
@@ -95,10 +95,10 @@ namespace GameMain
                     .SetTarget(new VectorBurnerCalculation.Body
                     {
                         point = unit.position,
-                        boundaryLines = unitBoundaryLines
+                        vertices = unitBoundaryLines
                     })
                     .SetBarricades(obstacles)
-                    .GetDestination(unit.velocity);
+                    .GetDestination(Atagoal.Core.Vector.Create(unit.velocity.x, unit.velocity.y));
                 // -------------------------------
 
                 unit.position = Position.Create(destination.x, destination.y);

@@ -32,9 +32,9 @@ namespace GameMain
             var wall = new Wall();
             wall.shapePoints = new List<Position>
             {
-                Position.Create(-10, 50),
+                Position.Create(-20, 50),
                 Position.Create(0, -50),
-                Position.Create(10, -50),
+                Position.Create(20, -50),
                 Position.Create(0, 50),
             };
             wall.position = Position.Create(60, 0);
