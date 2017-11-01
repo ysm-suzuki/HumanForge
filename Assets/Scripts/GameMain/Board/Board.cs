@@ -95,9 +95,10 @@ namespace GameMain
                     .SetTarget(new VectorBurnerCalculation.Body
                     {
                         point = unit.position,
-                        vertices = unitBoundaryLines
+                        radius = 10.0f
                     })
                     .SetBarricades(obstacles)
+                    .SetBounce(1.0f)
                     .GetDestination(Atagoal.Core.Vector.Create(unit.velocity.x, unit.velocity.y));
                 // -------------------------------
 

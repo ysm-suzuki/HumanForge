@@ -19,7 +19,7 @@ namespace GameMain
                 attack = 5,
                 attackSpeed = 1.0f,
                 defence = 5,
-                moveSpeed = 10.0f
+                moveSpeed = 10.0f * 10
             });
 
             UnitView
@@ -27,15 +27,16 @@ namespace GameMain
                 .SetModel(unit);
 
             _board.AddUnit(unit);
-            unit.MoveTo(Position.Create(100,0));
+            unit.position = Position.Create(150, 0);
+            unit.MoveTo(Position.Create(-150, 0));
 
             var wall = new Wall();
             wall.shapePoints = new List<Position>
             {
-                Position.Create(-20, 50),
-                Position.Create(0, -50),
-                Position.Create(20, -50),
+                Position.Create(-40, 50),
                 Position.Create(0, 50),
+                Position.Create(40, -50),
+                Position.Create(0, -50),
             };
             wall.position = Position.Create(60, 0);
             _board.AddWall(wall);
