@@ -4,22 +4,22 @@ using UnityMVC;
 
 namespace GameMain
 {
-    public class UnitView : View
+    public class WallView : View
     {
-        private static string PrefabPath = "Prefabs/GameMain/Board/Unit";
+        private static string PrefabPath = "Prefabs/GameMain/Board/Wall";
 
-        new private Unit _model;
+        new private Wall _model;
 
-        public static UnitView Attach(GameObject parent)
+        public static WallView Attach(GameObject parent)
         {
-            var view = View.Attach<UnitView>(PrefabPath);
+            var view = View.Attach<WallView>(PrefabPath);
             view.SetParent(parent);
             return view;
         }
 
-        public UnitView SetModel(Unit model)
+        public WallView SetModel(Wall model)
         {
-            base.SetModel<Unit>(model);
+            base.SetModel<Wall>(model);
 
             _model = model;
 
@@ -41,7 +41,7 @@ namespace GameMain
                 LineSegmentView
                     .Attach(GetRoot())
                     .SetSegment(current.ToVector2(), next.ToVector2())
-                    .SetColor(UnityEngine.Color.blue);
+                    .SetColor(UnityEngine.Color.white);
             }
         }
     }

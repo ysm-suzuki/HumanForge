@@ -39,15 +39,14 @@ namespace GameMain
                 Position.Create(40, -50),
                 Position.Create(0, -50),
             };
+
+            WallView
+                .Attach(ViewManager.Instance.GetRoot(GameMainKicker.BoardRootTag))
+                .SetModel(wall);
+
             wall.position = Position.Create(60, 0);
             _board.AddWall(wall);
 
-            DebugShapeView
-                .Attach(ViewManager.Instance.GetRoot(GameMainKicker.BoardRootTag))
-                .SetModel(unit);
-            DebugShapeView
-                .Attach(ViewManager.Instance.GetRoot(GameMainKicker.BoardRootTag))
-                .SetModel(wall);
         }
 
         override public void Tick(float delta)
