@@ -87,7 +87,7 @@ namespace GameMain
                     obstacles.Add(new VectorBurnerCalculation.Body
                     {
                         point = fieldObject.position,
-                        vertices = fieldObjectBoundaryLines
+                        vertices = fieldObjectBoundaryLines,
                     });
                 }
 
@@ -98,7 +98,7 @@ namespace GameMain
                         radius = 10.0f
                     })
                     .SetBarricades(obstacles)
-                    .SetBounce(1.0f)
+                    .SetBounce(unit.velocity.ToVector().GetLength() / 2)
                     .GetDestination(Atagoal.Core.Vector.Create(unit.velocity.x, unit.velocity.y));
                 // -------------------------------
 
