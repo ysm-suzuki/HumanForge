@@ -9,5 +9,7 @@ namespace GameMain
         public float defence;
         public float attackSpeed;
         public float moveSpeed;
+
+        public float sizeRadius;
     }
 }
