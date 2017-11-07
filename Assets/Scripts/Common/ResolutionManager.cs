@@ -58,6 +58,14 @@ public class ResolutionManager
         get { return _scaleResolution; }
     }
 
+    public float width
+    {
+        get { return _rootRectTransform.sizeDelta.x; }
+    }
+    public float height
+    {
+        get { return _rootRectTransform.sizeDelta.y; }
+    }
 
 
     private void SetUp()

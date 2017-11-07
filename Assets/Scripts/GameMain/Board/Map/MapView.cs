@@ -59,8 +59,13 @@ namespace GameMain
             {
                 var clickdPosition = Position.Create(position.x, position.y);
 
-                // kari
-                clickdPosition -= Position.Create(640 / 2, 1136 / 2);
+                var resolution = ResolutionManager.Instance;
+
+                clickdPosition -= Position.Create(
+                                    resolution.width / 2,
+                                    resolution.height / 2);
+
+                clickdPosition -= _model.position;
 
                 _model.ui.ClickMap(clickdPosition);
             };

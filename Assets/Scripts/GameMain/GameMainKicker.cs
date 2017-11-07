@@ -8,6 +8,9 @@ using GameMain;
 public class GameMainKicker : MonoBehaviour
 {
     [SerializeField]
+    private RectTransform _rootRectTransform = null;
+
+    [SerializeField]
     private GameObject _root = null;
     [SerializeField]
     private GameObject _boardRoot = null;
@@ -37,6 +40,8 @@ public class GameMainKicker : MonoBehaviour
     void Start()
     {
         GameMain.Random.Initialize();
+
+        ResolutionManager.Instance.SetRootRectTransform(_rootRectTransform);
 
         ViewManager.Instance.RegisterRoot(_root);
         ViewManager.Instance.RegisterRoot(_boardRoot, BoardRootTag);
