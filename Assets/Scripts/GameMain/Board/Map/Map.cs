@@ -26,6 +26,7 @@ namespace GameMain
         private List<Wall> _addingWalls = new List<Wall>();
         private List<Unit> _addingUnits = new List<Unit>();
 
+
         override public void Tick(float delta)
         {
             base.Tick(delta);
@@ -37,14 +38,8 @@ namespace GameMain
                 unit.Tick(delta);
 
             SolveMoving();
-
-            foreach (var removingWall in _removingWalls)
-                _walls.Remove(removingWall);
-            _removingWalls.Clear();
-
-            foreach (var removnigUnit in _removingUnits)
-                _units.Remove(removnigUnit);
-            _removingUnits.Clear();
+            RemoveFieldObjects();
+            AddFieldObjects();
         }
 
 
@@ -57,14 +52,14 @@ namespace GameMain
                 if (unit.IsSame(aUnit))
                     return;
 
-            _units.Add(unit);
-
-            if (OnUnitAdded != null)
-                OnUnitAdded(unit);
+            _addingUnits.Add(unit);
         }
 
         public void RemoveUnit(Unit unit)
         {
+            if (!_units.Contains(unit))
+                return;
+
             _removingUnits.Add(unit);
         }
 
@@ -76,17 +71,51 @@ namespace GameMain
                 if (wall == aWall)
                     return;
 
-            _walls.Add(wall);
-
-            if (OnWallAdded != null)
-                OnWallAdded(wall);
+            _addingWalls.Add(wall);
         }
 
         public void RemoveWall(Wall wall)
         {
+            if (!_walls.Contains(wall))
+                return;
+
             _removingWalls.Add(wall);
         }
 
+
+        // ======================================== adding or removing field objects
+        private void RemoveFieldObjects()
+        {
+            foreach (var removingWall in _removingWalls)
+                _walls.Remove(removingWall);
+            _removingWalls.Clear();
+
+            foreach (var removnigUnit in _removingUnits)
+                _units.Remove(removnigUnit);
+            _removingUnits.Clear();
+        }
+        private void AddFieldObjects()
+        {
+            foreach (var addingWall in _addingWalls)
+            {
+                _walls.Add(addingWall);
+                
+                if (OnWallAdded != null)
+                    OnWallAdded(addingWall);
+            }
+            _addingWalls.Clear();
+
+            foreach (var addingUnit in _addingUnits)
+            {
+                _units.Add(addingUnit);
+
+                if (OnUnitAdded != null)
+                    OnUnitAdded(addingUnit);
+            }
+            _addingUnits.Clear();
+        }
+
+        // ======================================== moving field objects
 
         private void SolveMoving()
         {
