@@ -4,17 +4,14 @@ namespace GameMain
 {
     public class BoardUI
     {
+        public delegate void EventHandler();
+        public event EventHandler OnModeChanged;
+
         private UIMode _currentUiMode = null;
-
-        private Map _map = null;
         
-        public void Initialize(Map map)
+        public void Initialize()
         {
-            _map = map;
-
-            _currentUiMode = new DefaultUIMode();
-            _currentUiMode.OnModeChanged += OnModeChanged;
-            _currentUiMode.SetMap(_map);
+            SetCurrentMode(new DefaultUIMode());
         }
 
         public void ClickMap()
@@ -31,13 +28,28 @@ namespace GameMain
             _currentUiMode.ClickUnit(unit);
         }
 
-        private void OnModeChanged(UIMode uiMode)
-        {
-            uiMode.OnModeChanged += OnModeChanged;
-            uiMode.SetMap(_map);
 
+
+        public UIMode mode
+        {
+            get { return _currentUiMode; }
+        }
+
+
+
+        private void ModeChange(UIMode uiMode)
+        {
             _currentUiMode.End();
+            SetCurrentMode(uiMode);
+        }
+
+        private void SetCurrentMode(UIMode uiMode)
+        {
+            uiMode.OnModeChanged += ModeChange;
             _currentUiMode = uiMode;
+
+            if (OnModeChanged != null)
+                OnModeChanged();
         }
     }
 }

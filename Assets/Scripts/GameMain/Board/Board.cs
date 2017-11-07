@@ -13,19 +13,9 @@ namespace GameMain
 
         public Board()
         {
-            // ui
             SetUpUI();
-
-            // map
-            _map.SetUp();
-
-            // player
-            _player = new Player();
-            _player.OnUnitPlaced += unit =>
-            {
-                _map.AddUnit(unit);
-            };
-            _player.SetUp();
+            SetUpMap();
+            SetUpPlayer();
         }
 
         public void Tick(float delta)
@@ -43,14 +33,33 @@ namespace GameMain
 
         private void SetUpUI()
         {
-            _ui.Initialize(_map);
+            _ui.Initialize();
+            _ui.mode.SetMap(_map);
+            _ui.OnModeChanged += () => 
+            {
+                _ui.mode.SetMap(_map);
+            };
+        }
 
+        private void SetUpMap()
+        {
             _map.ui = _ui;
-
             _map.OnUnitAdded += unit =>
             {
                 unit.ui = _ui;
             };
+
+            _map.SetUp();
+        }
+
+        private void SetUpPlayer()
+        {
+            _player = new Player();
+            _player.OnUnitPlaced += unit =>
+            {
+                _map.AddUnit(unit);
+            };
+            _player.SetUp();
         }
     }
 }
