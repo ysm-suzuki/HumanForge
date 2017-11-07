@@ -25,7 +25,7 @@ namespace GameMain
 
             model.OnRemoved += () => { Detach(); };
 
-            SetUpController(model.ui);
+            SetUpController();
 
             UpdatePosition();
 
@@ -36,11 +36,11 @@ namespace GameMain
         }
 
 
-        private void SetUpController(UI ui)
+        private void SetUpController()
         {
             _controller.OnClicked += () =>
             {
-                ui.ClickUnit(_model);
+                _model.ui.ClickUnit(_model);
             };
         }
 

@@ -16,7 +16,7 @@ namespace GameMain
         protected Position _velocity = Position.Create(0, 0);
         protected List<Position> _shapePoints = new List<Position>();
 
-        protected UI _ui = null;
+        protected BoardUI _ui = null;
 
         virtual public void Tick(float delta)
         {
@@ -66,7 +66,7 @@ namespace GameMain
             }
         }
 
-        public UI ui
+        public BoardUI ui
         {
             get { return _ui; }
             set { _ui = value; }

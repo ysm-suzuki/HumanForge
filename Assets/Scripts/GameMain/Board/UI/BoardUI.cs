@@ -1,10 +1,6 @@
-﻿using System.Collections.Generic;
-
-using UnityMVC;
-
-namespace GameMain
+﻿namespace GameMain
 {
-    public class UI
+    public class BoardUI
     {
         public void ClickMap()
         {

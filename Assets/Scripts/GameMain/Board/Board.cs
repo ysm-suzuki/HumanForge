@@ -7,7 +7,7 @@ namespace GameMain
     public class Board
     {
         private Map _map = new Map();
-        private UI _ui = new UI();
+        private BoardUI _ui = new BoardUI();
 
 
         public Board()

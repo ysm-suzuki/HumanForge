@@ -40,7 +40,7 @@ namespace GameMain
                     .SetModel(wall);
             };
 
-            SetUpController(model.ui);
+            SetUpController();
 
             UpdatePosition();
 
@@ -48,11 +48,11 @@ namespace GameMain
         }
 
 
-        private void SetUpController(UI ui)
+        private void SetUpController()
         {
             _controller.OnClicked += () => 
             {
-                ui.ClickMap();
+                _model.ui.ClickMap();
             };
 
             _controller.OnTouchMoved += (diff, duration) => 
