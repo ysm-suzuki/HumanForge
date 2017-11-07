@@ -7,10 +7,14 @@ namespace GameMain
     public class Board
     {
         private Map _map = new Map();
+        private UI _ui = new UI();
 
 
         public Board()
         {
+            SetUpUI();
+
+
             // kari
             var unit = new Unit(new UnitData
             {
@@ -35,7 +39,7 @@ namespace GameMain
             };
             wall.position = Position.Create(60, 0);
 
-            
+
             _map.AddUnit(unit);
             _map.AddWall(wall);
         }
@@ -49,6 +53,18 @@ namespace GameMain
         public Map map
         {
             get { return _map; }
+        }
+
+
+
+        private void SetUpUI()
+        {
+            _map.ui = _ui;
+
+            _map.OnUnitAdded += unit =>
+            {
+                unit.ui = _ui;
+            };
         }
     }
 }

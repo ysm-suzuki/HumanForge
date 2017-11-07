@@ -16,11 +16,12 @@ namespace GameMain
         protected Position _velocity = Position.Create(0, 0);
         protected List<Position> _shapePoints = new List<Position>();
 
+        protected UI _ui = null;
+
         virtual public void Tick(float delta)
         {
 
         }
-
 
 
         public bool isAlive
@@ -63,6 +64,12 @@ namespace GameMain
                     && OnDead != null)
                     OnDead();
             }
+        }
+
+        public UI ui
+        {
+            get { return _ui; }
+            set { _ui = value; }
         }
 
         public void Remove()

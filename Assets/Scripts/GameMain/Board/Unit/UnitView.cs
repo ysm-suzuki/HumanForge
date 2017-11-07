@@ -25,12 +25,23 @@ namespace GameMain
 
             model.OnRemoved += () => { Detach(); };
 
+            SetUpController(model.ui);
+
             UpdatePosition();
 
             // debug
             ShowBoundary();
 
             return this;
+        }
+
+
+        private void SetUpController(UI ui)
+        {
+            _controller.OnClicked += () =>
+            {
+                ui.ClickUnit(_model);
+            };
         }
 
 

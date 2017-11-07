@@ -40,9 +40,25 @@ namespace GameMain
                     .SetModel(wall);
             };
 
+            SetUpController(model.ui);
+
             UpdatePosition();
 
             return this;
+        }
+
+
+        private void SetUpController(UI ui)
+        {
+            _controller.OnClicked += () => 
+            {
+                ui.ClickMap();
+            };
+
+            _controller.OnTouchMoved += (diff, duration) => 
+            {
+                _model.position += Position.Create(diff.x, diff.y);
+            };
         }
     }
 }
