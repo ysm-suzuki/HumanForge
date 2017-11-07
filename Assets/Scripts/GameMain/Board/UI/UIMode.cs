@@ -10,6 +10,14 @@ namespace GameMain
         public delegate void UIModeEventHandler(UIMode uiMode);
         public event UIModeEventHandler OnModeChanged;
 
+
+        protected Map _map = null;
+
+        public void SetMap(Map map)
+        {
+            _map = map;
+        }
+
         virtual public void End()
         {
             if (OnFinished != null)
@@ -17,6 +25,9 @@ namespace GameMain
         }
 
         virtual public void ClickMap()
+        {
+        }
+        virtual public void ClickMap(Position position)
         {
         }
 

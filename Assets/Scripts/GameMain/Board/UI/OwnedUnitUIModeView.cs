@@ -26,11 +26,5 @@ namespace GameMain
 
             return this;
         }
-
-
-        private void SetUpController()
-        {
-
-        }
     }
 }

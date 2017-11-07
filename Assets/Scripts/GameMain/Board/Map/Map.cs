@@ -27,6 +27,22 @@ namespace GameMain
         private List<Unit> _addingUnits = new List<Unit>();
 
 
+        public void SetUp()
+        {
+            // kari
+            var wall = new Wall();
+            wall.shapePoints = new List<Position>
+            {
+                Position.Create(-40, 50),
+                Position.Create(0, 50),
+                Position.Create(40, -50),
+                Position.Create(0, -50),
+            };
+            wall.position = Position.Create(60, 0);
+            AddWall(wall);
+        }
+
+
         override public void Tick(float delta)
         {
             base.Tick(delta);
@@ -82,6 +98,19 @@ namespace GameMain
             _removingWalls.Add(wall);
         }
 
+
+        // ======================================== accessor
+        public Unit playerUnit
+        {
+            get
+            {
+                foreach (var unit in _units)
+                    if (unit.isPlayerUnit)
+                        return unit;
+
+                return null;
+            }
+        }
 
         // ======================================== adding or removing field objects
         private void RemoveFieldObjects()

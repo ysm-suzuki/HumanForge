@@ -12,6 +12,11 @@ namespace GameMain
 
         private UnitData _data;
 
+        // attributes
+        public bool isPlayerUnit = false;
+        public bool isOwnedUnit = false;
+        //
+
         private MoveTo _moveTo = null;
 
         public Unit(UnitData data)

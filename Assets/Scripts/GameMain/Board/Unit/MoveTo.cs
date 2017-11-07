@@ -11,18 +11,12 @@ namespace GameMain
         private Position _destination;
         private MoveTo _next = null;
 
-        private Position _normalizedDirection;
-
         private bool _isFinished = false;
 
         public MoveTo(Position destination, Unit owner)
         {
             _destination = destination;
             _owner = owner;
-
-            var direction = _destination - _owner.position;
-            var length = UnityEngine.Mathf.Sqrt(direction.x * direction.x + direction.y * direction.y);
-            _normalizedDirection = Position.Create(direction.x / length, direction.y / length);
         }
 
         public void RegisterNext(MoveTo next)
@@ -35,7 +29,7 @@ namespace GameMain
             if (_isFinished)
                 return;
 
-            if (_destination.FuzzyEquals(_owner.position, 0.1f))
+            if (_destination.FuzzyEquals(_owner.position, 1.0f))
             {
                 _owner.position = _destination;
 
@@ -55,8 +49,8 @@ namespace GameMain
 
             positionDelta += Position.Create
                 (
-                    _normalizedDirection.x * _owner.moveSpeed * delta,
-                    _normalizedDirection.y * _owner.moveSpeed * delta
+                    normalizedDirection.x * _owner.moveSpeed * delta,
+                    normalizedDirection.y * _owner.moveSpeed * delta
                 ) ;
 
             return positionDelta;
@@ -66,6 +60,17 @@ namespace GameMain
         public MoveTo next
         {
             get { return _next; }
+        }
+
+
+        private Position normalizedDirection
+        {
+            get
+            {
+                var direction = _destination - _owner.position;
+                var length = UnityEngine.Mathf.Sqrt(direction.x * direction.x + direction.y * direction.y);
+                return Position.Create(direction.x / length, direction.y / length);
+            }
         }
     }
 }

@@ -55,6 +55,16 @@ namespace GameMain
                 _model.ui.ClickMap();
             };
 
+            _controller.OnTouchFinished += position =>
+            {
+                var clickdPosition = Position.Create(position.x, position.y);
+
+                // kari
+                clickdPosition -= Position.Create(640 / 2, 1136 / 2);
+
+                _model.ui.ClickMap(clickdPosition);
+            };
+
             _controller.OnTouchMoved += (diff, duration) => 
             {
                 _model.position += Position.Create(diff.x, diff.y);
