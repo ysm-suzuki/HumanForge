@@ -23,6 +23,10 @@ namespace GameMain
 
             _model = model;
 
+            model.OnRemoved += () => { Detach(); };
+
+            UpdatePosition();
+
             // debug
             ShowBoundary();
 

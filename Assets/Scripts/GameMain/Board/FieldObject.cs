@@ -8,6 +8,7 @@ namespace GameMain
     {
         public event EventHandler OnLifeUpdated;
         public event EventHandler OnDead;
+        public event EventHandler OnRemoved;
 
         protected float _maxLife = 0;
         protected float _life = 0;
@@ -62,6 +63,12 @@ namespace GameMain
                     && OnDead != null)
                     OnDead();
             }
+        }
+
+        public void Remove()
+        {
+            if (OnRemoved != null)
+                OnRemoved();
         }
 
         public Position velocity
