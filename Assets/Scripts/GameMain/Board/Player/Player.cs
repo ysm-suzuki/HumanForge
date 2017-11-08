@@ -22,7 +22,6 @@ namespace GameMain
                 sizeRadius = 10.0f
             });
             unit.position = Position.Create(150, 0);
-            unit.MoveTo(Position.Create(-150, 0));
             unit.isPlayerUnit = true;
 
             PlaceUnit(unit);

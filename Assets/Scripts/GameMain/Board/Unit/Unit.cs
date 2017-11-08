@@ -19,8 +19,10 @@ namespace GameMain
         public bool isOwnedUnit = false;
         //
 
+        // tasks
         private MoveToTask _moveTo = null;
         private AttackTask _attackTask = null;
+        private AttackMoveTask _attackMoveTask = null;
 
         public Unit(UnitData data)
         {
@@ -70,6 +72,8 @@ namespace GameMain
 
             if (_moveTo != null)
                 _moveTo.Tick(delta);
+            if(_attackMoveTask != null)
+                _attackMoveTask.Tick(delta);
 
             if (_attackTask == null)
             {
@@ -97,8 +101,10 @@ namespace GameMain
 
         public void Attack(List<FieldObject> targets)
         {
-            float attackPower = 1;
-            float attackRange = 200;
+            _moveTo = null;
+
+            float attackPower = attack;
+            float attackRange = 50;
 
             foreach(var target in targets)
             {
@@ -106,11 +112,18 @@ namespace GameMain
 
                 if (distance > attackRange)
                 {
-                    // attack move
-
+                    _attackMoveTask = new AttackMoveTask(target, this);
+                    _attackMoveTask.OnFinished += () => 
+                    {
+                        _attackMoveTask = null;
+                    };
                     return;
                 }
             }
+
+            if (_attackMoveTask != null)
+                _attackMoveTask.Cancel();
+
 
             float warmUpSeconds = 0.1f;
             float coolDownSeconds = 1.0f;
@@ -139,7 +152,7 @@ namespace GameMain
 
         public bool IsInSight(FieldObject target)
         {
-            float sightRange = 100;
+            float sightRange = 300;
 
             var distance = (target.position - position).ToVector().GetLength();
 

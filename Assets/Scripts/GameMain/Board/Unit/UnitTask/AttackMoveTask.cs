@@ -2,26 +2,20 @@
 
 namespace GameMain
 {
-    public class MoveTo
+    public class AttackMoveTask
     {
         public delegate void EventHandler();
         public event EventHandler OnFinished;
 
         private Unit _owner = null;
-        private Position _destination;
-        private MoveTo _next = null;
+        private FieldObject _target;
 
         private bool _isFinished = false;
 
-        public MoveTo(Position destination, Unit owner)
+        public AttackMoveTask(FieldObject target, Unit owner)
         {
-            _destination = destination;
+            _target = target;
             _owner = owner;
-        }
-
-        public void RegisterNext(MoveTo next)
-        {
-            _next = next;
         }
 
         public void Tick(float delta)
@@ -29,9 +23,17 @@ namespace GameMain
             if (_isFinished)
                 return;
 
-            if (_destination.FuzzyEquals(_owner.position, 1.0f))
+            if (!_target.isAlive)
             {
-                _owner.position = _destination;
+                Cancel();
+                return;
+            }
+
+            var destination = _target.position;
+
+            if (destination.FuzzyEquals(_owner.position, 1.0f))
+            {
+                _owner.position = destination;
 
                 _isFinished = true;
                 if (OnFinished != null)
@@ -41,6 +43,13 @@ namespace GameMain
             {
                 _owner.velocity = GetPositionDelta(delta);
             }
+        }
+
+        public void Cancel()
+        {
+            _isFinished = true;
+            if (OnFinished != null)
+                OnFinished();
         }
 
         public Position GetPositionDelta(float delta)
@@ -57,17 +66,13 @@ namespace GameMain
         }
 
 
-        public MoveTo next
-        {
-            get { return _next; }
-        }
-
 
         private Position normalizedDirection
         {
             get
             {
-                var direction = _destination - _owner.position;
+                var destination = _target.position;
+                var direction = destination - _owner.position;
                 var length = UnityEngine.Mathf.Sqrt(direction.x * direction.x + direction.y * direction.y);
                 return Position.Create(direction.x / length, direction.y / length);
             }

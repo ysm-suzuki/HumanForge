@@ -69,6 +69,11 @@ namespace GameMain
                 if (unit.IsSame(aUnit))
                     return;
 
+            unit.OnRemoved += () => 
+            {
+                RemoveUnit(unit);
+            };
+
             _addingUnits.Add(unit);
         }
 
@@ -87,6 +92,11 @@ namespace GameMain
             foreach (var aWall in _walls)
                 if (wall == aWall)
                     return;
+
+            wall.OnRemoved += () =>
+            {
+                RemoveWall(wall);
+            };
 
             _addingWalls.Add(wall);
         }
