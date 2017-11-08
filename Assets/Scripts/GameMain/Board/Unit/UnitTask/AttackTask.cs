@@ -4,19 +4,15 @@ using UnityMVC;
 
 namespace GameMain
 {
-    public class AttackTask
+    public class AttackTask : UnitTask
     {
-        public delegate void EventHandler();
         public event EventHandler OnAttackFired;
-        public event EventHandler OnFinished;
 
-        private Unit _owner = null;
         private List<FieldObject> _targets = null;
 
         private float _warmUpSeconds;
         private float _coolDownSeconds;
         private float _elaspedSeconds;
-        private bool _isFinished = false;
 
         public bool preventTasks = false;
 
@@ -34,21 +30,18 @@ namespace GameMain
             _elaspedSeconds = 0;
         }
 
-        public void Tick(float delta)
+        override public void Tick(float delta)
         {
             if (_isFinished)
                 return;
 
             if (!AreTargetsLeft())
             {
-                if (OnFinished != null)
-                    OnFinished();
-
-                _isFinished = true;
-
+                End();
                 return;
             }
 
+            base.Tick(delta);
             
             var nextElaspedSeconds = _elaspedSeconds + delta;
 
@@ -62,10 +55,7 @@ namespace GameMain
             if (nextElaspedSeconds >= _warmUpSeconds + _coolDownSeconds
                 && _elaspedSeconds < _warmUpSeconds + _coolDownSeconds)
             {
-                if (OnFinished != null)
-                    OnFinished();
-
-                _isFinished = true;
+                End();
             }
 
             _elaspedSeconds = nextElaspedSeconds;

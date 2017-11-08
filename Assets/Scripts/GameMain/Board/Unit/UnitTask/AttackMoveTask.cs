@@ -2,15 +2,9 @@
 
 namespace GameMain
 {
-    public class AttackMoveTask
+    public class AttackMoveTask : UnitTask
     {
-        public delegate void EventHandler();
-        public event EventHandler OnFinished;
-
-        private Unit _owner = null;
         private FieldObject _target;
-
-        private bool _isFinished = false;
 
         public AttackMoveTask(FieldObject target, Unit owner)
         {
@@ -18,10 +12,12 @@ namespace GameMain
             _owner = owner;
         }
 
-        public void Tick(float delta)
+        override public void Tick(float delta)
         {
             if (_isFinished)
                 return;
+
+            base.Tick(delta);
 
             if (!_target.isAlive)
             {
@@ -34,10 +30,7 @@ namespace GameMain
             if (destination.FuzzyEquals(_owner.position, 1.0f))
             {
                 _owner.position = destination;
-
-                _isFinished = true;
-                if (OnFinished != null)
-                    OnFinished();
+                End();
             }
             else
             {
@@ -47,9 +40,7 @@ namespace GameMain
 
         public void Cancel()
         {
-            _isFinished = true;
-            if (OnFinished != null)
-                OnFinished();
+            End();
         }
 
         public Position GetPositionDelta(float delta)

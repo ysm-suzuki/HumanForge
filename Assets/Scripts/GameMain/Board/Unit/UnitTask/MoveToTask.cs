@@ -2,16 +2,10 @@
 
 namespace GameMain
 {
-    public class MoveToTask
+    public class MoveToTask : UnitTask
     {
-        public delegate void EventHandler();
-        public event EventHandler OnFinished;
-
-        private Unit _owner = null;
         private Position _destination;
         private MoveToTask _next = null;
-
-        private bool _isFinished = false;
 
         public MoveToTask(Position destination, Unit owner)
         {
@@ -24,7 +18,7 @@ namespace GameMain
             _next = next;
         }
 
-        public void Tick(float delta)
+        override public void Tick(float delta)
         {
             if (_isFinished)
                 return;
@@ -32,10 +26,7 @@ namespace GameMain
             if (_destination.FuzzyEquals(_owner.position, 1.0f))
             {
                 _owner.position = _destination;
-
-                _isFinished = true;
-                if (OnFinished != null)
-                    OnFinished();
+                End();
             }
             else
             {
@@ -43,7 +34,7 @@ namespace GameMain
             }
         }
 
-        public Position GetPositionDelta(float delta)
+        private Position GetPositionDelta(float delta)
         {
             var positionDelta = Position.Create(0, 0);
 
