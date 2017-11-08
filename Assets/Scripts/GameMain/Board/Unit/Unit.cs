@@ -19,10 +19,8 @@ namespace GameMain
         public bool isOwnedUnit = false;
         //
 
-        // tasks
-        private MoveToTask _moveTo = null;
-        private AttackTask _attackTask = null;
-        private AttackMoveTask _attackMoveTask = null;
+        private UnitTaskAgent _taskAgent = null;
+        
 
         public Unit(UnitData data)
         {
@@ -62,6 +60,7 @@ namespace GameMain
             };
 
             _recognition = new Recognition(this);
+            _taskAgent = new UnitTaskAgent(this);
         }
 
 
@@ -70,85 +69,24 @@ namespace GameMain
         {
             base.Tick(delta);
 
-            if (_moveTo != null)
-                _moveTo.Tick(delta);
-            if(_attackMoveTask != null)
-                _attackMoveTask.Tick(delta);
-
-            if (_attackTask == null)
-            {
-                var target = recognition.GetTopPriorityTarget();
-
-                if (target != null)
-                    Attack(new List<FieldObject> { target });
-            }
-            else
-            {
-                _attackTask.Tick(delta);
-            }
+            _taskAgent.Tick(delta);
         }
 
 
+        // ===================================== actions
 
         public void MoveTo(Position destination)
         {
-            _moveTo = new MoveToTask(destination, this);
-            _moveTo.OnFinished += () => 
-            {
-                _moveTo = _moveTo.next;
-            };
+            _taskAgent.MoveTo(destination);
         }
 
         public void Attack(List<FieldObject> targets)
         {
-            _moveTo = null;
-
-            float attackPower = attack;
-            float attackRange = 50;
-
-            foreach(var target in targets)
-            {
-                float distance = (target.position - position).ToVector().GetLength();
-
-                if (distance > attackRange)
-                {
-                    _attackMoveTask = new AttackMoveTask(target, this);
-                    _attackMoveTask.OnFinished += () => 
-                    {
-                        _attackMoveTask = null;
-                    };
-                    return;
-                }
-            }
-
-            if (_attackMoveTask != null)
-                _attackMoveTask.Cancel();
-
-
-            float warmUpSeconds = 0.1f;
-            float coolDownSeconds = 1.0f;
-
-            _attackTask = new AttackTask(
-                                targets, 
-                                warmUpSeconds, 
-                                coolDownSeconds,
-                                this);
-            _attackTask.OnAttackFired += () =>
-            {
-                foreach (var target in targets)
-                {
-                    if (!target.isAlive)
-                        continue;
-
-                    target.life -= attackPower;
-                }
-            };
-            _attackTask.OnFinished += () =>
-            {
-                _attackTask = null;
-            };
+            _taskAgent.Attack(targets);
         }
 
+
+        // =================================== conditions
 
         public bool IsInSight(FieldObject target)
         {
@@ -164,6 +102,9 @@ namespace GameMain
         {
             return unit.serialId == serialId;
         }
+
+
+        // ======================================= accessors
 
         public int serialId
         {
