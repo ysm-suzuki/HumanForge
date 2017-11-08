@@ -2,24 +2,24 @@
 
 namespace GameMain
 {
-    public class MoveToTask
+    public class MoveTo
     {
         public delegate void EventHandler();
         public event EventHandler OnFinished;
 
         private Unit _owner = null;
         private Position _destination;
-        private MoveToTask _next = null;
+        private MoveTo _next = null;
 
         private bool _isFinished = false;
 
-        public MoveToTask(Position destination, Unit owner)
+        public MoveTo(Position destination, Unit owner)
         {
             _destination = destination;
             _owner = owner;
         }
 
-        public void RegisterNext(MoveToTask next)
+        public void RegisterNext(MoveTo next)
         {
             _next = next;
         }
@@ -57,7 +57,7 @@ namespace GameMain
         }
 
 
-        public MoveToTask next
+        public MoveTo next
         {
             get { return _next; }
         }

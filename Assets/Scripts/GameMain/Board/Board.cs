@@ -25,7 +25,7 @@ namespace GameMain
                     new Unit(new UnitData
                     {
                         life = 10,
-                        attack = 5,
+                        attack = 1,
                         attackSpeed = 1.0f,
                         defence = 5,
                         moveSpeed = 10.0f * 10,
@@ -37,7 +37,7 @@ namespace GameMain
                     new Unit(new UnitData
                     {
                         life = 10,
-                        attack = 5,
+                        attack = 1,
                         attackSpeed = 1.0f,
                         defence = 5,
                         moveSpeed = 10.0f * 10,
@@ -49,7 +49,7 @@ namespace GameMain
                     new Unit(new UnitData
                     {
                         life = 10,
-                        attack = 5,
+                        attack = 1,
                         attackSpeed = 1.0f,
                         defence = 5,
                         moveSpeed = 10.0f * 10,

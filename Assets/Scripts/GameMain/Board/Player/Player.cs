@@ -14,8 +14,8 @@ namespace GameMain
             // kari
             var unit = new Unit(new UnitData
             {
-                life = 10,
-                attack = 5,
+                life = 20,
+                attack = 3,
                 attackSpeed = 1.0f,
                 defence = 5,
                 moveSpeed = 10.0f * 10,
@@ -31,6 +31,7 @@ namespace GameMain
         public void PlaceUnit(Unit unit)
         {
             unit.isOwnedUnit = true;
+            unit.isPlayerUnit = true;
 
             if (OnUnitPlaced != null)
                 OnUnitPlaced(unit);

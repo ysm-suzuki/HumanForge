@@ -12,14 +12,15 @@ namespace GameMain
 
         private UnitData _data;
 
-        private Recognition _recognition = new Recognition();
+        private Recognition _recognition = null;
 
         // attributes
         public bool isPlayerUnit = false;
         public bool isOwnedUnit = false;
         //
 
-        private MoveTo _moveTo = null;
+        private MoveToTask _moveTo = null;
+        private AttackTask _attackTask = null;
 
         public Unit(UnitData data)
         {
@@ -57,6 +58,8 @@ namespace GameMain
                     _data.sizeRadius * UnityEngine.Mathf.Cos((22.5f + 45 * -7) * PI / 180),
                     _data.sizeRadius * UnityEngine.Mathf.Sin((22.5f + 45 * -7) * PI / 180)),
             };
+
+            _recognition = new Recognition(this);
         }
 
 
@@ -67,16 +70,69 @@ namespace GameMain
 
             if (_moveTo != null)
                 _moveTo.Tick(delta);
+
+            if (_attackTask == null)
+            {
+                var target = recognition.GetTopPriorityTarget();
+
+                if (target != null)
+                    Attack(new List<FieldObject> { target });
+            }
+            else
+            {
+                _attackTask.Tick(delta);
+            }
         }
 
 
 
         public void MoveTo(Position destination)
         {
-            _moveTo = new MoveTo(destination, this);
+            _moveTo = new MoveToTask(destination, this);
             _moveTo.OnFinished += () => 
             {
                 _moveTo = _moveTo.next;
+            };
+        }
+
+        public void Attack(List<FieldObject> targets)
+        {
+            float attackPower = 1;
+            float attackRange = 200;
+
+            foreach(var target in targets)
+            {
+                float distance = (target.position - position).ToVector().GetLength();
+
+                if (distance > attackRange)
+                {
+                    // attack move
+
+                    return;
+                }
+            }
+
+            float warmUpSeconds = 0.1f;
+            float coolDownSeconds = 1.0f;
+
+            _attackTask = new AttackTask(
+                                targets, 
+                                warmUpSeconds, 
+                                coolDownSeconds,
+                                this);
+            _attackTask.OnAttackFired += () =>
+            {
+                foreach (var target in targets)
+                {
+                    if (!target.isAlive)
+                        continue;
+
+                    target.life -= attackPower;
+                }
+            };
+            _attackTask.OnFinished += () =>
+            {
+                _attackTask = null;
             };
         }
 

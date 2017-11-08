@@ -6,9 +6,18 @@ namespace GameMain
 {
     public class Recognition
     {
+        private Unit _owner = null;
+
         private List<Unit> _units = new List<Unit>();
         private List<Wall> _walls = new List<Wall>();
         private List<Barricade> _barricades = new List<Barricade>();
+
+
+        public Recognition(Unit owner)
+        {
+            _owner = owner;
+        }
+
 
         public void UpdateUnits(List<Unit> units)
         {
@@ -26,6 +35,48 @@ namespace GameMain
         {
             _barricades.Clear();
             _barricades.AddRange(barricades);
+        }
+
+        public List<Unit> GetEnemyUnits()
+        {
+            var enemies = new List<Unit>();
+            foreach (var unit in _units)
+                if (unit.isAlive
+                    && IsOpposite(unit))
+                    enemies.Add(unit);
+
+            return enemies;
+        }
+
+        public FieldObject GetTopPriorityTarget()
+        {
+            float minDistance = float.MaxValue;
+            FieldObject target = null;
+
+            foreach (var unit in GetEnemyUnits())
+            {
+                float distance = (unit.position - _owner.position).ToVector().GetLength();
+
+                if (distance >= minDistance)
+                    continue;
+
+                minDistance = distance;
+                target = unit;
+            }
+
+            if (target != null)
+                return target;
+
+
+            return target;
+        }
+
+
+        private bool IsOpposite(Unit target)
+        {
+            // kari
+            return (_owner.isPlayerUnit && !target.isPlayerUnit)
+                || (!_owner.isPlayerUnit && target.isPlayerUnit);
         }
     }
 }

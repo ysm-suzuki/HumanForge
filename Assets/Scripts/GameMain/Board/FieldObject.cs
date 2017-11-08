@@ -24,6 +24,7 @@ namespace GameMain
         }
 
 
+
         public bool isAlive
         {
             get { return life > 0; }

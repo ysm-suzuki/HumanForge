@@ -110,7 +110,7 @@ namespace GameMain
                 var recognizedUnits = new List<Unit>();
                 foreach (var targetUnit in _units)
                     if (unit.IsInSight(targetUnit)
-                        && unit.IsSame(targetUnit))
+                        && !unit.IsSame(targetUnit))
                         recognizedUnits.Add(targetUnit);
                 recognition.UpdateUnits(recognizedUnits);
                 

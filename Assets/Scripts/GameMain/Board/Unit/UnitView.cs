@@ -23,6 +23,12 @@ namespace GameMain
 
             _model = model;
 
+            model.OnLifeUpdated += () => 
+            {
+                Debug.Log("life is " + model.life + " @unit#" + model.serialId);
+            };
+
+            model.OnDead += () => { model.Remove(); };
             model.OnRemoved += () => { Detach(); };
 
             SetUpController();
