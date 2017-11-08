@@ -16,6 +16,53 @@ namespace GameMain
             SetUpUI();
             SetUpMap();
             SetUpPlayer();
+
+
+            // kari
+            var units = new Dictionary<Unit, Position>
+            {
+                {
+                    new Unit(new UnitData
+                    {
+                        life = 10,
+                        attack = 5,
+                        attackSpeed = 1.0f,
+                        defence = 5,
+                        moveSpeed = 10.0f * 10,
+                        sizeRadius = 10.0f
+                    }),
+                    Position.Create(-200, -200)
+                },
+                {
+                    new Unit(new UnitData
+                    {
+                        life = 10,
+                        attack = 5,
+                        attackSpeed = 1.0f,
+                        defence = 5,
+                        moveSpeed = 10.0f * 10,
+                        sizeRadius = 10.0f
+                    }),
+                    Position.Create(-200, 100)
+                },
+                {
+                    new Unit(new UnitData
+                    {
+                        life = 10,
+                        attack = 5,
+                        attackSpeed = 1.0f,
+                        defence = 5,
+                        moveSpeed = 10.0f * 10,
+                        sizeRadius = 10.0f
+                    }),
+                    Position.Create(-200, 400)
+                }
+            };
+            foreach(var unit in units)
+            {
+                unit.Key.position = unit.Value;
+                _map.AddUnit(unit.Key);
+            }
         }
 
         public void Tick(float delta)

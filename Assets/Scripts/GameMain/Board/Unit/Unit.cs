@@ -12,6 +12,8 @@ namespace GameMain
 
         private UnitData _data;
 
+        private Recognition _recognition = new Recognition();
+
         // attributes
         public bool isPlayerUnit = false;
         public bool isOwnedUnit = false;
@@ -34,26 +36,26 @@ namespace GameMain
                     _data.sizeRadius * UnityEngine.Mathf.Cos((22.5f + 45 * 0) * PI / 180),
                     _data.sizeRadius * UnityEngine.Mathf.Sin((22.5f + 45 * 0) * PI / 180)),
                 Position.Create(
-                    _data.sizeRadius * UnityEngine.Mathf.Cos((22.5f + 45 * 1) * PI / 180),
-                    _data.sizeRadius * UnityEngine.Mathf.Sin((22.5f + 45 * 1) * PI / 180)),
+                    _data.sizeRadius * UnityEngine.Mathf.Cos((22.5f + 45 * -1) * PI / 180),
+                    _data.sizeRadius * UnityEngine.Mathf.Sin((22.5f + 45 * -1) * PI / 180)),
                 Position.Create(
-                    _data.sizeRadius * UnityEngine.Mathf.Cos((22.5f + 45 * 2) * PI / 180),
-                    _data.sizeRadius * UnityEngine.Mathf.Sin((22.5f + 45 * 2) * PI / 180)),
+                    _data.sizeRadius * UnityEngine.Mathf.Cos((22.5f + 45 * -2) * PI / 180),
+                    _data.sizeRadius * UnityEngine.Mathf.Sin((22.5f + 45 * -2) * PI / 180)),
                 Position.Create(
-                    _data.sizeRadius * UnityEngine.Mathf.Cos((22.5f + 45 * 3) * PI / 180),
-                    _data.sizeRadius * UnityEngine.Mathf.Sin((22.5f + 45 * 3) * PI / 180)),
+                    _data.sizeRadius * UnityEngine.Mathf.Cos((22.5f + 45 * -3) * PI / 180),
+                    _data.sizeRadius * UnityEngine.Mathf.Sin((22.5f + 45 * -3) * PI / 180)),
                 Position.Create(
-                    _data.sizeRadius * UnityEngine.Mathf.Cos((22.5f + 45 * 4) * PI / 180),
-                    _data.sizeRadius * UnityEngine.Mathf.Sin((22.5f + 45 * 4) * PI / 180)),
+                    _data.sizeRadius * UnityEngine.Mathf.Cos((22.5f + 45 * -4) * PI / 180),
+                    _data.sizeRadius * UnityEngine.Mathf.Sin((22.5f + 45 * -4) * PI / 180)),
                 Position.Create(
-                    _data.sizeRadius * UnityEngine.Mathf.Cos((22.5f + 45 * 5) * PI / 180),
-                    _data.sizeRadius * UnityEngine.Mathf.Sin((22.5f + 45 * 5) * PI / 180)),
+                    _data.sizeRadius * UnityEngine.Mathf.Cos((22.5f + 45 * -5) * PI / 180),
+                    _data.sizeRadius * UnityEngine.Mathf.Sin((22.5f + 45 * -5) * PI / 180)),
                 Position.Create(
-                    _data.sizeRadius * UnityEngine.Mathf.Cos((22.5f + 45 * 6) * PI / 180),
-                    _data.sizeRadius * UnityEngine.Mathf.Sin((22.5f + 45 * 6) * PI / 180)),
+                    _data.sizeRadius * UnityEngine.Mathf.Cos((22.5f + 45 * -6) * PI / 180),
+                    _data.sizeRadius * UnityEngine.Mathf.Sin((22.5f + 45 * -6) * PI / 180)),
                 Position.Create(
-                    _data.sizeRadius * UnityEngine.Mathf.Cos((22.5f + 45 * 7) * PI / 180),
-                    _data.sizeRadius * UnityEngine.Mathf.Sin((22.5f + 45 * 7) * PI / 180)),
+                    _data.sizeRadius * UnityEngine.Mathf.Cos((22.5f + 45 * -7) * PI / 180),
+                    _data.sizeRadius * UnityEngine.Mathf.Sin((22.5f + 45 * -7) * PI / 180)),
             };
         }
 
@@ -78,6 +80,15 @@ namespace GameMain
             };
         }
 
+
+        public bool IsInSight(FieldObject target)
+        {
+            float sightRange = 100;
+
+            var distance = (target.position - position).ToVector().GetLength();
+
+            return distance <= sightRange;
+        }
 
 
         public bool IsSame(Unit unit)
@@ -110,6 +121,12 @@ namespace GameMain
         public float sizeRadius
         {
             get { return _data.sizeRadius; }
+        }
+
+
+        public Recognition recognition
+        {
+            get { return _recognition; }
         }
     }
 }

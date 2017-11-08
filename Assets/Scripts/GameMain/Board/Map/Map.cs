@@ -47,6 +47,7 @@ namespace GameMain
         {
             base.Tick(delta);
 
+            UpdateRecoginitoins();
 
             foreach (var wall in _walls)
                 wall.Tick(delta);
@@ -96,6 +97,29 @@ namespace GameMain
                 return;
 
             _removingWalls.Add(wall);
+        }
+
+
+        // ======================================== private functions
+        private void UpdateRecoginitoins()
+        {
+            foreach (var unit in _units)
+            {
+                var recognition = unit.recognition;
+                
+                var recognizedUnits = new List<Unit>();
+                foreach (var targetUnit in _units)
+                    if (unit.IsInSight(targetUnit)
+                        && unit.IsSame(targetUnit))
+                        recognizedUnits.Add(targetUnit);
+                recognition.UpdateUnits(recognizedUnits);
+                
+                var recognizedWalls = new List<Wall>();
+                foreach (var wall in _walls)
+                    if (unit.IsInSight(wall))
+                        recognizedWalls.Add(wall);
+                recognition.UpdateWalls(recognizedWalls);
+            }
         }
 
 
