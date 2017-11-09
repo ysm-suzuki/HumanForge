@@ -1,4 +1,5 @@
-﻿using UnityMVC;
+﻿using System.Collections.Generic;
+using UnityMVC;
 
 namespace GameMain
 {
@@ -7,9 +8,12 @@ namespace GameMain
         public float life;
         public float attack;
         public float defence;
-        public float attackSpeed;
         public float moveSpeed;
 
+        public float sightRange;
+
         public float sizeRadius;
+
+        public List<UnitAttackData> attackActions;
     }
 }

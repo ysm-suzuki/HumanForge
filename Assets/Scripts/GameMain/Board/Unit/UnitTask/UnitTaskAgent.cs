@@ -52,7 +52,7 @@ namespace GameMain
             _moveTo = null;
 
             float attackPower = _owner.attack;
-            float attackRange = 50;
+            float attackRange = _owner.attackRange;
 
             foreach (var target in targets)
             {
@@ -73,8 +73,8 @@ namespace GameMain
                 _attackMoveTask.Cancel();
 
 
-            float warmUpSeconds = 0.1f;
-            float coolDownSeconds = 1.0f;
+            float warmUpSeconds = _owner.attackWarmUpSeconds;
+            float coolDownSeconds = _owner.attackCoolDownSeconds;
 
             _attackTask = new AttackTask(
                                 targets,
@@ -87,7 +87,7 @@ namespace GameMain
                 {
                     if (!target.isAlive)
                         continue;
-
+                    
                     target.life -= attackPower;
                 }
             };

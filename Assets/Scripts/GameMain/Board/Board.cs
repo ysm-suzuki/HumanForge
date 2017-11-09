@@ -25,11 +25,21 @@ namespace GameMain
                     new Unit(new UnitData
                     {
                         life = 10,
-                        attack = 1,
-                        attackSpeed = 1.0f,
+                        attack = 0,
                         defence = 5,
                         moveSpeed = 10.0f * 10,
-                        sizeRadius = 10.0f
+                        sizeRadius = 10.0f,
+                        sightRange = 300,
+                        attackActions = new List<UnitAttackData>
+                        {
+                            new UnitAttackData
+                            {
+                                power = 1,
+                                range = 50,
+                                warmUpSeconds = 0.1f,
+                                coolDownSeconds = 0.5f
+                            }
+                        }
                     }),
                     Position.Create(-200, -200)
                 },
@@ -37,11 +47,21 @@ namespace GameMain
                     new Unit(new UnitData
                     {
                         life = 10,
-                        attack = 1,
-                        attackSpeed = 1.0f,
+                        attack = 0,
                         defence = 5,
                         moveSpeed = 10.0f * 10,
-                        sizeRadius = 10.0f
+                        sizeRadius = 10.0f,
+                        sightRange = 300,
+                        attackActions = new List<UnitAttackData>
+                        {
+                            new UnitAttackData
+                            {
+                                power = 1,
+                                range = 50,
+                                warmUpSeconds = 0.1f,
+                                coolDownSeconds = 0.5f
+                            }
+                        }
                     }),
                     Position.Create(-200, 100)
                 },
@@ -50,10 +70,20 @@ namespace GameMain
                     {
                         life = 10,
                         attack = 1,
-                        attackSpeed = 1.0f,
                         defence = 5,
                         moveSpeed = 10.0f * 10,
-                        sizeRadius = 10.0f
+                        sizeRadius = 10.0f,
+                        sightRange = 300,
+                        attackActions = new List<UnitAttackData>
+                        {
+                            new UnitAttackData
+                            {
+                                power = 0,
+                                range = 50,
+                                warmUpSeconds = 0.1f,
+                                coolDownSeconds = 0.5f
+                            }
+                        }
                     }),
                     Position.Create(-200, 400)
                 }

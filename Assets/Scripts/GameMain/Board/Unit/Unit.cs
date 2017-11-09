@@ -13,13 +13,11 @@ namespace GameMain
         private UnitData _data;
 
         private Recognition _recognition = null;
-
-        // attributes
-        public bool isPlayerUnit = false;
-        public bool isOwnedUnit = false;
-        //
+        private IndividualAttribute _individualAttribute = null;
 
         private UnitTaskAgent _taskAgent = null;
+
+        private int _attackActionIndex = 0;
         
 
         public Unit(UnitData data)
@@ -60,6 +58,7 @@ namespace GameMain
             };
 
             _recognition = new Recognition(this);
+            _individualAttribute = new IndividualAttribute();
             _taskAgent = new UnitTaskAgent(this);
         }
 
@@ -90,10 +89,7 @@ namespace GameMain
 
         public bool IsInSight(FieldObject target)
         {
-            float sightRange = 300;
-
             var distance = (target.position - position).ToVector().GetLength();
-
             return distance <= sightRange;
         }
 
@@ -113,15 +109,23 @@ namespace GameMain
 
         public float attack
         {
-            get { return _data.attack; }
+            get { return _data.attack + attackAction.power; }
+        }
+        public float attackRange
+        {
+            get { return attackAction.range; }
+        }
+        public float attackWarmUpSeconds
+        {
+            get { return attackAction.warmUpSeconds; }
+        }
+        public float attackCoolDownSeconds
+        {
+            get { return attackAction.coolDownSeconds; }
         }
         public float defence
         {
             get { return _data.defence; }
-        }
-        public float attackSpeed
-        {
-            get { return _data.attackSpeed; }
         }
         public float moveSpeed
         {
@@ -132,11 +136,35 @@ namespace GameMain
         {
             get { return _data.sizeRadius; }
         }
+        public float sightRange
+        {
+            get { return _data.sightRange; }
+        }
 
 
         public Recognition recognition
         {
             get { return _recognition; }
+        }
+        
+        public UnitAttackData attackAction
+        {
+            get
+            {
+                return _data.attackActions[_attackActionIndex];
+            }
+        }
+
+
+        public bool isPlayerUnit
+        {
+            get { return _individualAttribute.isPlayerUnit; }
+            set { _individualAttribute.isPlayerUnit = value; }
+        }
+        public bool isOwnedUnit
+        {
+            get { return _individualAttribute.isOwnedUnit; }
+            set { _individualAttribute.isOwnedUnit = value; }
         }
     }
 }

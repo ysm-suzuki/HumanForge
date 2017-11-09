@@ -15,11 +15,21 @@ namespace GameMain
             var unit = new Unit(new UnitData
             {
                 life = 20,
-                attack = 3,
-                attackSpeed = 1.0f,
+                attack = 2,
                 defence = 5,
                 moveSpeed = 10.0f * 10,
-                sizeRadius = 10.0f
+                sizeRadius = 10.0f,
+                sightRange = 300,
+                attackActions = new List<UnitAttackData>
+                {
+                    new UnitAttackData
+                    {
+                        power = 1,
+                        range = 50,
+                        warmUpSeconds = 0.1f,
+                        coolDownSeconds = 0.5f
+                    }
+                }
             });
             unit.position = Position.Create(150, 0);
             unit.isPlayerUnit = true;
