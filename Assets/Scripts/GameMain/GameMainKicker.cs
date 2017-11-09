@@ -37,36 +37,51 @@ public class GameMainKicker : MonoBehaviour
 
     private InputPorter _inputPorter = null;
 
+    // kari 
+    private bool _initialized = false;
+
     void Start()
     {
         GameMain.Random.Initialize();
         FileManager.Instance.Initialize();
-        GameMain.SQLite.Instance.Initialize(()=> { });
 
-        ResolutionManager.Instance.SetRootRectTransform(_rootRectTransform);
+        new SerialProcess()
+            .Add(finish =>
+            {
+                GameMain.SQLite.Instance.Initialize(finish);
+            }).Add(finish =>
+            {
+                ResolutionManager.Instance.SetRootRectTransform(_rootRectTransform);
 
-        ViewManager.Instance.RegisterRoot(_root);
-        ViewManager.Instance.RegisterRoot(_boardRoot, BoardRootTag);
-        ViewManager.Instance.RegisterRoot(_uiRoot, UIRootTag);
-        ViewManager.Instance.RegisterRoot(_informationRoot, InformationRootTag);
-        ViewManager.Instance.RegisterRoot(_overlayRoot, OverlayRootTag);
-        ViewManager.Instance.RegisterRoot(_systemFrontRoot, SystemFrontRootTag);
+                ViewManager.Instance.RegisterRoot(_root);
+                ViewManager.Instance.RegisterRoot(_boardRoot, BoardRootTag);
+                ViewManager.Instance.RegisterRoot(_uiRoot, UIRootTag);
+                ViewManager.Instance.RegisterRoot(_informationRoot, InformationRootTag);
+                ViewManager.Instance.RegisterRoot(_overlayRoot, OverlayRootTag);
+                ViewManager.Instance.RegisterRoot(_systemFrontRoot, SystemFrontRootTag);
 
-        SetupInput();
-        SetupPhases();
+                SetupInput();
+                SetupPhases();
+
+                _initialized = true;
+            }).Flush();
     }
 
     void Update()
     {
-        float delta = Time.deltaTime;
 
+        float delta = Time.deltaTime;
+        
+        GameMain.SQLite.Instance.Tick();
+        FileManager.Instance.Tick();
+
+
+        if (!_initialized)
+            return;
         if (_inputPorter != null)
             _inputPorter.Tick(delta);
         if (_currentPhase != null)
             _currentPhase.Tick(delta);
-
-        GameMain.SQLite.Instance.Tick();
-        FileManager.Instance.Tick();
     }
 
     void OnDestroy()
