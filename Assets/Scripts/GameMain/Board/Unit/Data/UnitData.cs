@@ -13,6 +13,7 @@ namespace GameMain
         public float sightRange;
 
         public float sizeRadius;
+        public List<Position> shapePoints;
 
         public List<UnitAttackData> attackActions;
     }

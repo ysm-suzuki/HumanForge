@@ -19,6 +19,7 @@ namespace GameMain
 
 
             // kari
+            const float PI = UnityEngine.Mathf.PI;
             var units = new Dictionary<Unit, Position>
             {
                 {
@@ -29,6 +30,33 @@ namespace GameMain
                         defence = 5,
                         moveSpeed = 10.0f * 10,
                         sizeRadius = 10.0f,
+                        shapePoints = new List<Position>
+                        {
+                            Position.Create(
+                                UnityEngine.Mathf.Cos((22.5f + 45 * 0) * PI / 180),
+                                UnityEngine.Mathf.Sin((22.5f + 45 * 0) * PI / 180)),
+                            Position.Create(
+                                UnityEngine.Mathf.Cos((22.5f + 45 * -1) * PI / 180),
+                                UnityEngine.Mathf.Sin((22.5f + 45 * -1) * PI / 180)),
+                            Position.Create(
+                                UnityEngine.Mathf.Cos((22.5f + 45 * -2) * PI / 180),
+                                UnityEngine.Mathf.Sin((22.5f + 45 * -2) * PI / 180)),
+                            Position.Create(
+                                UnityEngine.Mathf.Cos((22.5f + 45 * -3) * PI / 180),
+                                UnityEngine.Mathf.Sin((22.5f + 45 * -3) * PI / 180)),
+                            Position.Create(
+                                UnityEngine.Mathf.Cos((22.5f + 45 * -4) * PI / 180),
+                                UnityEngine.Mathf.Sin((22.5f + 45 * -4) * PI / 180)),
+                            Position.Create(
+                                UnityEngine.Mathf.Cos((22.5f + 45 * -5) * PI / 180),
+                                UnityEngine.Mathf.Sin((22.5f + 45 * -5) * PI / 180)),
+                            Position.Create(
+                                UnityEngine.Mathf.Cos((22.5f + 45 * -6) * PI / 180),
+                                UnityEngine.Mathf.Sin((22.5f + 45 * -6) * PI / 180)),
+                            Position.Create(
+                                UnityEngine.Mathf.Cos((22.5f + 45 * -7) * PI / 180),
+                                UnityEngine.Mathf.Sin((22.5f + 45 * -7) * PI / 180)),
+                        },
                         sightRange = 300,
                         attackActions = new List<UnitAttackData>
                         {
@@ -51,6 +79,33 @@ namespace GameMain
                         defence = 5,
                         moveSpeed = 10.0f * 10,
                         sizeRadius = 10.0f,
+                        shapePoints = new List<Position>
+                        {
+                            Position.Create(
+                                UnityEngine.Mathf.Cos((22.5f + 45 * 0) * PI / 180),
+                                UnityEngine.Mathf.Sin((22.5f + 45 * 0) * PI / 180)),
+                            Position.Create(
+                                UnityEngine.Mathf.Cos((22.5f + 45 * -1) * PI / 180),
+                                UnityEngine.Mathf.Sin((22.5f + 45 * -1) * PI / 180)),
+                            Position.Create(
+                                UnityEngine.Mathf.Cos((22.5f + 45 * -2) * PI / 180),
+                                UnityEngine.Mathf.Sin((22.5f + 45 * -2) * PI / 180)),
+                            Position.Create(
+                                UnityEngine.Mathf.Cos((22.5f + 45 * -3) * PI / 180),
+                                UnityEngine.Mathf.Sin((22.5f + 45 * -3) * PI / 180)),
+                            Position.Create(
+                                UnityEngine.Mathf.Cos((22.5f + 45 * -4) * PI / 180),
+                                UnityEngine.Mathf.Sin((22.5f + 45 * -4) * PI / 180)),
+                            Position.Create(
+                                UnityEngine.Mathf.Cos((22.5f + 45 * -5) * PI / 180),
+                                UnityEngine.Mathf.Sin((22.5f + 45 * -5) * PI / 180)),
+                            Position.Create(
+                                UnityEngine.Mathf.Cos((22.5f + 45 * -6) * PI / 180),
+                                UnityEngine.Mathf.Sin((22.5f + 45 * -6) * PI / 180)),
+                            Position.Create(
+                                UnityEngine.Mathf.Cos((22.5f + 45 * -7) * PI / 180),
+                                UnityEngine.Mathf.Sin((22.5f + 45 * -7) * PI / 180)),
+                        },
                         sightRange = 300,
                         attackActions = new List<UnitAttackData>
                         {
@@ -73,6 +128,33 @@ namespace GameMain
                         defence = 5,
                         moveSpeed = 10.0f * 10,
                         sizeRadius = 10.0f,
+                        shapePoints = new List<Position>
+                        {
+                            Position.Create(
+                                UnityEngine.Mathf.Cos((22.5f + 45 * 0) * PI / 180),
+                                UnityEngine.Mathf.Sin((22.5f + 45 * 0) * PI / 180)),
+                            Position.Create(
+                                UnityEngine.Mathf.Cos((22.5f + 45 * -1) * PI / 180),
+                                UnityEngine.Mathf.Sin((22.5f + 45 * -1) * PI / 180)),
+                            Position.Create(
+                                UnityEngine.Mathf.Cos((22.5f + 45 * -2) * PI / 180),
+                                UnityEngine.Mathf.Sin((22.5f + 45 * -2) * PI / 180)),
+                            Position.Create(
+                                UnityEngine.Mathf.Cos((22.5f + 45 * -3) * PI / 180),
+                                UnityEngine.Mathf.Sin((22.5f + 45 * -3) * PI / 180)),
+                            Position.Create(
+                                UnityEngine.Mathf.Cos((22.5f + 45 * -4) * PI / 180),
+                                UnityEngine.Mathf.Sin((22.5f + 45 * -4) * PI / 180)),
+                            Position.Create(
+                                UnityEngine.Mathf.Cos((22.5f + 45 * -5) * PI / 180),
+                                UnityEngine.Mathf.Sin((22.5f + 45 * -5) * PI / 180)),
+                            Position.Create(
+                                UnityEngine.Mathf.Cos((22.5f + 45 * -6) * PI / 180),
+                                UnityEngine.Mathf.Sin((22.5f + 45 * -6) * PI / 180)),
+                            Position.Create(
+                                UnityEngine.Mathf.Cos((22.5f + 45 * -7) * PI / 180),
+                                UnityEngine.Mathf.Sin((22.5f + 45 * -7) * PI / 180)),
+                        },
                         sightRange = 300,
                         attackActions = new List<UnitAttackData>
                         {
