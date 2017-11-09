@@ -40,6 +40,8 @@ public class GameMainKicker : MonoBehaviour
     void Start()
     {
         GameMain.Random.Initialize();
+        FileManager.Instance.Initialize();
+        GameMain.SQLite.Instance.Initialize(()=> { });
 
         ResolutionManager.Instance.SetRootRectTransform(_rootRectTransform);
 
@@ -62,6 +64,9 @@ public class GameMainKicker : MonoBehaviour
             _inputPorter.Tick(delta);
         if (_currentPhase != null)
             _currentPhase.Tick(delta);
+
+        GameMain.SQLite.Instance.Tick();
+        FileManager.Instance.Tick();
     }
 
     void OnDestroy()
@@ -109,6 +114,6 @@ public class GameMainKicker : MonoBehaviour
 
     private void TearDown()
     {
-
+        GameMain.SQLite.Instance.TearDown();
     }
 }
