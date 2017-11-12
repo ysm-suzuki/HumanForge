@@ -16,30 +16,6 @@ namespace GameMain
             SetUpUI();
             SetUpMap();
             SetUpPlayer();
-
-
-            // kari
-            const float PI = UnityEngine.Mathf.PI;
-            var units = new Dictionary<Unit, Position>
-            {
-                {
-                    new Unit(UnitMasterData.loader.Get(2).ToUnitData()),
-                    Position.Create(-200, -200)
-                },
-                {
-                    new Unit(UnitMasterData.loader.Get(2).ToUnitData()),
-                    Position.Create(-200, 100)
-                },
-                {
-                    new Unit(UnitMasterData.loader.Get(2).ToUnitData()),
-                    Position.Create(-200, 400)
-                }
-            };
-            foreach(var unit in units)
-            {
-                unit.Key.position = unit.Value;
-                _map.AddUnit(unit.Key);
-            }
         }
 
         public void Tick(float delta)

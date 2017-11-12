@@ -19,12 +19,15 @@ namespace GameMain
 
         private List<Wall> _walls = new List<Wall>();
         private List<Unit> _units = new List<Unit>();
+        private List<Barricade> _barricades = new List<Barricade>();
 
         private List<Wall> _removingWalls = new List<Wall>();
         private List<Unit> _removingUnits = new List<Unit>();
+        private List<Barricade> _removingBarricades = new List<Barricade>();
 
         private List<Wall> _addingWalls = new List<Wall>();
         private List<Unit> _addingUnits = new List<Unit>();
+        private List<Barricade> _addingBarricades = new List<Barricade>();
 
 
         public void SetUp()
@@ -40,6 +43,46 @@ namespace GameMain
             };
             wall.position = Position.Create(60, 0);
             AddWall(wall);
+
+
+            // kari
+            var barricade = new Barricade(new BarricadeData
+            {
+                life = 10,
+                defence = 1,
+                sizeRadius = 1,
+                shapePoints = new List<Position>
+                {
+                    Position.Create(-100, 5),
+                    Position.Create(100, 5),
+                    Position.Create(100, -5),
+                    Position.Create(-100, -5),
+                }
+            });
+            barricade.position = Position.Create(0,-100);
+            AddBarricade(barricade);
+            
+            // kari
+            var units = new Dictionary<Unit, Position>
+            {
+                {
+                    new Unit(UnitMasterData.loader.Get(2).ToUnitData()),
+                    Position.Create(-200, -200)
+                },
+                {
+                    new Unit(UnitMasterData.loader.Get(2).ToUnitData()),
+                    Position.Create(-200, 100)
+                },
+                {
+                    new Unit(UnitMasterData.loader.Get(2).ToUnitData()),
+                    Position.Create(-200, 400)
+                }
+            };
+            foreach (var unit in units)
+            {
+                unit.Key.position = unit.Value;
+                AddUnit(unit.Key);
+            }
         }
 
 
@@ -53,7 +96,9 @@ namespace GameMain
                 wall.Tick(delta);
             foreach (var unit in _units)
                 unit.Tick(delta);
-
+            foreach (var barricade in _barricades)
+                barricade.Tick(delta);
+            
             SolveMoving();
             RemoveFieldObjects();
             AddFieldObjects();
@@ -109,7 +154,28 @@ namespace GameMain
             _removingWalls.Add(wall);
         }
 
+        public void AddBarricade(Barricade barricade)
+        {
+            if (_barricades.Contains(barricade))
+                return;
 
+            barricade.OnRemoved += () =>
+            {
+                RemoveBarricade(barricade);
+            };
+
+            _addingBarricades.Add(barricade);
+        }
+
+        public void RemoveBarricade(Barricade barricade)
+        {
+            if (!_barricades.Contains(barricade))
+                return;
+
+            _removingBarricades.Add(barricade);
+        }
+
+        
         // ======================================== private functions
         private void UpdateRecoginitoins()
         {
@@ -156,6 +222,10 @@ namespace GameMain
             foreach (var removnigUnit in _removingUnits)
                 _units.Remove(removnigUnit);
             _removingUnits.Clear();
+
+            foreach (var removnigBarricade in _removingBarricades)
+                _barricades.Remove(removnigBarricade);
+            _removingBarricades.Clear();
         }
         private void AddFieldObjects()
         {
@@ -176,6 +246,15 @@ namespace GameMain
                     OnUnitAdded(addingUnit);
             }
             _addingUnits.Clear();
+
+            foreach (var addingBarricade in _addingBarricades)
+            {
+                _barricades.Add(addingBarricade);
+
+                if (OnBarricadeAdded != null)
+                    OnBarricadeAdded(addingBarricade);
+            }
+            _addingBarricades.Clear();
         }
 
         // ======================================== moving field objects
@@ -233,6 +312,8 @@ namespace GameMain
             foreach (var fieldUnit in _units)
                 if (!fieldUnit.IsSame(unit))
                     fieldObjects.Add(fieldUnit);
+            foreach (var fieldBarricade in _barricades)
+                    fieldObjects.Add(fieldBarricade);
 
             return fieldObjects;
         }

@@ -143,8 +143,8 @@ namespace GameMain
         }
         public bool isOwnedUnit
         {
-            get { return _individualAttribute.isOwnedUnit; }
-            set { _individualAttribute.isOwnedUnit = value; }
+            get { return _individualAttribute.isOwned; }
+            set { _individualAttribute.isOwned = value; }
         }
     }
 }

@@ -40,6 +40,13 @@ namespace GameMain
                     .SetModel(wall);
             };
 
+            model.OnBarricadeAdded += barricade => 
+            {
+                BarricadeView
+                    .Attach(_fieldObjectsRoot)
+                    .SetModel(barricade);
+            };
+
             SetUpController();
 
             UpdatePosition();

@@ -5,8 +5,8 @@
         enum Attribute
         {
             PlayerUnit  = 1 << 0,
-            OwnedUnit   = 1 << 1,
-            BossUnit    = 1 << 2,
+            Owned       = 1 << 1,
+            Boss        = 1 << 2,
         }
         private int _bitFlag = 0;
 
@@ -24,18 +24,18 @@
                     _bitFlag &= ~(int)Attribute.PlayerUnit;
             }
         }
-        public bool isOwnedUnit
+        public bool isOwned
         {
             get
             {
-                return (_bitFlag & (int)Attribute.OwnedUnit) != 0;
+                return (_bitFlag & (int)Attribute.Owned) != 0;
             }
             set
             {
                 if (value)
-                    _bitFlag |= (int)Attribute.OwnedUnit;
+                    _bitFlag |= (int)Attribute.Owned;
                 else
-                    _bitFlag &= ~(int)Attribute.OwnedUnit;
+                    _bitFlag &= ~(int)Attribute.Owned;
             }
         }
     }
