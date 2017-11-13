@@ -46,19 +46,7 @@ namespace GameMain
 
 
             // kari
-            var barricade = new Barricade(new BarricadeData
-            {
-                life = 10,
-                defence = 1,
-                sizeRadius = 1,
-                shapePoints = new List<Position>
-                {
-                    Position.Create(-100, 5),
-                    Position.Create(100, 5),
-                    Position.Create(100, -5),
-                    Position.Create(-100, -5),
-                }
-            });
+            var barricade = new Barricade(BarricadeMasterData.loader.Get(1).ToBarricadeData());
             barricade.position = Position.Create(0,-100);
             AddBarricade(barricade);
             
