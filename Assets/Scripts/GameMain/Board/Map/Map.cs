@@ -34,13 +34,7 @@ namespace GameMain
         {
             // kari
             var wall = new Wall();
-            wall.shapePoints = new List<Position>
-            {
-                Position.Create(-40, 50),
-                Position.Create(0, 50),
-                Position.Create(40, -50),
-                Position.Create(0, -50),
-            };
+            wall.shapePoints = ShapeMasterData.loader.Get(2).positions;
             wall.position = Position.Create(60, 0);
             AddWall(wall);
 

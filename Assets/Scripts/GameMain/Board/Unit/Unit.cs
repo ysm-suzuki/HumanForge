@@ -29,7 +29,8 @@ namespace GameMain
             life = maxLife = _data.life;
 
             shapePoints = new List<Position>();
-            shapePoints.AddRange(_data.shapePoints);
+            foreach (var position in _data.shapePoints)
+                shapePoints.Add(Position.Create(position.x, position.y));
             shapePoints.ForEach(
                 position =>
                 {
