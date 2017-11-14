@@ -36,14 +36,11 @@ namespace GameMain
         {
             _data = MapMasterData.loader.Get(id);
 
-            foreach(var wallData in _data.walls)
-                AddWall(new Wall(wallData));
+            foreach (var wall in _data.walls)
+                AddWall(wall);
+            foreach (var barricade in _data.barricades)
+                AddBarricade(barricade);
 
-            // kari
-            var barricade = new Barricade(BarricadeMasterData.loader.Get(1).ToBarricadeData());
-            barricade.position = Position.Create(0,-100);
-            AddBarricade(barricade);
-            
             // kari
             var units = new Dictionary<Unit, Position>
             {

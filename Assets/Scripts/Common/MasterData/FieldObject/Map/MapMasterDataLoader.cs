@@ -32,7 +32,7 @@ public class MapMasterDataLoader : MasterDataLoader<MapMasterData>
             data.width = item.width;
             data.height = item.height;
 
-            data.walls = new List<WallData>();
+            data.walls = new List<Wall>();
             int wallSetId = item.wallSetFirstId;
             while (wallSetId > 0)
             {
@@ -40,18 +40,37 @@ public class MapMasterDataLoader : MasterDataLoader<MapMasterData>
 
                 if (wallSet == null)
                     break;
-                
-                data.walls.Add(new WallData
+
+                data.walls.Add(new Wall(new WallData
                 {
                     shapeId = wallSet.shapeId,
                     shapeRotationTheta = wallSet.rotationTheta,
                     initialPostion = Position.Create(wallSet.x, wallSet.y)
-                });
+                }));
 
                 if (wallSet.isTerminal)
                     break;
 
                 wallSetId++;
+            }
+
+            data.barricades = new List<Barricade>();
+            int barricadeSetId = item.barricadeSetFirstId;
+            while (barricadeSetId > 0)
+            {
+                var barricadeSet = BarricadeSetMasterData.loader.Get(barricadeSetId);
+
+                if (barricadeSet == null)
+                    break;
+
+                var barricade = new Barricade(BarricadeMasterData.loader.Get(barricadeSet.barricadeId).ToBarricadeData());
+                barricade.position = Position.Create(barricadeSet.x, barricadeSet.y);
+                data.barricades.Add(barricade);
+
+                if (barricadeSet.isTerminal)
+                    break;
+
+                barricadeSetId++;
             }
 
             _data[data.id] = data;
@@ -79,5 +98,6 @@ public class MapMasterDataLoader : MasterDataLoader<MapMasterData>
         public float height { get; set; }
 
         public int wallSetFirstId { get; set; }
+        public int barricadeSetFirstId { get; set; }
     }
 }

@@ -14,5 +14,6 @@ public class MapMasterData
 
     public float width;
     public float height;
-    public List<WallData> walls;
+    public List<Wall> walls;
+    public List<Barricade> barricades;
 }
