@@ -30,7 +30,7 @@ namespace GameMain
 
             shapePoints = new List<Position>();
             foreach (var position in _data.shapePoints)
-                shapePoints.Add(Position.Create(position.x, position.y));
+                shapePoints.Add(position.Clone());
             shapePoints.ForEach(
                 position =>
                 {

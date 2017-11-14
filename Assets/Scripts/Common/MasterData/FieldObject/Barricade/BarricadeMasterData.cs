@@ -28,34 +28,7 @@ public class BarricadeMasterData
             life = life,
             defence = defence,
             sizeRadius = sizeRadius,
-            // kari
-            shapePoints = new List<Position>
-                {
-                    Position.Create(
-                        UnityEngine.Mathf.Cos((22.5f + 45 * 0) * PI / 180),
-                        UnityEngine.Mathf.Sin((22.5f + 45 * 0) * PI / 180)),
-                    Position.Create(
-                        UnityEngine.Mathf.Cos((22.5f + 45 * -1) * PI / 180),
-                        UnityEngine.Mathf.Sin((22.5f + 45 * -1) * PI / 180)),
-                    Position.Create(
-                        UnityEngine.Mathf.Cos((22.5f + 45 * -2) * PI / 180),
-                        UnityEngine.Mathf.Sin((22.5f + 45 * -2) * PI / 180)),
-                    Position.Create(
-                        UnityEngine.Mathf.Cos((22.5f + 45 * -3) * PI / 180),
-                        UnityEngine.Mathf.Sin((22.5f + 45 * -3) * PI / 180)),
-                    Position.Create(
-                        UnityEngine.Mathf.Cos((22.5f + 45 * -4) * PI / 180),
-                        UnityEngine.Mathf.Sin((22.5f + 45 * -4) * PI / 180)),
-                    Position.Create(
-                        UnityEngine.Mathf.Cos((22.5f + 45 * -5) * PI / 180),
-                        UnityEngine.Mathf.Sin((22.5f + 45 * -5) * PI / 180)),
-                    Position.Create(
-                        UnityEngine.Mathf.Cos((22.5f + 45 * -6) * PI / 180),
-                        UnityEngine.Mathf.Sin((22.5f + 45 * -6) * PI / 180)),
-                    Position.Create(
-                        UnityEngine.Mathf.Cos((22.5f + 45 * -7) * PI / 180),
-                        UnityEngine.Mathf.Sin((22.5f + 45 * -7) * PI / 180)),
-                },
+            shapePoints = ShapeMasterData.loader.Get(shapePointsId).positions,
         };
     }
 }
