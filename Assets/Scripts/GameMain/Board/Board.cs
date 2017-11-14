@@ -29,6 +29,9 @@ namespace GameMain
         public void Tick(float delta)
         {
             _map.Tick(delta);
+
+            if (_player != null)
+                _player.Tick(delta);
         }
         
 
