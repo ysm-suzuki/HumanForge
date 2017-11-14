@@ -21,18 +21,7 @@ public class BarricadeSetMasterDataLoader : MasterDataLoader<BarricadeSetMasterD
         var sqLite = GameMain.SQLite.Instance.connection;
         var list = sqLite.Table<barricade_set_data>();
         foreach (var item in list)
-        {
-            var data = new BarricadeSetMasterData();
-
-            data.id = item.id;
-
-            data.barricadeId = item.barricadeId;
-            data.x = item.x;
-            data.y = item.y;
-            data.isTerminal = item.isTerminal > 0;
-
-            _data[data.id] = data;
-        }
+            _data[item.id] = Convert(item);
 
         return _data;
     }
@@ -46,15 +35,44 @@ public class BarricadeSetMasterDataLoader : MasterDataLoader<BarricadeSetMasterD
     {
         return base.Get(id);
     }
+    public List<BarricadeSetMasterData> GetSet(int setId)
+    {
+        // TODO : cache?
+
+        var sqLite = GameMain.SQLite.Instance.connection;
+        var list = sqLite
+                    .Table<barricade_set_data>()
+                    .Where(set => set.setId == setId);
+
+        var setData = new List<BarricadeSetMasterData>();
+        foreach (var item in list)
+            setData.Add(Convert(item));
+
+        return setData;
+    }
+
+    private BarricadeSetMasterData Convert(barricade_set_data data)
+    {
+        var convertedData = new BarricadeSetMasterData();
+
+        convertedData.id = data.id;
+        convertedData.setId = data.setId;
+
+        convertedData.barricadeId = data.barricadeId;
+        convertedData.x = data.x;
+        convertedData.y = data.y;
+
+        return convertedData;
+    }
 
     public class barricade_set_data
     {
         [PrimaryKey, AutoIncrement]
         public int id { get; set; }
+        public int setId { get; set; }
 
         public int barricadeId { get; set; }
         public float x { get; set; }
         public float y { get; set; }
-        public int isTerminal { get; set; }
     }
 }

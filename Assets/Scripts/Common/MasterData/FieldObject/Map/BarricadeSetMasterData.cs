@@ -9,11 +9,11 @@ public class BarricadeSetMasterData
     {
         get { return BarricadeSetMasterDataLoader.Instance; }
     }
-    
+
     public int id;
+    public int setId;
 
     public int barricadeId;
     public float x;
     public float y;
-    public bool isTerminal;
 }

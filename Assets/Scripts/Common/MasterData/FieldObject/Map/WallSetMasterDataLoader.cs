@@ -21,19 +21,7 @@ public class WallSetMasterDataLoader : MasterDataLoader<WallSetMasterData>
         var sqLite = GameMain.SQLite.Instance.connection;
         var list = sqLite.Table<wall_set_data>();
         foreach (var item in list)
-        {
-            var data = new WallSetMasterData();
-
-            data.id = item.id;
-
-            data.shapeId = item.shapeId;
-            data.x = item.x;
-            data.y = item.y;
-            data.rotationTheta = item.rotationTheta;
-            data.isTerminal = item.isTerminal > 0;
-
-            _data[data.id] = data;
-        }
+            _data[item.id] = Convert(item);
 
         return _data;
     }
@@ -47,16 +35,46 @@ public class WallSetMasterDataLoader : MasterDataLoader<WallSetMasterData>
     {
         return base.Get(id);
     }
+    public List<WallSetMasterData> GetSet(int setId)
+    {
+        // TODO : cache?
+
+        var sqLite = GameMain.SQLite.Instance.connection;
+        var list = sqLite
+                    .Table<wall_set_data>()
+                    .Where(set => set.setId == setId);
+
+        var setData = new List<WallSetMasterData>();
+        foreach (var item in list)
+            setData.Add(Convert(item));
+
+        return setData;
+    }
+
+    private WallSetMasterData Convert(wall_set_data data)
+    {
+        var convertedData = new WallSetMasterData();
+
+        convertedData.id = data.id;
+        convertedData.setId = data.setId;
+
+        convertedData.shapeId = data.shapeId;
+        convertedData.x = data.x;
+        convertedData.y = data.y;
+        convertedData.rotationTheta = data.rotationTheta;
+
+        return convertedData;
+    }
 
     public class wall_set_data
     {
         [PrimaryKey, AutoIncrement]
         public int id { get; set; }
+        public int setId { get; set; }
 
         public int shapeId { get; set; }
         public float x { get; set; }
         public float y { get; set; }
         public float rotationTheta { get; set; }
-        public int isTerminal { get; set; }
     }
 }

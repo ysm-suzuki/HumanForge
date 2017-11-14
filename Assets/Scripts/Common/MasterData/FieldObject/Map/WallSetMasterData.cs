@@ -9,12 +9,12 @@ public class WallSetMasterData
     {
         get { return WallSetMasterDataLoader.Instance; }
     }
-    
+
     public int id;
+    public int setId;
 
     public int shapeId;
     public float x;
     public float y;
     public float rotationTheta;
-    public bool isTerminal;
 }
