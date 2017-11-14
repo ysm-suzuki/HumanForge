@@ -101,9 +101,10 @@ public class GameMainKicker : MonoBehaviour
     {
         _currentPhase = _allPhases[ReadyPhase.Tag] = new ReadyPhase();
         _allPhases[MainPhase.Tag] = new MainPhase();
+        _allPhases[FinishPhase.Tag] = new FinishPhase();
+        
 
-
-        foreach(var phase in _allPhases.Values)
+        foreach (var phase in _allPhases.Values)
         {
             phase.RegisterOnFinishedCallback(tag=> 
             {

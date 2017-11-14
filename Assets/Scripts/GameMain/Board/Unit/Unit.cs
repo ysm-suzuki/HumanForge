@@ -147,5 +147,10 @@ namespace GameMain
             get { return _individualAttribute.isOwned; }
             set { _individualAttribute.isOwned = value; }
         }
+        public bool isBoss
+        {
+            get { return _individualAttribute.isOwned; }
+            set { _individualAttribute.isOwned = value; }
+        }
     }
 }

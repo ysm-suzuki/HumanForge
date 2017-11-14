@@ -6,6 +6,8 @@ namespace GameMain
 {
     public class Map : FieldObject
     {
+        public event EventHandler OnUnitDead;
+
         public delegate void UnitEventHandler(Unit unit);
         public event UnitEventHandler OnUnitAdded;
 
@@ -79,6 +81,11 @@ namespace GameMain
             unit.OnRemoved += () => 
             {
                 RemoveUnit(unit);
+            };
+            unit.OnDead += () => 
+            {
+                if (OnUnitDead != null)
+                    OnUnitDead();
             };
 
             _addingUnits.Add(unit);
@@ -171,6 +178,27 @@ namespace GameMain
                         return unit;
 
                 return null;
+            }
+        }
+
+        public List<Unit> enemyUnits
+        {
+            get
+            {
+                var units = new List<Unit>();
+                foreach (var unit in _units)
+                {
+                    if (!unit.isAlive)
+                        continue;
+
+                    if (unit.isOwnedUnit
+                        || unit.isPlayerUnit)
+                        continue;
+
+                    units.Add(unit);
+                }
+
+                return units;
             }
         }
 

@@ -17,6 +17,15 @@ namespace GameMain
             if (_board == null)
                 _board = new Board();
 
+            _board.OnBossWipedOut += () => 
+            {
+                Win();
+            };
+            _board.OnPlayerDead += () => 
+            {
+                Lose();
+            };
+
             if (_mapView == null)
                 _mapView = MapView
                     .Attach(ViewManager.Instance.GetRoot(GameMainKicker.BoardRootTag))
@@ -30,7 +39,20 @@ namespace GameMain
 
         override protected void End()
         {
-            base.End(ReadyPhase.Tag);
+            base.End(FinishPhase.Tag);
+        }
+
+
+        private void Win()
+        {
+            UnityEngine.Debug.Log("Win");
+            End();
+        }
+
+        private void Lose()
+        {
+            UnityEngine.Debug.Log("Lose");
+            End();
         }
     }
 }

@@ -6,6 +6,10 @@ namespace GameMain
 {
     public class Board
     {
+        public delegate void EventHandler();
+        public event EventHandler OnBossWipedOut;
+        public event EventHandler OnPlayerDead;
+
         private Map _map = new Map();
         private BoardUI _ui = new BoardUI();
 
@@ -52,6 +56,18 @@ namespace GameMain
             {
                 unit.ui = _ui;
             };
+            _map.OnUnitDead += () =>
+            {
+                int remainingBossCount = 0;
+                var enemies = _map.enemyUnits;
+                foreach (var enemy in enemies)
+                    if (enemy.isBoss)
+                        remainingBossCount++;
+
+                if (remainingBossCount == 0)
+                    if (OnBossWipedOut != null)
+                        OnBossWipedOut();
+            };
 
             _map.SetUp(_level);
         }
@@ -62,6 +78,12 @@ namespace GameMain
             _player.OnUnitPlaced += unit =>
             {
                 _map.AddUnit(unit);
+            };
+            _player.OnUnitDead += unit => 
+            {
+                if (unit.isPlayerUnit)
+                    if (OnPlayerDead != null)
+                        OnPlayerDead();
             };
             _player.SetUp(_level);
         }

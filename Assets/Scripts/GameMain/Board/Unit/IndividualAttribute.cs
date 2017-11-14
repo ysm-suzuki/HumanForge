@@ -44,5 +44,19 @@
                     _bitFlag &= ~(int)Attribute.Owned;
             }
         }
+        public bool isBoss
+        {
+            get
+            {
+                return (_bitFlag & (int)Attribute.Boss) != 0;
+            }
+            set
+            {
+                if (value)
+                    _bitFlag |= (int)Attribute.Boss;
+                else
+                    _bitFlag &= ~(int)Attribute.Boss;
+            }
+        }
     }
 }
