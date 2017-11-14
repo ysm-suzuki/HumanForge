@@ -10,6 +10,12 @@
         }
         private int _bitFlag = 0;
 
+        public IndividualAttribute Set(int bitFlag)
+        {
+            _bitFlag = bitFlag;
+            return this;
+        }
+
         public bool isPlayerUnit
         {
             get

@@ -11,13 +11,16 @@ namespace GameMain
         
         public void SetUp()
         {
-            // kari
-            const float PI = UnityEngine.Mathf.PI;
-            var unit = new Unit(UnitMasterData.loader.Get(1).ToUnitData());
-            unit.position = Position.Create(150, 0);
-            unit.isPlayerUnit = true;
+            var initialUnits = UnitSetMasterData.loader.GetSet(1);
+            foreach(var initialUnit in initialUnits)
+            {
+                var unit = initialUnit.ToUnit();
+                if (!unit.isPlayerUnit)
+                    continue;
 
-            PlaceUnit(unit);
+                PlaceUnit(unit);
+                break;
+            }
         }
 
         public void PlaceUnit(Unit unit)
