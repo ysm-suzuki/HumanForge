@@ -11,5 +11,14 @@ namespace GameMain
         {
             _data = data;
         }
+
+
+        public Dictionary<ManaData.Type, float> manaGenerators
+        {
+            get
+            {
+                return _data.manaGenerators;
+            }
+        }
     }
 }

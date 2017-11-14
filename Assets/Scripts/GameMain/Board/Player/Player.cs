@@ -16,6 +16,7 @@ namespace GameMain
 
         private Unit _playerUnit = null;
         private List<Face> _faces = new List<Face>();
+        private Dictionary<ManaData.Type, Mana> _manas = new Dictionary<ManaData.Type, Mana>();
 
 
         public void SetUp(int level)
@@ -28,12 +29,43 @@ namespace GameMain
             
             foreach (var unit in levelData.ownedUnits)
                 PlaceUnit(unit);
+
+            _manas[ManaData.Type.Red] = new Mana(new ManaData
+            {
+                type = ManaData.Type.Red,
+                max = 10,
+            });
+            _manas[ManaData.Type.Green] = new Mana(new ManaData
+            {
+                type = ManaData.Type.Green,
+                max = 10,
+            });
+            _manas[ManaData.Type.Blue] = new Mana(new ManaData
+            {
+                type = ManaData.Type.Blue,
+                max = 10,
+            });
+
+
+            // kari
+            AddFace(new FaceData
+            {
+                manaGenerators = new Dictionary<ManaData.Type, float>
+                {
+                    { ManaData.Type.Red, 0.5f}
+                }
+            });
+            _manas[ManaData.Type.Red].OnAmountUpdated += () => { UnityEngine.Debug.Log("red mana : " + _manas[ManaData.Type.Red].amount); };
         }
 
 
         public void Tick(float delta)
         {
-
+            foreach(var face in _faces)
+            {
+                foreach (var generator in face.manaGenerators)
+                    GainMana(generator.Key, generator.Value * delta);
+            }
         }
 
 
@@ -65,6 +97,16 @@ namespace GameMain
 
             if (OnFacesUpdated != null)
                 OnFacesUpdated();
+        }
+
+
+        public void GainMana(ManaData.Type type, float amount)
+        {
+            _manas[type].amount += amount;
+        }
+        public void LoseMana(ManaData.Type type, float amount)
+        {
+            _manas[type].amount -= amount;
         }
     }
 }
