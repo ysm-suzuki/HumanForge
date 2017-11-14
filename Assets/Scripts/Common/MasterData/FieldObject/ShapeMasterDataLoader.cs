@@ -28,22 +28,10 @@ public class ShapeMasterDataLoader : MasterDataLoader<ShapeMasterData>
 
             data.id = item.id;
 
-            string barSeparatedCSVsRaw = item.positions;
-
             var positions = new List<Position>();
-            var csvs = new List<string>();
-            var barSeparatedCSVs = barSeparatedCSVsRaw.Split("|".ToCharArray());
-            for (int i = 0; i < barSeparatedCSVs.Length; i++)
-            {
-                csvs.Add(barSeparatedCSVs[i]);
-            }
-            foreach(var csv in csvs)
-            {
-                var positionCSV = csv.Split(",".ToCharArray());
-                float x = System.Single.Parse(positionCSV[0]);
-                float y = System.Single.Parse(positionCSV[1]);
-                positions.Add(Position.Create(x, y));
-            }
+            var positionSet = VertexSetMasterData.loader.GetSet(item.positionSetId);
+            foreach (var vertex in positionSet)
+                positions.Add(vertex.ToPosition());
 
             data.positions = positions;
 
@@ -67,6 +55,6 @@ public class ShapeMasterDataLoader : MasterDataLoader<ShapeMasterData>
     {
         [PrimaryKey, AutoIncrement]
         public int id { get; set; }
-        public string positions { get; set; }
+        public int positionSetId { get; set; }
     }
 }
