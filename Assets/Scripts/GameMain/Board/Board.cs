@@ -49,7 +49,7 @@ namespace GameMain
                 unit.ui = _ui;
             };
 
-            _map.SetUp();
+            _map.SetUp(1);
         }
 
         private void SetUpPlayer()

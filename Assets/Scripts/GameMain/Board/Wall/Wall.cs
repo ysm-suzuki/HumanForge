@@ -6,15 +6,14 @@ namespace GameMain
 {
     public class Wall : FieldObject
     {
-        public Wall()
+        private WallData _data;
+
+        public Wall(WallData data)
         {
-            shapePoints = new List<Position>
-            {
-                Position.Create(-10, 10),
-                Position.Create(10, 10),
-                Position.Create(10, -10),
-                Position.Create(-10, -10)
-            };
+            _data = data;
+
+            shapePoints = ShapeMasterData.loader.Get(data.shapeId).positions;
+            position = data.initialPostion;
         }
     }
 }

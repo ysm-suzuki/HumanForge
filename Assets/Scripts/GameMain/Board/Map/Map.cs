@@ -16,6 +16,8 @@ namespace GameMain
         public event BarricadeEventHandler OnBarricadeAdded;
 
 
+        private MapMasterData _data;
+
 
         private List<Wall> _walls = new List<Wall>();
         private List<Unit> _units = new List<Unit>();
@@ -30,14 +32,12 @@ namespace GameMain
         private List<Barricade> _addingBarricades = new List<Barricade>();
 
 
-        public void SetUp()
+        public void SetUp(int id)
         {
-            // kari
-            var wall = new Wall();
-            wall.shapePoints = ShapeMasterData.loader.Get(2).positions;
-            wall.position = Position.Create(60, 0);
-            AddWall(wall);
+            _data = MapMasterData.loader.Get(id);
 
+            foreach(var wallData in _data.walls)
+                AddWall(new Wall(wallData));
 
             // kari
             var barricade = new Barricade(BarricadeMasterData.loader.Get(1).ToBarricadeData());
