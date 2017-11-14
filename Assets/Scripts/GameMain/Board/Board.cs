@@ -11,8 +11,12 @@ namespace GameMain
 
         private Player _player = null;
 
+        private int _level = 1;
+
         public Board()
         {
+            _level = 1; // kari
+
             SetUpUI();
             SetUpMap();
             SetUpPlayer();
@@ -49,7 +53,7 @@ namespace GameMain
                 unit.ui = _ui;
             };
 
-            _map.SetUp(1);
+            _map.SetUp(_level);
         }
 
         private void SetUpPlayer()
@@ -59,7 +63,7 @@ namespace GameMain
             {
                 _map.AddUnit(unit);
             };
-            _player.SetUp();
+            _player.SetUp(_level);
         }
     }
 }

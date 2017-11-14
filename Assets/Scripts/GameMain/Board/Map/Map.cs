@@ -32,36 +32,19 @@ namespace GameMain
         private List<Barricade> _addingBarricades = new List<Barricade>();
 
 
-        public void SetUp(int id)
+        public void SetUp(int level)
         {
-            _data = MapMasterData.loader.Get(id);
+            var levelData = LevelMasterData.loader.Get(level);
+
+            _data = MapMasterData.loader.Get(levelData.mapId);
 
             foreach (var wall in _data.walls)
                 AddWall(wall);
             foreach (var barricade in _data.barricades)
                 AddBarricade(barricade);
 
-            // kari
-            var units = new Dictionary<Unit, Position>
-            {
-                {
-                    new Unit(UnitMasterData.loader.Get(2).ToUnitData()),
-                    Position.Create(-200, -200)
-                },
-                {
-                    new Unit(UnitMasterData.loader.Get(2).ToUnitData()),
-                    Position.Create(-200, 100)
-                },
-                {
-                    new Unit(UnitMasterData.loader.Get(2).ToUnitData()),
-                    Position.Create(-200, 400)
-                }
-            };
-            foreach (var unit in units)
-            {
-                unit.Key.position = unit.Value;
-                AddUnit(unit.Key);
-            }
+            foreach(var unit in levelData.enemyUnits)
+                AddUnit(unit);
         }
 
 

@@ -9,24 +9,24 @@ namespace GameMain
         public delegate void UnitEventHandler(Unit unit);
         public event UnitEventHandler OnUnitPlaced;
         
-        public void SetUp()
+        public void SetUp(int level)
         {
-            var initialUnits = UnitSetMasterData.loader.GetSet(1);
-            foreach(var initialUnit in initialUnits)
-            {
-                var unit = initialUnit.ToUnit();
-                if (!unit.isPlayerUnit)
-                    continue;
+            var levelData = LevelMasterData.loader.Get(level);
 
+            var playerUnit = levelData.playerUnit;
+
+            UnityEngine.Debug.Assert(playerUnit != null, "The player unit not set at level " + level);
+
+            PlaceUnit(playerUnit);
+
+
+            foreach (var unit in levelData.ownedUnits)
                 PlaceUnit(unit);
-                break;
-            }
         }
 
         public void PlaceUnit(Unit unit)
         {
             unit.isOwnedUnit = true;
-            unit.isPlayerUnit = true;
 
             if (OnUnitPlaced != null)
                 OnUnitPlaced(unit);
