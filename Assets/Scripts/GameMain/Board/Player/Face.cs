@@ -20,5 +20,13 @@ namespace GameMain
                 return _data.manaGenerators;
             }
         }
+
+        public List<Buff> buffs
+        {
+            get
+            {
+                return _data.buffs;
+            }
+        }
     }
 }

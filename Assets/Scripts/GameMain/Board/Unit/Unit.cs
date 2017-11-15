@@ -14,11 +14,13 @@ namespace GameMain
 
         private Recognition _recognition = null;
         private IndividualAttribute _individualAttribute = null;
+        private List<Buff> _buffs = new List<Buff>();
 
         private UnitTaskAgent _taskAgent = null;
-
         private int _attackActionIndex = 0;
-        
+
+        private List<Buff> _addingBuffs = new List<Buff>();
+        private List<Buff> _removingBuffs = new List<Buff>();
 
         public Unit(UnitData data)
         {
@@ -50,6 +52,11 @@ namespace GameMain
             base.Tick(delta);
 
             _taskAgent.Tick(delta);
+
+            foreach (var buff in _buffs)
+                buff.Tick(delta);
+
+            UpdateBuffs();
         }
 
 
@@ -81,6 +88,54 @@ namespace GameMain
         }
 
 
+        // ======================================= buff
+        public void AddBuff(Buff buff)
+        {
+            _addingBuffs.Add(buff);
+        }
+
+        public void RemoveBuff(Buff buff)
+        {
+            _removingBuffs.Add(buff);
+        }
+
+        private void UpdateBuffs()
+        {
+            // remove buff
+            foreach (var removingBuff in _removingBuffs)
+            {
+                Buff targetBuff = null;
+                foreach (var buff in _buffs)
+                    if (buff.IsSame(removingBuff))
+                        targetBuff = buff;
+                if (targetBuff != null)
+                    _buffs.Remove(targetBuff);
+            }
+            _removingBuffs.Clear();
+
+
+            // add buff
+            foreach (var addingBuff in _addingBuffs)
+            {
+                Buff sameBuff = null;
+                foreach (var buff in _buffs)
+                {
+                    if (buff.IsSame(addingBuff))
+                        sameBuff = buff;
+                }
+                if (sameBuff != null)
+                    _buffs.Remove(sameBuff);
+
+                addingBuff.OnFinished += () =>
+                {
+                    RemoveBuff(addingBuff);
+                };
+
+                _buffs.Add(addingBuff);
+            }
+            _addingBuffs.Clear();
+        }
+
         // ======================================= accessors
 
         public int serialId
@@ -90,11 +145,38 @@ namespace GameMain
 
         public float attack
         {
-            get { return _data.attack + attackAction.power; }
+            get
+            {
+                float buffValue = 0;
+                foreach(var buff in _buffs)
+                {
+                    buffValue += buff.parameter.attack;
+
+                    if (buff.isOnce)
+                        buff.duration.End();
+                }
+
+                return _data.attack + 
+                        attackAction.power +
+                        buffValue;
+            }
         }
         public float attackRange
         {
-            get { return attackAction.range; }
+            get
+            {
+                float buffValue = 0;
+                foreach (var buff in _buffs)
+                {
+                    buffValue += buff.parameter.attackRange;
+
+                    if (buff.isOnce)
+                        buff.duration.End();
+                }
+
+                return attackAction.range +
+                        buffValue;
+            }
         }
         public float attackWarmUpSeconds
         {
@@ -102,15 +184,54 @@ namespace GameMain
         }
         public float attackCoolDownSeconds
         {
-            get { return attackAction.coolDownSeconds; }
+            get
+            {
+                float buffValue = 0;
+                foreach (var buff in _buffs)
+                {
+                    buffValue += buff.parameter.attackCoolDownSeconds;
+
+                    if (buff.isOnce)
+                        buff.duration.End();
+                }
+
+                return attackAction.coolDownSeconds +
+                        buffValue;
+            }
         }
         public float defence
         {
-            get { return _data.defence; }
+            get
+            {
+                float buffValue = 0;
+                foreach (var buff in _buffs)
+                {
+                    buffValue += buff.parameter.defense;
+
+                    if (buff.isOnce)
+                        buff.duration.End();
+                }
+
+                return _data.defence +
+                        buffValue;
+            }
         }
         public float moveSpeed
         {
-            get { return _data.moveSpeed; }
+            get
+            {
+                float buffValue = 0;
+                foreach (var buff in _buffs)
+                {
+                    buffValue += buff.parameter.moveSpeed;
+
+                    if (buff.isOnce)
+                        buff.duration.End();
+                }
+
+                return _data.moveSpeed +
+                        buffValue;
+            }
         }
 
         public float sizeRadius
@@ -119,7 +240,20 @@ namespace GameMain
         }
         public float sightRange
         {
-            get { return _data.sightRange; }
+            get
+            {
+                float buffValue = 0;
+                foreach (var buff in _buffs)
+                {
+                    buffValue += buff.parameter.sightRange;
+
+                    if (buff.isOnce)
+                        buff.duration.End();
+                }
+
+                return _data.sightRange +
+                        buffValue;
+            }
         }
 
 

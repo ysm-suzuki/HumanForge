@@ -30,6 +30,7 @@ namespace GameMain
             foreach (var unit in levelData.ownedUnits)
                 PlaceUnit(unit);
 
+            // kari
             _manas[ManaData.Type.Red] = new Mana(new ManaData
             {
                 type = ManaData.Type.Red,
@@ -53,10 +54,52 @@ namespace GameMain
                 manaGenerators = new Dictionary<ManaData.Type, float>
                 {
                     { ManaData.Type.Red, 0.5f},
-                    { ManaData.Type.Green, 0.12f},
-                    { ManaData.Type.Blue, 0.03f}
                 }
             });
+            AddFace(new FaceData
+            {
+                buffs = new List<Buff>
+                {
+                    new Buff
+                    {
+                        id = 1,
+                        parameter = new Buff.Parameter
+                        {
+                            life = 5
+                        }
+                    }
+                }
+            });
+            AddFace(new FaceData
+            {
+                buffs = new List<Buff>
+                {
+                    new Buff
+                    {
+                        id = 2,
+                        parameter = new Buff.Parameter
+                        {
+                            attack = 1
+                        }
+                    }
+                }
+            });
+            AddFace(new FaceData
+            {
+                buffs = new List<Buff>
+                {
+                    new Buff
+                    {
+                        id = 3,
+                        parameter = new Buff.Parameter
+                        {
+                            defense = 1
+                        }
+                    }
+                }
+            });
+
+
             _manas[ManaData.Type.Red].OnAmountUpdated += () => { UnityEngine.Debug.Log("red mana : " + _manas[ManaData.Type.Red].amount); };
             _manas[ManaData.Type.Green].OnAmountUpdated += () => { UnityEngine.Debug.Log("green mana : " + _manas[ManaData.Type.Green].amount); };
             _manas[ManaData.Type.Blue].OnAmountUpdated += () => { UnityEngine.Debug.Log("blue mana : " + _manas[ManaData.Type.Blue].amount); };
@@ -92,12 +135,22 @@ namespace GameMain
         {
             _faces.Add(new Face(data));
 
+            foreach(var buff in data.buffs)
+                _playerUnit.AddBuff(buff);
+
             if (OnFacesUpdated != null)
                 OnFacesUpdated();
         }
         public void ReplaceFace(FaceData data, int index)
         {
+            var replacedFace = _faces[index];
+            foreach (var buff in replacedFace.buffs)
+                buff.duration.End();
+
             _faces[index] = new Face(data);
+
+            foreach (var buff in data.buffs)
+                _playerUnit.AddBuff(buff);
 
             if (OnFacesUpdated != null)
                 OnFacesUpdated();
