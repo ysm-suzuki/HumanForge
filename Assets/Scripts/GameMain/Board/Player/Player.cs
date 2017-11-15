@@ -174,5 +174,14 @@ namespace GameMain
 
             return true;
         }
+
+
+        public int faceCount
+        {
+            get
+            {
+                return _faces.Count;
+            }
+        }
     }
 }

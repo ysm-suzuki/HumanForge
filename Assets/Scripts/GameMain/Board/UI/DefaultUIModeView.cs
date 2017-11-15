@@ -26,15 +26,26 @@ namespace GameMain
             
             _model = model;
 
-
-            ButtonView
-                .Attach(_faceForgeButtonRoot)
-                .SetImage("kari")
-                .RegisterOnClickCallback(()=> 
+            _model.OnFaceUpdated += () =>
+            {
+                // kari
+                for (int i = 0; i < _model.faceCount; i++)
                 {
-                    _model.ClickFaceForgeButton();
-                });
+                    var view = ButtonView
+                        .Attach(_faceForgeButtonRoot)
+                        .SetImage("kari")
+                        .RegisterOnClickCallback(() =>
+                        {
+                            _model.ClickFaceForgeButton(i);
+                        });
 
+                    view.transform.localPosition = Position.Create(
+                        -250 + (i % 5) * 100,
+                        100 + (i / 5) * 120)
+                        .ToVector3();
+                }
+            };
+            
 
             return this;
         }

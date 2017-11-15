@@ -4,6 +4,8 @@ namespace GameMain
 {
     public class DefaultUIMode : UIMode
     {
+        public event EventHandler OnFaceUpdated;
+
         public DefaultUIMode()
         {
             var view = DefaultUIModeView
@@ -14,6 +16,20 @@ namespace GameMain
             {
                 view.Detach();
             };
+        }
+
+        public override void SetPlayer(Player player)
+        {
+            base.SetPlayer(player);
+
+            _player.OnFacesUpdated += () =>
+            {
+                if (OnFaceUpdated != null)
+                    OnFaceUpdated();
+            };
+
+            if (OnFaceUpdated != null)
+                OnFaceUpdated();
         }
 
         public override void ClickMap(Position position)
@@ -28,9 +44,18 @@ namespace GameMain
                             .SetUnit(unit));
         }
 
-        public void ClickFaceForgeButton()
+        public void ClickFaceForgeButton(int index)
         {
-            Change(new FaceForgeUIMode());
+            Change(new FaceForgeUIMode()
+                        .SetTargetIndex(index));
+        }
+
+
+        public int faceCount
+        {
+            get { return _player != null
+                        ? _player.faceCount
+                        : 0; }
         }
     }
 }

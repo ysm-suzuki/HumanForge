@@ -25,6 +25,12 @@ namespace GameMain
             };
         }
 
+        public FaceForgeUIMode SetTargetIndex(int index)
+        {
+            _targetIndex = index;
+            return this;
+        }
+
         public override void ClickMap(Position position)
         {
             Change(new DefaultUIMode());
