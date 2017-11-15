@@ -12,10 +12,15 @@ namespace GameMain
 
 
         protected Map _map = null;
+        protected Player _player = null;
 
         public void SetMap(Map map)
         {
             _map = map;
+        }
+        public void SetPlayer(Player player)
+        {
+            _player = player;
         }
 
         virtual public void End()

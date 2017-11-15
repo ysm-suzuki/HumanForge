@@ -26,7 +26,7 @@ namespace GameMain
             _playerUnit = levelData.playerUnit;
             UnityEngine.Debug.Assert(_playerUnit != null, "The player unit not set at level " + level);
             PlaceUnit(_playerUnit);
-            
+
             foreach (var unit in levelData.ownedUnits)
                 PlaceUnit(unit);
 
@@ -49,14 +49,14 @@ namespace GameMain
 
 
             // kari
-            AddFace(new FaceData
+            AddFace(new Face(new FaceData
             {
                 manaGenerators = new Dictionary<ManaData.Type, float>
                 {
                     { ManaData.Type.Red, 0.5f},
                 }
-            });
-            AddFace(new FaceData
+            }));
+            AddFace(new Face(new FaceData
             {
                 buffs = new List<Buff>
                 {
@@ -69,8 +69,8 @@ namespace GameMain
                         }
                     }
                 }
-            });
-            AddFace(new FaceData
+            }));
+            AddFace(new Face(new FaceData
             {
                 buffs = new List<Buff>
                 {
@@ -83,8 +83,8 @@ namespace GameMain
                         }
                     }
                 }
-            });
-            AddFace(new FaceData
+            }));
+            AddFace(new Face(new FaceData
             {
                 buffs = new List<Buff>
                 {
@@ -97,7 +97,7 @@ namespace GameMain
                         }
                     }
                 }
-            });
+            }));
 
 
             _manas[ManaData.Type.Red].OnAmountUpdated += () => { UnityEngine.Debug.Log("red mana : " + _manas[ManaData.Type.Red].amount); };
@@ -131,25 +131,25 @@ namespace GameMain
         }
 
 
-        public void AddFace(FaceData data)
+        public void AddFace(Face face)
         {
-            _faces.Add(new Face(data));
+            _faces.Add(face);
 
-            foreach(var buff in data.buffs)
+            foreach(var buff in face.buffs)
                 _playerUnit.AddBuff(buff);
 
             if (OnFacesUpdated != null)
                 OnFacesUpdated();
         }
-        public void ReplaceFace(FaceData data, int index)
+        public void ReplaceFace(Face face, int index)
         {
             var replacedFace = _faces[index];
             foreach (var buff in replacedFace.buffs)
                 buff.duration.End();
 
-            _faces[index] = new Face(data);
+            _faces[index] = face;
 
-            foreach (var buff in data.buffs)
+            foreach (var buff in face.buffs)
                 _playerUnit.AddBuff(buff);
 
             if (OnFacesUpdated != null)
@@ -164,6 +164,15 @@ namespace GameMain
         public void LoseMana(ManaData.Type type, float amount)
         {
             _manas[type].amount -= amount;
+        }
+
+        public bool HasEnoughMana(Dictionary<ManaData.Type, float> requiringManas)
+        {
+            foreach (var pair in requiringManas)
+                if (_manas[pair.Key].amount < pair.Value)
+                    return false;
+
+            return true;
         }
     }
 }
