@@ -52,10 +52,14 @@ namespace GameMain
             {
                 manaGenerators = new Dictionary<ManaData.Type, float>
                 {
-                    { ManaData.Type.Red, 0.5f}
+                    { ManaData.Type.Red, 0.5f},
+                    { ManaData.Type.Green, 0.12f},
+                    { ManaData.Type.Blue, 0.03f}
                 }
             });
             _manas[ManaData.Type.Red].OnAmountUpdated += () => { UnityEngine.Debug.Log("red mana : " + _manas[ManaData.Type.Red].amount); };
+            _manas[ManaData.Type.Green].OnAmountUpdated += () => { UnityEngine.Debug.Log("green mana : " + _manas[ManaData.Type.Green].amount); };
+            _manas[ManaData.Type.Blue].OnAmountUpdated += () => { UnityEngine.Debug.Log("blue mana : " + _manas[ManaData.Type.Blue].amount); };
         }
 
 

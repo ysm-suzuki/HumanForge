@@ -37,10 +37,13 @@ namespace GameMain
                 if (_amount == newAmount)
                     return;
 
+                bool isUpdatedAsInteger = UnityEngine.Mathf.FloorToInt(_amount) != UnityEngine.Mathf.FloorToInt(newAmount);
+
                 _amount = newAmount;
 
-                if (OnAmountUpdated != null)
-                    OnAmountUpdated();
+                if (isUpdatedAsInteger)
+                    if (OnAmountUpdated != null)
+                        OnAmountUpdated();
             }
         }
 
