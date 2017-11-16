@@ -72,11 +72,9 @@ namespace GameMain
         }
 
 
-        private bool IsOpposite(Unit target)
+        private bool IsOpposite(FieldObject target)
         {
-            // kari
-            return (_owner.isPlayerUnit && !target.isPlayerUnit)
-                || (!_owner.isPlayerUnit && target.isPlayerUnit);
+            return !_owner.IsFriendlyTeam(target);
         }
     }
 }

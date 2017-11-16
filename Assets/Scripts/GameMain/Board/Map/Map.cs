@@ -45,8 +45,12 @@ namespace GameMain
             foreach (var barricade in _data.barricades)
                 AddBarricade(barricade);
 
+            const int EnemyTeamId = 2; // kari
             foreach(var unit in levelData.enemyUnits)
+            {
+                unit.teamId = EnemyTeamId;
                 AddUnit(unit);
+            }
         }
 
 

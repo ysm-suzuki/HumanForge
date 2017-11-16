@@ -19,6 +19,9 @@ namespace GameMain
         private Dictionary<ManaData.Type, Mana> _manas = new Dictionary<ManaData.Type, Mana>();
 
 
+        private const int TeamId = 1; // kari
+
+
         public void SetUp(int level)
         {
             var levelData = LevelMasterData.loader.Get(level);
@@ -79,6 +82,7 @@ namespace GameMain
         public void PlaceUnit(Unit unit)
         {
             unit.isOwnedUnit = true;
+            unit.teamId = TeamId;
 
             unit.OnDead += () => 
             {
