@@ -143,5 +143,14 @@ namespace GameMain
                 return _faces.Count;
             }
         }
+
+        public Position position
+        {
+            get { return _playerUnit.position; }
+            set
+            {
+                _playerUnit.position = value;
+            }
+        }
     }
 }
