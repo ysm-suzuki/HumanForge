@@ -10,6 +10,9 @@ namespace GameMain
         public event EventHandler OnDead;
         public event EventHandler OnRemoved;
 
+        protected int _teamId = -1;
+        protected List<int> _friendlyTeamIds = new List<int>();
+
         protected float _maxLife = 0;
         protected float _life = 0;
 
@@ -24,6 +27,41 @@ namespace GameMain
         }
 
 
+        public void AddFriendlyTeam(int teamId)
+        {
+            if (_friendlyTeamIds.Contains(teamId))
+                return;
+
+            _friendlyTeamIds.Add(teamId);
+        }
+
+        public void RemoveFriendlyTeam(int teamId)
+        {
+            var newIds = new List<int>();
+            foreach (var id in _friendlyTeamIds)
+                if (teamId != id)
+                    newIds.Add(id);
+
+            _friendlyTeamIds = newIds;
+        }
+
+        public bool IsSameTeam(FieldObject target)
+        {
+            if (teamId == -1
+                || target.teamId == -1)
+                return false;
+
+            return teamId == target.teamId;
+        }
+        public bool IsFriendlyTeam(FieldObject target)
+        {
+            if (teamId == -1
+                || target.teamId == -1)
+                return false;
+            
+            return teamId == target.teamId
+                || _friendlyTeamIds.Contains(target.teamId);
+        }
 
         public bool isAlive
         {
@@ -89,6 +127,12 @@ namespace GameMain
         {
             get { return _shapePoints; }
             set { _shapePoints = value; }
+        }
+
+        public int teamId
+        {
+            get { return _teamId; }
+            set { _teamId = value; }
         }
     }
 }
