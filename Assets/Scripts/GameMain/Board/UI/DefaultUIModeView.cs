@@ -31,17 +31,18 @@ namespace GameMain
                 // kari
                 for (int i = 0; i < _model.faceCount; i++)
                 {
-                    var view = ButtonView
+                    int index = i;
+                    var view = FaceForgeButtonView
                         .Attach(_faceForgeButtonRoot)
                         .SetImage("kari")
                         .RegisterOnClickCallback(() =>
                         {
-                            _model.ClickFaceForgeButton(i);
+                            _model.ClickFaceForgeButton(index);
                         });
 
                     view.transform.localPosition = Position.Create(
                         -250 + (i % 5) * 100,
-                        100 + (i / 5) * 120)
+                        -50 + (i / 5) * 120)
                         .ToVector3();
                 }
             };
