@@ -57,25 +57,13 @@ namespace GameMain
 
         public void ListUpMolds()
         {
-            // kari
-            _molds = new List<FaceMold>
-            {
-                new FaceMold(
-                    new FaceData
-                    {
-                        manaGenerators = new Dictionary<ManaData.Type, float>
-                        {
-                            { ManaData.Type.Red, 2.0f},
-                        }
-                    },
-                    new Dictionary<ManaData.Type, float>
-                    {
-                        { ManaData.Type.Red, 3.0f},
-                        { ManaData.Type.Green, 0.0f},
-                        { ManaData.Type.Blue, 0.0f},
-                    }),
-            };
-
+            _molds = new FaceMoldGroup()
+                        .Filter(
+                            mold => 
+                            {
+                                return mold.type == FaceData.Type.Normal;
+                            })
+                        .molds;
 
             foreach(var mold in _molds)
             {

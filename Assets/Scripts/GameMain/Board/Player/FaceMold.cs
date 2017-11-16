@@ -32,6 +32,15 @@ namespace GameMain
         }
 
 
+
+        public FaceData.Type type
+        {
+            get
+            {
+                return _data.type;
+            }
+        }
+
         public Dictionary<ManaData.Type, float> requiringManas
         {
             get

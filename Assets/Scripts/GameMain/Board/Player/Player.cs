@@ -47,59 +47,16 @@ namespace GameMain
                 max = 10,
             });
 
-
-            // kari
-            AddFace(new Face(new FaceData
-            {
-                manaGenerators = new Dictionary<ManaData.Type, float>
-                {
-                    { ManaData.Type.Red, 0.5f},
-                }
-            }));
-            AddFace(new Face(new FaceData
-            {
-                buffs = new List<Buff>
-                {
-                    new Buff
-                    {
-                        id = 1,
-                        parameter = new Buff.Parameter
-                        {
-                            life = 5
-                        }
-                    }
-                }
-            }));
-            AddFace(new Face(new FaceData
-            {
-                buffs = new List<Buff>
-                {
-                    new Buff
-                    {
-                        id = 2,
-                        parameter = new Buff.Parameter
-                        {
-                            attack = 1
-                        }
-                    }
-                }
-            }));
-            AddFace(new Face(new FaceData
-            {
-                buffs = new List<Buff>
-                {
-                    new Buff
-                    {
-                        id = 3,
-                        parameter = new Buff.Parameter
-                        {
-                            defense = 1
-                        }
-                    }
-                }
-            }));
-
-
+            var initialFaceMolds = new FaceMoldGroup()
+                        .Filter(
+                            mold =>
+                            {
+                                return mold.type == FaceData.Type.Initial;
+                            })
+                        .molds;
+            foreach (var mold in initialFaceMolds)
+                AddFace(mold.Pick());
+            
             _manas[ManaData.Type.Red].OnAmountUpdated += () => { UnityEngine.Debug.Log("red mana : " + _manas[ManaData.Type.Red].amount); };
             _manas[ManaData.Type.Green].OnAmountUpdated += () => { UnityEngine.Debug.Log("green mana : " + _manas[ManaData.Type.Green].amount); };
             _manas[ManaData.Type.Blue].OnAmountUpdated += () => { UnityEngine.Debug.Log("blue mana : " + _manas[ManaData.Type.Blue].amount); };

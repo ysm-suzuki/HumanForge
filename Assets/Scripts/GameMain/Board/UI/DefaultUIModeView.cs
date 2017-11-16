@@ -28,7 +28,6 @@ namespace GameMain
 
             _model.OnFaceUpdated += () =>
             {
-                // kari
                 for (int i = 0; i < _model.faceCount; i++)
                 {
                     int index = i;
@@ -40,6 +39,7 @@ namespace GameMain
                             _model.ClickFaceForgeButton(index);
                         });
 
+                    // kari
                     view.transform.localPosition = Position.Create(
                         -250 + (i % 5) * 100,
                         -50 + (i / 5) * 120)
