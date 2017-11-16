@@ -52,18 +52,15 @@ namespace GameMain
 
         public void ListUpMolds()
         {
-            // kari
-            _molds = new List<UnitMold>
-            {
-                new UnitMold(
-                    UnitMasterData.loader.Get(3).ToUnitData(),
-                    new Dictionary<ManaData.Type, float>
-                    {
-                        { ManaData.Type.Red, 5}
-                    })
-            };
+            _molds = new UnitMoldGroup()
+                            .Filter(molds => 
+                            {
+                                // kari
+                                return true;
+                            })
+                            .molds;
 
-            foreach(var mold in _molds)
+            foreach (var mold in _molds)
             {
                 mold.OnSelected += () => 
                 {

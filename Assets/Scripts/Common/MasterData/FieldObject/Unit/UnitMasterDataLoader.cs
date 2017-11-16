@@ -33,11 +33,14 @@ public class UnitMasterDataLoader : MasterDataLoader<UnitMasterData>
             data.sizeRadius = item.sizeRadius;
             data.shapePointsId = item.shapePointsId;
 
-            var csv = item.attackActionIdsCSV.Split(",".ToCharArray());
+            // kari
             var ids = new List<int>();
-            for (int i = 0; i < csv.Length; i++)
-                ids.Add(System.Int32.Parse(csv[i]));
             data.attackActionIds = ids;
+
+            data.buildType = (UnitMasterData.BuildType)item.buildType;
+            data.requireRed = item.requireRed;
+            data.requireGreen = item.requireGreen;
+            data.requireBlue = item.requireBlue;
 
             _data[data.id] = data;
         }
@@ -69,6 +72,11 @@ public class UnitMasterDataLoader : MasterDataLoader<UnitMasterData>
         public float sizeRadius { get; set; }
         public int shapePointsId { get; set; }
 
-        public string attackActionIdsCSV { get; set; }
+        public int attackActionSetId { get; set; }
+
+        public int buildType { get; set; }
+        public float requireRed { get; set; }
+        public float requireGreen { get; set; }
+        public float requireBlue { get; set; }
     }
 }
