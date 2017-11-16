@@ -39,10 +39,9 @@ namespace GameMain
                 _player.LoseMana(pair.Key, pair.Value);
 
             var unit = mold.Pick();
-            unit.position = 
-                _player.position
-                + Position.Create(0, 50); // kari
+            unit.position = _player.position;
 
+            _player.MoveTo(unit.position + Position.Create(0, -2 * unit.sizeRadius));
             _player.PlaceUnit(unit);
 
             Change(new DefaultUIMode());

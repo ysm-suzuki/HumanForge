@@ -136,6 +136,12 @@ namespace GameMain
         }
 
 
+        public void MoveTo(Position to)
+        {
+            _playerUnit.MoveTo(to);
+        }
+
+
         public int faceCount
         {
             get
@@ -147,10 +153,6 @@ namespace GameMain
         public Position position
         {
             get { return _playerUnit.position; }
-            set
-            {
-                _playerUnit.position = value;
-            }
         }
     }
 }
