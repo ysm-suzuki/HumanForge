@@ -6,6 +6,7 @@
         public event EventHandler OnFinished;
 
         public int id;
+        public string name = "No name";
 
         public class Parameter
         {
@@ -18,6 +19,20 @@
             public float attackPower = 0;
             public float attackRange = 0;
             public float attackCoolDownSeconds = 0;
+
+
+            public static Parameter operator *(Parameter Pparameter, float ratio)
+            {
+                Pparameter.life *= ratio;
+                Pparameter.attack *= ratio;
+                Pparameter.defense *= ratio;
+                Pparameter.moveSpeed *= ratio;
+                Pparameter.sightRange *= ratio;
+                Pparameter.attackPower *= ratio;
+                Pparameter.attackRange *= ratio;
+                Pparameter.attackCoolDownSeconds *= ratio;
+                return Pparameter;
+            }
         }
         public Parameter parameter = new Parameter();
         public BuffDuration duration = new BuffDuration();

@@ -30,6 +30,19 @@ namespace GameMain
             foreach (var unit in levelData.ownedUnits)
                 PlaceUnit(unit);
 
+
+            var initialFaceMolds = new FaceMoldGroup()
+            .Filter(
+                mold =>
+                {
+                    return mold.type == FaceData.Type.Initial;
+                })
+            .molds;
+            foreach (var mold in initialFaceMolds)
+                AddFace(mold.Pick());
+
+
+
             // kari
             _manas[ManaData.Type.Red] = new Mana(new ManaData
             {
@@ -46,17 +59,6 @@ namespace GameMain
                 type = ManaData.Type.Blue,
                 max = 10,
             });
-
-            var initialFaceMolds = new FaceMoldGroup()
-                        .Filter(
-                            mold =>
-                            {
-                                return mold.type == FaceData.Type.Initial;
-                            })
-                        .molds;
-            foreach (var mold in initialFaceMolds)
-                AddFace(mold.Pick());
-            
             _manas[ManaData.Type.Red].OnAmountUpdated += () => { UnityEngine.Debug.Log("red mana : " + _manas[ManaData.Type.Red].amount); };
             _manas[ManaData.Type.Green].OnAmountUpdated += () => { UnityEngine.Debug.Log("green mana : " + _manas[ManaData.Type.Green].amount); };
             _manas[ManaData.Type.Blue].OnAmountUpdated += () => { UnityEngine.Debug.Log("blue mana : " + _manas[ManaData.Type.Blue].amount); };

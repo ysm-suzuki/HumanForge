@@ -7,7 +7,7 @@
 
         public enum Type
         {
-            Eternal,
+            Eternal = 0,
             Once,
             Seconds,
         }
@@ -57,6 +57,21 @@
         public Type type
         {
             get { return _type; }
+        }
+
+        public float ratio
+        {
+            set
+            {
+                _limitSeconds *= value;
+            }
+        }
+        public float offset
+        {
+            set
+            {
+                _limitSeconds += value;
+            }
         }
     }
 }

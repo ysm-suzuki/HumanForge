@@ -27,6 +27,15 @@ public class FaceMasterData
 
     public FaceData ToFaceData()
     {
+        var buffs = new List<Buff>();
+        foreach(var buffData in BuffSetMasterData.loader.GetSet(buffSetId))
+        {
+            var buff = BuffMasterData.loader.Get(buffData.buffMasterId).ToBuff();
+            buff.parameter *= buffData.parameterRatio;
+            buff.duration.ratio = buffData.durationRatio;
+            buffs.Add(buff);
+        }
+
         return new FaceData
         {
             type = (FaceData.Type)type,
@@ -36,19 +45,7 @@ public class FaceMasterData
                 { ManaData.Type.Green, generateGreen},
                 { ManaData.Type.Blue, generateBlue},
             },
-
-            // kari
-            buffs = new List<Buff>
-                {
-                    new Buff
-                    {
-                        id = 1,
-                        parameter = new Buff.Parameter
-                        {
-                            life = 5
-                        }
-                    }
-                }
+            buffs = buffs
         };
     }
 
