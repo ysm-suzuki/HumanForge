@@ -28,6 +28,10 @@ namespace GameMain
 
             _model.OnFaceUpdated += () =>
             {
+                int childCount = _faceForgeButtonRoot.transform.childCount;
+                for (int i = 0; i < childCount; i++)
+                    GameObject.Destroy(_faceForgeButtonRoot.transform.GetChild(i).gameObject);
+
                 for (int i = 0; i < _model.faceCount; i++)
                 {
                     int index = i;

@@ -15,19 +15,18 @@ namespace GameMain
             OnFinished += () =>
             {
                 view.Detach();
+                _player.OnFacesUpdated -= FaceUpdated;
             };
         }
+
+
 
         public override void SetPlayer(Player player)
         {
             base.SetPlayer(player);
 
-            _player.OnFacesUpdated += () =>
-            {
-                if (OnFaceUpdated != null)
-                    OnFaceUpdated();
-            };
-
+            _player.OnFacesUpdated += FaceUpdated;
+            
             if (OnFaceUpdated != null)
                 OnFaceUpdated();
         }
@@ -56,6 +55,14 @@ namespace GameMain
             get { return _player != null
                         ? _player.faceCount
                         : 0; }
+        }
+
+
+        // =============================== delegate
+        private void FaceUpdated()
+        {
+            if (OnFaceUpdated != null)
+                OnFaceUpdated();
         }
     }
 }
