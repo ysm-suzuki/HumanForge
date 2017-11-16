@@ -43,21 +43,22 @@ namespace GameMain
 
 
 
-            // kari
+            
+            float MaxMana = 99999; // kari
             _manas[ManaData.Type.Red] = new Mana(new ManaData
             {
                 type = ManaData.Type.Red,
-                max = 10,
+                max = MaxMana,
             });
             _manas[ManaData.Type.Green] = new Mana(new ManaData
             {
                 type = ManaData.Type.Green,
-                max = 10,
+                max = MaxMana,
             });
             _manas[ManaData.Type.Blue] = new Mana(new ManaData
             {
                 type = ManaData.Type.Blue,
-                max = 10,
+                max = MaxMana,
             });
             _manas[ManaData.Type.Red].OnAmountUpdated += () => { UnityEngine.Debug.Log("red mana : " + _manas[ManaData.Type.Red].amount); };
             _manas[ManaData.Type.Green].OnAmountUpdated += () => { UnityEngine.Debug.Log("green mana : " + _manas[ManaData.Type.Green].amount); };
