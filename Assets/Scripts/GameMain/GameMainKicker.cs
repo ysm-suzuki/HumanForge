@@ -37,8 +37,6 @@ public class GameMainKicker : MonoBehaviour
 
     private InputPorter _inputPorter = null;
 
-    // kari 
-    private bool _initialized = false;
 
     void Start()
     {
@@ -47,39 +45,26 @@ public class GameMainKicker : MonoBehaviour
         GameMain.Random.Initialize();
         FileManager.Instance.Initialize();
 
-        new SerialProcess()
-            .Add(finish =>
-            {
-                GameMain.SQLite.Instance.Initialize(finish);
-            }).Add(finish =>
-            {
-                ResolutionManager.Instance.SetRootRectTransform(_rootRectTransform);
+        ResolutionManager.Instance.SetRootRectTransform(_rootRectTransform);
 
-                ViewManager.Instance.RegisterRoot(_root);
-                ViewManager.Instance.RegisterRoot(_boardRoot, BoardRootTag);
-                ViewManager.Instance.RegisterRoot(_uiRoot, UIRootTag);
-                ViewManager.Instance.RegisterRoot(_informationRoot, InformationRootTag);
-                ViewManager.Instance.RegisterRoot(_overlayRoot, OverlayRootTag);
-                ViewManager.Instance.RegisterRoot(_systemFrontRoot, SystemFrontRootTag);
+        ViewManager.Instance.RegisterRoot(_root);
+        ViewManager.Instance.RegisterRoot(_boardRoot, BoardRootTag);
+        ViewManager.Instance.RegisterRoot(_uiRoot, UIRootTag);
+        ViewManager.Instance.RegisterRoot(_informationRoot, InformationRootTag);
+        ViewManager.Instance.RegisterRoot(_overlayRoot, OverlayRootTag);
+        ViewManager.Instance.RegisterRoot(_systemFrontRoot, SystemFrontRootTag);
 
-                SetupInput();
-                SetupPhases();
-
-                _initialized = true;
-            }).Flush();
+        SetupInput();
+        SetupPhases();
     }
 
     void Update()
     {
-
         float delta = Time.deltaTime;
         
         GameMain.SQLite.Instance.Tick();
         FileManager.Instance.Tick();
 
-
-        if (!_initialized)
-            return;
         if (_inputPorter != null)
             _inputPorter.Tick(delta);
         if (_currentPhase != null)
