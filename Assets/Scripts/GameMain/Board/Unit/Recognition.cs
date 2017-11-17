@@ -75,8 +75,8 @@ namespace GameMain
         private bool IsOpposite(Unit target)
         {
             // kari
-            return (_owner.isPlayerUnit && !target.isPlayerUnit)
-                || (!_owner.isPlayerUnit && target.isPlayerUnit);
+            return (_owner.isOwnedUnit && !target.isOwnedUnit)
+                || (!_owner.isOwnedUnit && target.isOwnedUnit);
         }
     }
 }

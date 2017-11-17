@@ -38,7 +38,9 @@ namespace GameMain
 
         override public void ClickUnit(Unit unit)
         {
-            if (unit.isOwnedUnit)
+            if (unit.isPlayerUnit)
+                Change(new BuildUnitUIMode());
+            else if (unit.isOwnedUnit)
                 Change(new OwnedUnitUIMode()
                             .SetUnit(unit));
         }
@@ -47,6 +49,11 @@ namespace GameMain
         {
             Change(new FaceForgeUIMode()
                         .SetTargetIndex(index));
+        }
+
+        public void ClickBuildUnitButton()
+        {
+            Change(new BuildUnitUIMode());
         }
 
 
