@@ -15,19 +15,18 @@ namespace GameMain
             OnFinished += () =>
             {
                 view.Detach();
+                _player.OnFacesUpdated -= FaceUpdated;
             };
         }
+
+
 
         public override void SetPlayer(Player player)
         {
             base.SetPlayer(player);
 
-            _player.OnFacesUpdated += () =>
-            {
-                if (OnFaceUpdated != null)
-                    OnFaceUpdated();
-            };
-
+            _player.OnFacesUpdated += FaceUpdated;
+            
             if (OnFaceUpdated != null)
                 OnFaceUpdated();
         }
@@ -39,7 +38,9 @@ namespace GameMain
 
         override public void ClickUnit(Unit unit)
         {
-            if (unit.isOwnedUnit)
+            if (unit.isPlayerUnit)
+                Change(new BuildUnitUIMode());
+            else if (unit.isOwnedUnit)
                 Change(new OwnedUnitUIMode()
                             .SetUnit(unit));
         }
@@ -50,12 +51,25 @@ namespace GameMain
                         .SetTargetIndex(index));
         }
 
+        public void ClickBuildUnitButton()
+        {
+            Change(new BuildUnitUIMode());
+        }
+
 
         public int faceCount
         {
             get { return _player != null
                         ? _player.faceCount
                         : 0; }
+        }
+
+
+        // =============================== delegate
+        private void FaceUpdated()
+        {
+            if (OnFaceUpdated != null)
+                OnFaceUpdated();
         }
     }
 }

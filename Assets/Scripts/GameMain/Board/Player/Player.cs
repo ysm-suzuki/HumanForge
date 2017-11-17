@@ -140,12 +140,23 @@ namespace GameMain
         }
 
 
+        public void MoveTo(Position to)
+        {
+            _playerUnit.MoveTo(to);
+        }
+
+
         public int faceCount
         {
             get
             {
                 return _faces.Count;
             }
+        }
+
+        public Position position
+        {
+            get { return _playerUnit.position; }
         }
     }
 }
