@@ -9,6 +9,7 @@ namespace GameMain
         public static string Tag = "MainPhase";
 
         private Board _board = null;
+        private GimmickAgent _gimmickAgent = null;
 
         private MapView _mapView = null;
 
@@ -16,6 +17,8 @@ namespace GameMain
         {
             if (_board == null)
                 _board = new Board();
+            if (_gimmickAgent == null)
+                _gimmickAgent = new GimmickAgent();
 
             _board.OnBossWipedOut += () => 
             {
