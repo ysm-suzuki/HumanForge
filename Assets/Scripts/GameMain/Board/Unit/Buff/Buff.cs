@@ -1,4 +1,6 @@
-﻿namespace GameMain
+﻿using System.Collections.Generic;
+
+namespace GameMain
 {
     public class Buff
     {
@@ -36,7 +38,7 @@
         }
         public Parameter parameter = new Parameter();
         public BuffDuration duration = new BuffDuration();
-        public ArmorBuff armor = new ArmorBuff();
+        public List<ArmorBuff> armors = new List<ArmorBuff>();
 
         public Buff()
         {

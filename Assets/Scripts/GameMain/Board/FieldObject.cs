@@ -82,6 +82,26 @@ namespace GameMain
         }
 
 
+        // =========================== battle
+
+        public void Damage(Unit attacker, float damage)
+        {
+            float ratio = 1.0f;
+            float offset = 0.0f;
+
+            bool hasWeakArmor = false;
+            foreach (var buff in _buffs)
+            {
+                foreach (var armor in buff.armors)
+                {
+                    if (armor.attribute != ArmorBuff.Attribute.Weak)
+                        ratio *= 1.5f;
+                }
+            }
+
+            life -= damage * ratio + offset;
+        }
+
 
         public void AddFriendlyTeam(int teamId)
         {

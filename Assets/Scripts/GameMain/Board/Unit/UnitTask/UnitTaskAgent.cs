@@ -87,8 +87,8 @@ namespace GameMain
                 {
                     if (!target.isAlive)
                         continue;
-                    
-                    target.life -= attackPower;
+
+                    target.Damage(_owner, attackPower);
                 }
             };
             _attackTask.OnFinished += () =>
