@@ -36,8 +36,8 @@
         }
         public Parameter parameter = new Parameter();
         public BuffDuration duration = new BuffDuration();
+        public ArmorBuff armor = new ArmorBuff();
 
-        
         public Buff()
         {
             duration.OnFinished += () => 
