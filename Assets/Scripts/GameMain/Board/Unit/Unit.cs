@@ -14,13 +14,9 @@ namespace GameMain
 
         private Recognition _recognition = null;
         private IndividualAttribute _individualAttribute = null;
-        private List<Buff> _buffs = new List<Buff>();
 
         private UnitTaskAgent _taskAgent = null;
         private int _attackActionIndex = 0;
-
-        private List<Buff> _addingBuffs = new List<Buff>();
-        private List<Buff> _removingBuffs = new List<Buff>();
 
         public Unit(UnitData data)
         {
@@ -52,11 +48,6 @@ namespace GameMain
             base.Tick(delta);
 
             _taskAgent.Tick(delta);
-
-            foreach (var buff in _buffs)
-                buff.Tick(delta);
-
-            UpdateBuffs();
         }
 
 
@@ -88,53 +79,7 @@ namespace GameMain
         }
 
 
-        // ======================================= buff
-        public void AddBuff(Buff buff)
-        {
-            _addingBuffs.Add(buff);
-        }
-
-        public void RemoveBuff(Buff buff)
-        {
-            _removingBuffs.Add(buff);
-        }
-
-        private void UpdateBuffs()
-        {
-            // remove buff
-            foreach (var removingBuff in _removingBuffs)
-            {
-                Buff targetBuff = null;
-                foreach (var buff in _buffs)
-                    if (buff.IsSame(removingBuff))
-                        targetBuff = buff;
-                if (targetBuff != null)
-                    _buffs.Remove(targetBuff);
-            }
-            _removingBuffs.Clear();
-
-
-            // add buff
-            foreach (var addingBuff in _addingBuffs)
-            {
-                Buff sameBuff = null;
-                foreach (var buff in _buffs)
-                {
-                    if (buff.IsSame(addingBuff))
-                        sameBuff = buff;
-                }
-                if (sameBuff != null)
-                    _buffs.Remove(sameBuff);
-
-                addingBuff.OnFinished += () =>
-                {
-                    RemoveBuff(addingBuff);
-                };
-
-                _buffs.Add(addingBuff);
-            }
-            _addingBuffs.Clear();
-        }
+        
 
         // ======================================= accessors
 
