@@ -7,18 +7,18 @@ using UnityMVC;
 public class MoldListView : View
 {
     [SerializeField]
-    private GameObject _listRoot;
+    protected GameObject _listRoot;
 
     private static readonly string PrefabPath = "Prefabs/Common/UI/MoldList";
 
 
-    private const float HorizontalInterval = 110;
-    private const float VerticalInterval = 110;
-    private const float HorizontalCount = 5;
+    protected Position OriginalPosition = new Position(80, -50);
+    protected float HorizontalInterval = 110;
+    protected float VerticalInterval = 110;
+    protected float HorizontalCount = 5;
 
-    private List<Mold> _molds = new List<Mold>();
+    protected List<Model> _molds = new List<Model>();
 
-    private Position OriginalPosition = new Position(80, -50);
 
     
     public static MoldListView Attach(GameObject parent)
@@ -28,18 +28,21 @@ public class MoldListView : View
         view.SetParent(parent);
         return view;
     }
-    
-    public void AddMolds(List<Mold> molds)
+
+    virtual public void Initialize<T>(List<T> molds) where T : Model
+    {
+        AddMolds(molds);
+    }
+
+    private void AddMolds<T>(List<T> molds) where T : Model
     {
         foreach (var mold in molds)
             AddMold(mold);
     }
 
-    public void AddMold(Mold mold)
+    private void AddMold<T>(T mold) where T : Model
     {
-        var view = MoldView
-                    .Attach(_listRoot)
-                    .SetModel(mold);
+        var view = MoldViewFactory.View(mold, _listRoot);
 
         int index = _molds.Count;
 

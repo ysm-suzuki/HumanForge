@@ -36,7 +36,10 @@ namespace GameMain
 
         private void ListUpMolds()
         {
-            for(int i = 0; i < _model.molds.Count; i++)
+            var listView = FaceMoldListView.Attach(_moldsRoot);
+            listView.Initialize(_model.molds);
+            /*
+            for (int i = 0; i < _model.molds.Count; i++)
             {
                 var mold = _model.molds[i];
                 var view = FaceMoldView
@@ -47,6 +50,7 @@ namespace GameMain
                     0       + (i % 5) * 100,
                     100     + (i / 5) * 120);
             }
+            */
         }
     }
 }
