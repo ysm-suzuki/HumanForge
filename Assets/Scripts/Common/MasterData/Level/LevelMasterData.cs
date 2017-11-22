@@ -16,6 +16,7 @@ public class LevelMasterData
     public int mapId;
     public int unitSetId;
     public int gimmickSetId;
+    public int visualNotificationSetId;
 
 
     public Unit playerUnit
@@ -94,6 +95,19 @@ public class LevelMasterData
                 targetGimmicks.Add(gimmickData.ToGimmick());
 
             return targetGimmicks;
+        }
+    }
+
+    public List<VisualNotification> visualNotifications
+    {
+        get
+        {
+            var targetNotifications = new List<VisualNotification>();
+            var visualNotificationSet = VisualNotificationSetMasterData.loader.GetSet(visualNotificationSetId);
+            foreach (var visualNotificationData in visualNotificationSet)
+                targetNotifications.Add(visualNotificationData.ToVisualNotification());
+
+            return targetNotifications;
         }
     }
 }

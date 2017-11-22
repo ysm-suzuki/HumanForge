@@ -4,7 +4,7 @@ using UnityMVC;
 
 namespace GameMain
 {
-    public class Gimmick
+    public class VisualNotification
     {
         public delegate void EventHandler();
         public event EventHandler OnTrrigered;
@@ -44,23 +44,23 @@ namespace GameMain
             }
         }
 
-
         public class Product
         {
             public enum Type
             {
                 None = 0,
-                PlaceInitialEnemies,
-                StartAllEnemiesRaid,
+                ShowMessage
             }
             public Type type = Type.None;
+            public int number = 0;
+            public string text = "";
         }
 
         private List<Trigger> _orCondition;
         private Product _product;
 
 
-        public Gimmick(
+        public VisualNotification(
             List<Trigger> orCondition,
             Product product)
         {
@@ -68,10 +68,11 @@ namespace GameMain
             _product = product;
         }
 
-        public void Check(Trigger notifiedTrigger)
+
+        public void Check(Trigger notifiedTrriger)
         {
             foreach (var trriger in _orCondition)
-                if (trriger.IsValid(notifiedTrigger))
+                if (trriger.IsValid(notifiedTrriger))
                     if (OnTrrigered != null)
                         OnTrrigered();
         }
