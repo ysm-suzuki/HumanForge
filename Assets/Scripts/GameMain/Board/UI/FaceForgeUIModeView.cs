@@ -25,28 +25,12 @@ namespace GameMain
             base.SetModel<FaceForgeUIMode>(model);
             
             _model = model;
-
-
-            ListUpMolds();
+            
+            FaceMoldListView
+                .Attach(_moldsRoot)
+                .Initialize(_model.molds);
 
             return this;
-        }
-
-
-
-        private void ListUpMolds()
-        {
-            for(int i = 0; i < _model.molds.Count; i++)
-            {
-                var mold = _model.molds[i];
-                var view = FaceMoldView
-                            .Attach(_moldsRoot)
-                            .SetModel(mold);
-
-                mold.position = Position.Create(
-                    0       + (i % 5) * 100,
-                    100     + (i / 5) * 120);
-            }
         }
     }
 }
