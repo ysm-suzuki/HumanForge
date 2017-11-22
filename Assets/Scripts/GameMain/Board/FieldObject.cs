@@ -16,6 +16,10 @@ namespace GameMain
         protected float _maxLife = 0;
         protected float _life = 0;
 
+        protected List<Buff> _buffs = new List<Buff>();
+        private List<Buff> _addingBuffs = new List<Buff>();
+        private List<Buff> _removingBuffs = new List<Buff>();
+
         protected Position _velocity = Position.Create(0, 0);
         protected List<Position> _shapePoints = new List<Position>();
 
@@ -23,7 +27,79 @@ namespace GameMain
 
         virtual public void Tick(float delta)
         {
+            foreach (var buff in _buffs)
+                buff.Tick(delta);
+            UpdateBuffs();
+        }
 
+
+        // ======================================= buff
+        public void AddBuff(Buff buff)
+        {
+            _addingBuffs.Add(buff);
+        }
+
+        public void RemoveBuff(Buff buff)
+        {
+            _removingBuffs.Add(buff);
+        }
+
+        private void UpdateBuffs()
+        {
+            // remove buff
+            foreach (var removingBuff in _removingBuffs)
+            {
+                Buff targetBuff = null;
+                foreach (var buff in _buffs)
+                    if (buff.IsSame(removingBuff))
+                        targetBuff = buff;
+                if (targetBuff != null)
+                    _buffs.Remove(targetBuff);
+            }
+            _removingBuffs.Clear();
+
+
+            // add buff
+            foreach (var addingBuff in _addingBuffs)
+            {
+                Buff sameBuff = null;
+                foreach (var buff in _buffs)
+                {
+                    if (buff.IsSame(addingBuff))
+                        sameBuff = buff;
+                }
+                if (sameBuff != null)
+                    _buffs.Remove(sameBuff);
+
+                addingBuff.OnFinished += () =>
+                {
+                    RemoveBuff(addingBuff);
+                };
+
+                _buffs.Add(addingBuff);
+            }
+            _addingBuffs.Clear();
+        }
+
+
+        // =========================== battle
+
+        public void Damage(Unit attacker, float damage)
+        {
+            float ratio = 1.0f;
+            float offset = 0.0f;
+
+            bool hasWeakArmor = false;
+            foreach (var buff in _buffs)
+            {
+                foreach (var armor in buff.armors)
+                {
+                    if (armor.attribute != ArmorBuff.Attribute.Weak)
+                        ratio *= 1.5f;
+                }
+            }
+
+            life -= damage * ratio + offset;
         }
 
 
@@ -68,8 +144,7 @@ namespace GameMain
             get { return life > 0; }
         }
 
-
-
+        
         public float maxLife
         {
             get { return _maxLife; }
