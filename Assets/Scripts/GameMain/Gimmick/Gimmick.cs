@@ -44,11 +44,25 @@ namespace GameMain
             }
         }
 
+
+        public class Product
+        {
+            public enum Type
+            {
+                None = 0,
+                PlaceInitialEnemies,
+                StartAllEnemiesRaid,
+            }
+            public Type type = Type.None;
+        }
+
         private List<Trigger> _orCondition;
+        private Product _product;
 
 
         public Gimmick(
-            List<Trigger> orCondition)
+            List<Trigger> orCondition,
+            Product product)
         {
             _orCondition = orCondition;
         }
@@ -59,6 +73,11 @@ namespace GameMain
                 if (trriger.IsValid(notifiedTrriger))
                     if (OnTrrigered != null)
                         OnTrrigered();
+        }
+
+        public Product product
+        {
+            get { return _product; }
         }
     }
 }

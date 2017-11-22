@@ -51,45 +51,50 @@ namespace GameMain
                     .SetModel(_board.map);
 
 
+            _gimmickAgent.RegisterProductType(
+                Gimmick.Product.Type.PlaceInitialEnemies,
+                () =>
+                {
+                    _board.AddInitialEnemies();
+                });
+            _gimmickAgent.RegisterProductType(
+                Gimmick.Product.Type.StartAllEnemiesRaid,
+                () =>
+                {
+                    var enemies = _board.map.enemyUnits;
+                    foreach (var enemy in enemies)
+                        enemy.Attack(new List<FieldObject>
+                            {
+                                _board.map.playerUnit
+                            });
+                });
+
             // kari
-            var gimmick1 = new Gimmick(new List<Gimmick.Trigger>
-            {
-                new Gimmick.Trigger
+            _gimmickAgent.AddGimmick(
+                new Gimmick(new List<Gimmick.Trigger>
                 {
-                    type = Gimmick.Trigger.Type.StartMap
-                }
-            });
-            gimmick1.OnTrrigered += () =>
-            {
-                var levelData = LevelMasterData.loader.Get(_board.level);
-                const int EnemyTeamId = 2; // kari
-                foreach (var unit in levelData.enemyUnits)
-                {
-                    unit.teamId = EnemyTeamId;
-                    _board.map.AddUnit(unit);
-                }
-            };
-
-            var gimmick2 = new Gimmick(new List<Gimmick.Trigger>
-            {
-                new Gimmick.Trigger
-                {
-                    type = Gimmick.Trigger.Type.PassTime,
-                    value = 10,
-                }
-            });
-            gimmick2.OnTrrigered += () =>
-            {
-                var enemies = _board.map.enemyUnits;
-                foreach (var enemy in enemies)
-                    enemy.Attack(new List<FieldObject>
+                    new Gimmick.Trigger
                     {
-                        _board.map.playerUnit
-                    });
-            };
-
-            _gimmickAgent.AddGimmick(gimmick1);
-            _gimmickAgent.AddGimmick(gimmick2);
+                        type = Gimmick.Trigger.Type.StartMap
+                    }
+                },
+                new Gimmick.Product
+                {
+                    type = Gimmick.Product.Type.PlaceInitialEnemies
+                }), _board);
+            _gimmickAgent.AddGimmick(
+                new Gimmick(new List<Gimmick.Trigger>
+                {
+                    new Gimmick.Trigger
+                    {
+                        type = Gimmick.Trigger.Type.PassTime,
+                        value = 10,
+                    }
+                },
+                new Gimmick.Product
+                {
+                    type = Gimmick.Product.Type.StartAllEnemiesRaid
+                }), _board);
 
 
             _board.Start();

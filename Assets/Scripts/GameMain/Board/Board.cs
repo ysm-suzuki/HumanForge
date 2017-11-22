@@ -61,15 +61,22 @@ namespace GameMain
             if (_player != null)
                 _player.Tick(delta);
         }
+
+        public void AddInitialEnemies()
+        {
+            var levelData = LevelMasterData.loader.Get(_level);
+            const int EnemyTeamId = 2; // kari
+            foreach (var unit in levelData.enemyUnits)
+            {
+                unit.teamId = EnemyTeamId;
+                map.AddUnit(unit);
+            }
+        }
         
 
         public Map map
         {
             get { return _map; }
-        }
-        public int level
-        {
-            get { return _level; }
         }
 
 
