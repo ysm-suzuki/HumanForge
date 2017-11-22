@@ -68,10 +68,10 @@ namespace GameMain
             _product = product;
         }
 
-        public void Check(Trigger notifiedTrriger)
+        public void Check(Trigger notifiedTrigger)
         {
             foreach (var trriger in _orCondition)
-                if (trriger.IsValid(notifiedTrriger))
+                if (trriger.IsValid(notifiedTrigger))
                     if (OnTrrigered != null)
                         OnTrrigered();
         }

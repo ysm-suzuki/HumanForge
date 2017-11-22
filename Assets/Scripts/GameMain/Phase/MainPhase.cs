@@ -10,6 +10,7 @@ namespace GameMain
 
         private Board _board = null;
         private GimmickAgent _gimmickAgent = null;
+        private VisualNotificationAgent _visualNotificationAgent = null;
 
         private MapView _mapView = null;
 
@@ -19,6 +20,8 @@ namespace GameMain
                 _board = new Board();
             if (_gimmickAgent == null)
                 _gimmickAgent = new GimmickAgent(_board);
+            if (_visualNotificationAgent == null)
+                _visualNotificationAgent = new VisualNotificationAgent();
 
             _board.OnMapStarted += () =>
             {
@@ -26,12 +29,21 @@ namespace GameMain
                 {
                     type = Gimmick.Trigger.Type.StartMap,
                 });
+                _visualNotificationAgent.Notify(new VisualNotification.Trigger
+                {
+                    type = VisualNotification.Trigger.Type.StartMap,
+                });
             };
-            _board.OnTimeTicked += seconds => 
+            _board.OnTimeTicked += seconds =>
             {
                 _gimmickAgent.Notify(new Gimmick.Trigger
                 {
                     type = Gimmick.Trigger.Type.PassTime,
+                    value = seconds
+                });
+                _visualNotificationAgent.Notify(new VisualNotification.Trigger
+                {
+                    type = VisualNotification.Trigger.Type.PassTime,
                     value = seconds
                 });
             };
@@ -58,6 +70,9 @@ namespace GameMain
 
         override public void Tick(float delta)
         {
+            if (_visualNotificationAgent.lockPhase)
+                return;
+
             _board.Tick(delta);
         }
 
