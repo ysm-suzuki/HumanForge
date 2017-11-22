@@ -15,6 +15,7 @@ public class LevelMasterData
 
     public int mapId;
     public int unitSetId;
+    public int gimmickSetId;
 
 
     public Unit playerUnit
@@ -76,10 +77,23 @@ public class LevelMasterData
                     continue;
 
 
-                units.Add(unit); ;
+                units.Add(unit);
             }
 
             return units;
+        }
+    }
+
+    public List<Gimmick> gimmicks
+    {
+        get
+        {
+            var targetGimmicks = new List<Gimmick>();
+            var gimmickSet = GimmickSetMasterData.loader.GetSet(gimmickSetId);
+            foreach (var gimmickData in gimmickSet)
+                targetGimmicks.Add(gimmickData.ToGimmick());
+
+            return targetGimmicks;
         }
     }
 }

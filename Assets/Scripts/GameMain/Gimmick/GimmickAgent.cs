@@ -33,12 +33,10 @@ namespace GameMain
 
         public void SetLevel(int level)
         {
-            // kari
-            var allGimmicks = GimmickMasterData.loader.GetAll();
+            var levelData = LevelMasterData.loader.Get(level);
 
-            foreach (var gimmickData in allGimmicks)
-                AddGimmick(
-                    gimmickData.ToGimmick());
+            foreach (var gimmick in levelData.gimmicks)
+                AddGimmick(gimmick);
         }
 
         public void AddGimmick(Gimmick gimmick)
