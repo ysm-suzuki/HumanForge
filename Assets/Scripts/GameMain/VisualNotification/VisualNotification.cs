@@ -52,8 +52,8 @@ namespace GameMain
                 ShowMessage
             }
             public Type type = Type.None;
-            public int valueI = 0;
-            public string valueS = "";
+            public int value = 0;
+            public string text = "";
         }
 
         private List<Trigger> _orCondition;

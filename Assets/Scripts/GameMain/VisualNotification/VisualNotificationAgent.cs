@@ -22,8 +22,28 @@ namespace GameMain
         {
             RegisterProductType(VisualNotification.Product.Type.ShowMessage, product => 
             {
-
+                SimpleMessageNotiifcationView
+                    .Attach(ViewManager.Instance.GetRoot(GameMainKicker.OverlayRootTag))
+                    .SetModel(product)
+                    .RegisterFinishCallback(() => { });
             });
+
+
+            // kari
+            Add(new VisualNotification(
+                new List<VisualNotification.Trigger>
+                {
+                    new VisualNotification.Trigger
+                    {
+                        type = VisualNotification.Trigger.Type.StartMap
+                    }
+                },
+                new VisualNotification.Product
+                {
+                    type = VisualNotification.Product.Type.ShowMessage,
+                    value = 0,
+                    text = "Game Start!"
+                }));
         }
 
 
