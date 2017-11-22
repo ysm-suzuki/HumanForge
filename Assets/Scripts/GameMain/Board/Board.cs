@@ -78,6 +78,10 @@ namespace GameMain
         {
             get { return _map; }
         }
+        public int level
+        {
+            get { return _level; }
+        }
 
 
 

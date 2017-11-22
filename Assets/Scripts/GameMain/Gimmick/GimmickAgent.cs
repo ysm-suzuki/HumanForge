@@ -9,7 +9,38 @@ namespace GameMain
         private List<Gimmick> _gimmicks = new List<Gimmick>();
         private Dictionary<Gimmick.Product.Type, System.Action> _productDelegates;
 
-        public void AddGimmick(Gimmick gimmick, Board board)
+        public GimmickAgent(Board board)
+        {
+            RegisterProductType(
+                Gimmick.Product.Type.PlaceInitialEnemies,
+                () =>
+                {
+                    board.AddInitialEnemies();
+                });
+            RegisterProductType(
+                Gimmick.Product.Type.StartAllEnemiesRaid,
+                () =>
+                {
+                    var enemies = board.map.enemyUnits;
+                    foreach (var enemy in enemies)
+                        enemy.Attack(new List<FieldObject>
+                            {
+                                board.map.playerUnit
+                            });
+                });
+        }
+
+        public void SetLevel(int level)
+        {
+            // kari
+            var allGimmicks = GimmickMasterData.loader.GetAll();
+
+            foreach (var gimmickData in allGimmicks)
+                AddGimmick(
+                    gimmickData.ToGimmick());
+        }
+
+        public void AddGimmick(Gimmick gimmick)
         {
             gimmick.OnTrrigered += () =>
             {
@@ -28,7 +59,8 @@ namespace GameMain
                 gimmick.Check(trriger);
         }
 
-        public void RegisterProductType(Gimmick.Product.Type type, System.Action action)
+
+        private void RegisterProductType(Gimmick.Product.Type type, System.Action action)
         {
             _productDelegates[type] = action;
         }

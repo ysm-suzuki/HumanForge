@@ -18,9 +18,9 @@ namespace GameMain
             if (_board == null)
                 _board = new Board();
             if (_gimmickAgent == null)
-                _gimmickAgent = new GimmickAgent();
+                _gimmickAgent = new GimmickAgent(_board);
 
-            _board.OnMapStarted += () => 
+            _board.OnMapStarted += () =>
             {
                 _gimmickAgent.Notify(new Gimmick.Trigger
                 {
@@ -44,31 +44,16 @@ namespace GameMain
                 Lose();
             };
 
-            
+            _gimmickAgent.SetLevel(_board.level);
+
+
+
             if (_mapView == null)
                 _mapView = MapView
                     .Attach(ViewManager.Instance.GetRoot(GameMainKicker.BoardRootTag))
                     .SetModel(_board.map);
 
-
-            _gimmickAgent.RegisterProductType(
-                Gimmick.Product.Type.PlaceInitialEnemies,
-                () =>
-                {
-                    _board.AddInitialEnemies();
-                });
-            _gimmickAgent.RegisterProductType(
-                Gimmick.Product.Type.StartAllEnemiesRaid,
-                () =>
-                {
-                    var enemies = _board.map.enemyUnits;
-                    foreach (var enemy in enemies)
-                        enemy.Attack(new List<FieldObject>
-                            {
-                                _board.map.playerUnit
-                            });
-                });
-
+            /*
             // kari
             _gimmickAgent.AddGimmick(
                 new Gimmick(new List<Gimmick.Trigger>
@@ -81,7 +66,7 @@ namespace GameMain
                 new Gimmick.Product
                 {
                     type = Gimmick.Product.Type.PlaceInitialEnemies
-                }), _board);
+                }));
             _gimmickAgent.AddGimmick(
                 new Gimmick(new List<Gimmick.Trigger>
                 {
@@ -94,8 +79,8 @@ namespace GameMain
                 new Gimmick.Product
                 {
                     type = Gimmick.Product.Type.StartAllEnemiesRaid
-                }), _board);
-
+                }));
+                */
 
             _board.Start();
         }
