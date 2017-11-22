@@ -21,7 +21,7 @@ namespace GameMain
             if (_gimmickAgent == null)
                 _gimmickAgent = new GimmickAgent(_board);
             if (_visualNotificationAgent == null)
-                _visualNotificationAgent = new VisualNotificationAgent();
+                _visualNotificationAgent = new VisualNotificationAgent(_board.level);
 
             _board.OnMapStarted += () =>
             {

@@ -52,7 +52,7 @@ namespace GameMain
                 ShowMessage
             }
             public Type type = Type.None;
-            public int value = 0;
+            public int number = 0;
             public string text = "";
         }
 

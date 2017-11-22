@@ -18,7 +18,7 @@ namespace GameMain
         private bool _lockPhase = false;
 
 
-        public  VisualNotificationAgent()
+        public  VisualNotificationAgent(int level)
         {
             RegisterProductType(VisualNotification.Product.Type.ShowMessage, product => 
             {
@@ -28,22 +28,9 @@ namespace GameMain
                     .RegisterFinishCallback(() => { });
             });
 
-
-            // kari
-            Add(new VisualNotification(
-                new List<VisualNotification.Trigger>
-                {
-                    new VisualNotification.Trigger
-                    {
-                        type = VisualNotification.Trigger.Type.StartMap
-                    }
-                },
-                new VisualNotification.Product
-                {
-                    type = VisualNotification.Product.Type.ShowMessage,
-                    value = 0,
-                    text = "Game Start!"
-                }));
+            var notifications = LevelMasterData.loader.Get(level).visualNotifications;
+            foreach (var notification in notifications)
+                Add(notification);
         }
 
 

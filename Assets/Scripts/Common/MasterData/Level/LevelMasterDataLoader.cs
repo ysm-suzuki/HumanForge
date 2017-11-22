@@ -31,10 +31,11 @@ public class LevelMasterDataLoader : MasterDataLoader<LevelMasterData>
             data.mapId = item.mapId;
             data.unitSetId = item.unitSetId;
             data.gimmickSetId = item.gimmickSetId;
-            
+            data.visualNotificationSetId = item.visualNotificationSetId;
+
             _data[data.id] = data;
         }
-
+        
         return _data;
     }
 
@@ -56,5 +57,6 @@ public class LevelMasterDataLoader : MasterDataLoader<LevelMasterData>
         public int mapId { get; set; }
         public int unitSetId { get; set; }
         public int gimmickSetId { get; set; }
+        public int visualNotificationSetId { get; set; }
     }
 }
