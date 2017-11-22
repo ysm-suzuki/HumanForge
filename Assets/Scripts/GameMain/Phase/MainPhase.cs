@@ -9,6 +9,7 @@ namespace GameMain
         public static string Tag = "MainPhase";
 
         private Board _board = null;
+        private GimmickAgent _gimmickAgent = null;
 
         private MapView _mapView = null;
 
@@ -16,7 +17,24 @@ namespace GameMain
         {
             if (_board == null)
                 _board = new Board();
+            if (_gimmickAgent == null)
+                _gimmickAgent = new GimmickAgent(_board);
 
+            _board.OnMapStarted += () =>
+            {
+                _gimmickAgent.Notify(new Gimmick.Trigger
+                {
+                    type = Gimmick.Trigger.Type.StartMap,
+                });
+            };
+            _board.OnTimeTicked += seconds => 
+            {
+                _gimmickAgent.Notify(new Gimmick.Trigger
+                {
+                    type = Gimmick.Trigger.Type.PassTime,
+                    value = seconds
+                });
+            };
             _board.OnBossWipedOut += () => 
             {
                 Win();
@@ -26,10 +44,16 @@ namespace GameMain
                 Lose();
             };
 
+            _gimmickAgent.SetLevel(_board.level);
+
+
+
             if (_mapView == null)
                 _mapView = MapView
                     .Attach(ViewManager.Instance.GetRoot(GameMainKicker.BoardRootTag))
                     .SetModel(_board.map);
+
+            _board.Start();
         }
 
         override public void Tick(float delta)
