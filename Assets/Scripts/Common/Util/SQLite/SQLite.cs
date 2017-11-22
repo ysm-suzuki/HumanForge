@@ -9,7 +9,7 @@ namespace GameMain
 {
     public class SQLite
     {
-        private const string DataBasePath = "Data/master.db";
+        private const string DataBasePath = "Data/MasterData/master.db";
         private const string DataBasePassword = "aaaaaaaa";
 
 

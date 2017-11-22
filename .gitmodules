@@ -4,3 +4,6 @@
 [submodule "Assets/Resources/Images"]
 	path = Assets/Resources/Images
 	url = https://github.com/ysm-suzuki/HumanForgeDefaultImages.git
+[submodule "Assets/StreamingAssets/Data/MasterData"]
+	path = Assets/StreamingAssets/Data/MasterData
+	url = https://github.com/ysm-suzuki/HumanForgeMasterData.git
