@@ -21,7 +21,7 @@ public class GimmickTriggerSetMasterDataLoader : MasterDataLoader<GimmickTrigger
         _data = new Dictionary<int, GimmickTriggerSetMasterData>();
 
         var sqLite = GameMain.SQLite.Instance.connection;
-        var list = sqLite.Table<gimmick_triger_set_data>();
+        var list = sqLite.Table<gimmick_trigger_set_data>();
         foreach (var item in list)
             _data[item.id] = Convert(item);
 
@@ -44,7 +44,7 @@ public class GimmickTriggerSetMasterDataLoader : MasterDataLoader<GimmickTrigger
 
         var sqLite = GameMain.SQLite.Instance.connection;
         var list = sqLite
-                    .Table<gimmick_triger_set_data>()
+                    .Table<gimmick_trigger_set_data>()
                     .Where(set => set.setId == setId);
 
         var setData = new List<GimmickTriggerSetMasterData>();
@@ -54,7 +54,7 @@ public class GimmickTriggerSetMasterDataLoader : MasterDataLoader<GimmickTrigger
         return setData;
     }
 
-    private GimmickTriggerSetMasterData Convert(gimmick_triger_set_data data)
+    private GimmickTriggerSetMasterData Convert(gimmick_trigger_set_data data)
     {
         var convertedData = new GimmickTriggerSetMasterData();
 
@@ -66,7 +66,7 @@ public class GimmickTriggerSetMasterDataLoader : MasterDataLoader<GimmickTrigger
         return convertedData;
     }
 
-    public class gimmick_triger_set_data
+    public class gimmick_trigger_set_data
     {
         [PrimaryKey, AutoIncrement]
         public int id { get; set; }

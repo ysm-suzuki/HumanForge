@@ -65,6 +65,7 @@ namespace GameMain
             Product product)
         {
             _orCondition = orCondition;
+            _product = product;
         }
 
         public void Check(Trigger notifiedTrriger)

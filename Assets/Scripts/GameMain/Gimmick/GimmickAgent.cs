@@ -7,7 +7,8 @@ namespace GameMain
     public class GimmickAgent
     {
         private List<Gimmick> _gimmicks = new List<Gimmick>();
-        private Dictionary<Gimmick.Product.Type, System.Action> _productDelegates;
+        private Dictionary<Gimmick.Product.Type, System.Action> _productDelegates 
+            = new Dictionary<Gimmick.Product.Type, System.Action>();
 
         public GimmickAgent(Board board)
         {
@@ -45,8 +46,11 @@ namespace GameMain
             gimmick.OnTrrigered += () =>
             {
                 var type = gimmick.product.type;
-                if (_productDelegates.ContainsKey(type))
-                    return;
+
+                UnityEngine.Debug.Assert(
+                    _productDelegates.ContainsKey(type)
+                    , "Triggered the unregistered gimmick");
+
                 _productDelegates[type]();
             };
 

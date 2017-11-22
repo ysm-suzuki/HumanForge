@@ -21,7 +21,7 @@ public class GimmickTriggerMasterDataLoader : MasterDataLoader<GimmickTriggerMas
         _data = new Dictionary<int, GimmickTriggerMasterData>();
 
         var sqLite = GameMain.SQLite.Instance.connection;
-        var list = sqLite.Table<gimmick_triger_data>();
+        var list = sqLite.Table<gimmick_trigger_data>();
         foreach (var item in list)
         {
             var data = new GimmickTriggerMasterData();
@@ -47,7 +47,7 @@ public class GimmickTriggerMasterDataLoader : MasterDataLoader<GimmickTriggerMas
         return base.Get(id);
     }
 
-    public class gimmick_triger_data
+    public class gimmick_trigger_data
     {
         [PrimaryKey, AutoIncrement]
         public int id { get; set; }

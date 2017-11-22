@@ -53,35 +53,6 @@ namespace GameMain
                     .Attach(ViewManager.Instance.GetRoot(GameMainKicker.BoardRootTag))
                     .SetModel(_board.map);
 
-            /*
-            // kari
-            _gimmickAgent.AddGimmick(
-                new Gimmick(new List<Gimmick.Trigger>
-                {
-                    new Gimmick.Trigger
-                    {
-                        type = Gimmick.Trigger.Type.StartMap
-                    }
-                },
-                new Gimmick.Product
-                {
-                    type = Gimmick.Product.Type.PlaceInitialEnemies
-                }));
-            _gimmickAgent.AddGimmick(
-                new Gimmick(new List<Gimmick.Trigger>
-                {
-                    new Gimmick.Trigger
-                    {
-                        type = Gimmick.Trigger.Type.PassTime,
-                        value = 10,
-                    }
-                },
-                new Gimmick.Product
-                {
-                    type = Gimmick.Product.Type.StartAllEnemiesRaid
-                }));
-                */
-
             _board.Start();
         }
 
