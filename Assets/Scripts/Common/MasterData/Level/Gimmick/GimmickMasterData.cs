@@ -19,7 +19,7 @@ public class GimmickMasterData
     public Gimmick ToGimmick()
     {
         var triggers = new List<Gimmick.Trigger>();
-        var triggerSet = GimmickTriggerSetMasterData.loader.GetSet(triggerSetId);
+        var triggerSet = GimmickTriggerSetMasterData.loader.GetList(triggerSetId);
         foreach (var triggerData in triggerSet)
             triggers.Add(triggerData.ToTrigger());
 

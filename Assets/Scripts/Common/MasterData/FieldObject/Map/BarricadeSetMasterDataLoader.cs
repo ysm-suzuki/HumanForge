@@ -35,7 +35,7 @@ public class BarricadeSetMasterDataLoader : MasterDataLoader<BarricadeSetMasterD
     {
         return base.Get(id);
     }
-    public List<BarricadeSetMasterData> GetSet(int setId)
+    public List<BarricadeSetMasterData> GetList(int setId)
     {
         // TODO : cache?
 

@@ -38,7 +38,7 @@ public class GimmickTriggerSetMasterDataLoader : MasterDataLoader<GimmickTrigger
         return base.Get(id);
     }
 
-    public List<GimmickTriggerSetMasterData> GetSet(int setId)
+    public List<GimmickTriggerSetMasterData> GetList(int setId)
     {
         // TODO : cache?
 

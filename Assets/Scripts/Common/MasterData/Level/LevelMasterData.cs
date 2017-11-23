@@ -23,7 +23,7 @@ public class LevelMasterData
     {
         get
         {
-            var initialUnits = UnitSetMasterData.loader.GetSet(unitSetId);
+            var initialUnits = UnitSetMasterData.loader.GetList(unitSetId);
             foreach (var initialUnit in initialUnits)
             {
                 var unit = initialUnit.ToUnit();
@@ -44,7 +44,7 @@ public class LevelMasterData
         {
             var units = new List<Unit>();
 
-            var initialUnits = UnitSetMasterData.loader.GetSet(unitSetId);
+            var initialUnits = UnitSetMasterData.loader.GetList(unitSetId);
             foreach (var initialUnit in initialUnits)
             {
                 var unit = initialUnit.ToUnit();
@@ -67,7 +67,7 @@ public class LevelMasterData
         {
             var units = new List<Unit>();
 
-            var initialUnits = UnitSetMasterData.loader.GetSet(unitSetId);
+            var initialUnits = UnitSetMasterData.loader.GetList(unitSetId);
             foreach (var initialUnit in initialUnits)
             {
                 var unit = initialUnit.ToUnit();
@@ -90,7 +90,7 @@ public class LevelMasterData
         get
         {
             var targetGimmicks = new List<Gimmick>();
-            var gimmickSet = GimmickSetMasterData.loader.GetSet(gimmickSetId);
+            var gimmickSet = GimmickSetMasterData.loader.GetList(gimmickSetId);
             foreach (var gimmickData in gimmickSet)
                 targetGimmicks.Add(gimmickData.ToGimmick());
 
@@ -103,7 +103,7 @@ public class LevelMasterData
         get
         {
             var targetNotifications = new List<VisualNotification>();
-            var visualNotificationSet = VisualNotificationSetMasterData.loader.GetSet(visualNotificationSetId);
+            var visualNotificationSet = VisualNotificationSetMasterData.loader.GetList(visualNotificationSetId);
             foreach (var visualNotificationData in visualNotificationSet)
                 targetNotifications.Add(visualNotificationData.ToVisualNotification());
 

@@ -35,7 +35,7 @@ public class WallSetMasterDataLoader : MasterDataLoader<WallSetMasterData>
     {
         return base.Get(id);
     }
-    public List<WallSetMasterData> GetSet(int setId)
+    public List<WallSetMasterData> GetList(int setId)
     {
         // TODO : cache?
 

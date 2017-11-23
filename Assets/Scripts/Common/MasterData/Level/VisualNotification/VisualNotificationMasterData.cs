@@ -21,7 +21,7 @@ public class VisualNotificationMasterData
     public VisualNotification ToVisualNotification()
     {
         var triggers = new List<VisualNotification.Trigger>();
-        var triggerSet = VisualNotificationTriggerSetMasterData.loader.GetSet(triggerSetId);
+        var triggerSet = VisualNotificationTriggerSetMasterData.loader.GetList(triggerSetId);
         foreach (var triggerData in triggerSet)
             triggers.Add(triggerData.ToTrigger());
 

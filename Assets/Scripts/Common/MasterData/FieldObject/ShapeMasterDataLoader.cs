@@ -29,7 +29,7 @@ public class ShapeMasterDataLoader : MasterDataLoader<ShapeMasterData>
             data.id = item.id;
 
             var positions = new List<Position>();
-            var positionSet = VertexSetMasterData.loader.GetSet(item.positionSetId);
+            var positionSet = VertexSetMasterData.loader.GetList(item.positionSetId);
             foreach (var vertex in positionSet)
                 positions.Add(vertex.ToPosition());
 

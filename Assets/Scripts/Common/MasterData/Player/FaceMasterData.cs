@@ -28,7 +28,7 @@ public class FaceMasterData
     public FaceData ToFaceData()
     {
         var buffs = new List<Buff>();
-        foreach(var buffData in BuffSetMasterData.loader.GetSet(buffSetId))
+        foreach(var buffData in BuffSetMasterData.loader.GetList(buffSetId))
         {
             var buff = BuffMasterData.loader.Get(buffData.buffMasterId).ToBuff();
             buff.parameter *= buffData.parameterRatio;
