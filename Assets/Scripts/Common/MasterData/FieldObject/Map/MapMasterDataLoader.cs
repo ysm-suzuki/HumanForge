@@ -33,7 +33,7 @@ public class MapMasterDataLoader : MasterDataLoader<MapMasterData>
             data.height = item.height;
 
             data.walls = new List<Wall>();
-            var wallDataSet = WallSetMasterData.loader.GetSet(item.wallSetId);
+            var wallDataSet = WallSetMasterData.loader.GetList(item.wallSetId);
             foreach (var wallData in wallDataSet)
                 data.walls.Add(new Wall(new WallData
                 {
@@ -43,7 +43,7 @@ public class MapMasterDataLoader : MasterDataLoader<MapMasterData>
                 }));
 
             data.barricades = new List<Barricade>();
-            var barricadeDataSet = BarricadeSetMasterData.loader.GetSet(item.barricadeSetId);
+            var barricadeDataSet = BarricadeSetMasterData.loader.GetList(item.barricadeSetId);
             foreach (var barricadeData in barricadeDataSet)
             {
                 var barricade = new Barricade(BarricadeMasterData.loader.Get(barricadeData.barricadeId).ToBarricadeData());

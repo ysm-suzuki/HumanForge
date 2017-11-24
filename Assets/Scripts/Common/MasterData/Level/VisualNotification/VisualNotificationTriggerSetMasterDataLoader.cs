@@ -38,7 +38,7 @@ public class VisualNotificationTriggerSetMasterDataLoader : MasterDataLoader<Vis
         return base.Get(id);
     }
 
-    public List<VisualNotificationTriggerSetMasterData> GetSet(int setId)
+    public List<VisualNotificationTriggerSetMasterData> GetList(int setId)
     {
         // TODO : cache?
 

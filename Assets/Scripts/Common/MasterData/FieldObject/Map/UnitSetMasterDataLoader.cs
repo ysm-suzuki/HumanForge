@@ -35,7 +35,7 @@ public class UnitSetMasterDataLoader : MasterDataLoader<UnitSetMasterData>
     {
         return base.Get(id);
     }
-    public List<UnitSetMasterData> GetSet(int setId)
+    public List<UnitSetMasterData> GetList(int setId)
     {
         // TODO : cache?
 

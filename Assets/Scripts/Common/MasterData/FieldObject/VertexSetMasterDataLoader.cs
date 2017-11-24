@@ -37,7 +37,7 @@ public class VertexSetMasterDataLoader : MasterDataLoader<VertexSetMasterData>
     {
         return base.Get(id);
     }
-    public List<VertexSetMasterData> GetSet(int setId)
+    public List<VertexSetMasterData> GetList(int setId)
     {
         var sqLite = GameMain.SQLite.Instance.connection;
         var list = sqLite

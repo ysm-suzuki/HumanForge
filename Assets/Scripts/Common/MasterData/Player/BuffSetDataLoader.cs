@@ -37,7 +37,7 @@ public class BuffSetDataLoader : MasterDataLoader<BuffSetMasterData>
     {
         return base.Get(id);
     }
-    public List<BuffSetMasterData> GetSet(int setId)
+    public List<BuffSetMasterData> GetList(int setId)
     {
         // TODO : cache?
 
