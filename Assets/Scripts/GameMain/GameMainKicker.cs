@@ -40,7 +40,7 @@ public class GameMainKicker : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("Version : " + Version.Code);
+        Debug.Log("UnityMVC version : " + Version.Code);
 
         GameMain.Random.Initialize();
         FileManager.Instance.Initialize();

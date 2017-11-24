@@ -25,6 +25,8 @@ namespace GameMain
 
         override protected void End()
         {
+            UnityEngine.Debug.Log("Maser data Version : " + VersionData.loader.Get());
+
             base.End(MainPhase.Tag);
         }
 
