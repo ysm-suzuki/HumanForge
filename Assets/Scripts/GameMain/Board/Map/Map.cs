@@ -199,6 +199,16 @@ namespace GameMain
             }
         }
 
+        public float width
+        {
+            get { return _data.width; }
+        }
+
+        public float height
+        {
+            get { return _data.height; }
+        }
+
         // ======================================== adding or removing field objects
         private void RemoveFieldObjects()
         {

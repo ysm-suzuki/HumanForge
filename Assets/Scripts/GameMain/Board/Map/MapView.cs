@@ -79,7 +79,26 @@ namespace GameMain
 
             _controller.OnTouchMoved += (diff, duration) => 
             {
-                _model.position += Position.Create(diff.x, diff.y);
+                var newPosition = _model.position + Position.Create(diff.x, diff.y);
+
+                float resW = ResolutionManager.Instance.width;
+                float resH = ResolutionManager.Instance.height;
+
+                float minX = -1 * _model.width / 2 + resW / 2;
+                float maxX = _model.width / 2 - resW / 2;
+                float minY = -1 * _model.height / 2 + resH / 2;
+                float maxY = _model.height / 2 - resH / 2;
+
+                if (newPosition.x < minX)
+                    newPosition.x = minX;
+                if (newPosition.x > maxX)
+                    newPosition.x = maxX;
+                if (newPosition.y < minY)
+                    newPosition.y = minY;
+                if (newPosition.y > maxY)
+                    newPosition.y = maxY;
+
+                _model.position = newPosition;
             };
         }
     }
