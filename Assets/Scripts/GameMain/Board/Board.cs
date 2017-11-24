@@ -124,6 +124,12 @@ namespace GameMain
             _player = new Player();
             _player.OnUnitPlaced += unit =>
             {
+                if (unit.isPlayerUnit)
+                    _map.position = 
+                        Position.Create(
+                            -1 * unit.position.x,
+                            -1 * unit.position.y);
+
                 _map.AddUnit(unit);
             };
             _player.OnUnitDead += unit => 

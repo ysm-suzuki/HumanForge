@@ -89,7 +89,6 @@ namespace GameMain
             float ratio = 1.0f;
             float offset = 0.0f;
 
-            bool hasWeakArmor = false;
             foreach (var buff in _buffs)
             {
                 foreach (var armor in buff.armors)
