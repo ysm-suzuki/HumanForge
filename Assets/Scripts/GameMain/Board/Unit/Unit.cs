@@ -54,6 +54,16 @@ namespace GameMain
             _taskAgent.Tick(delta);
         }
 
+        
+        public override void Damage(Unit attacker, float damage)
+        {
+            var newDamage = damage - defence;
+
+            if (newDamage < 0)
+                newDamage = 0;
+
+            base.Damage(attacker, newDamage);
+        }
 
         // ===================================== actions
 
@@ -183,7 +193,7 @@ namespace GameMain
             }
         }
 
-        public float sizeRadius
+        override public float sizeRadius
         {
             get { return _data.sizeRadius; }
         }

@@ -33,15 +33,24 @@ namespace GameMain
 
         }
 
+        
+        public override void Damage(Unit attacker, float damage)
+        {
+            var newDamage = damage - defence;
 
+            if (newDamage < 0)
+                newDamage = 0;
+            
+            base.Damage(attacker, newDamage);
+        }
 
         // ======================================= accessors
-        
+
         public float defence
         {
             get { return _data.defence; }
         }
-        public float sizeRadius
+        override public float sizeRadius
         {
             get { return _data.sizeRadius; }
         }

@@ -74,7 +74,12 @@ namespace GameMain
 
             foreach (var target in targets)
             {
-                float distance = (target.position - _owner.position).ToVector().GetLength();
+                float distance = 
+                    (target.position - _owner.position).ToVector().GetLength()
+                    - (target.sizeRadius + _owner.sizeRadius);
+
+                if (distance < 0)
+                    distance = 0;
 
                 if (distance > attackRange)
                 {

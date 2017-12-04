@@ -62,7 +62,7 @@ public class UnitMasterData
                     new UnitAttackData
                     {
                         power = 1,
-                        range = 50,
+                        range = 10,
                         warmUpSeconds = 0.1f,
                         coolDownSeconds = 0.5f
                     }
