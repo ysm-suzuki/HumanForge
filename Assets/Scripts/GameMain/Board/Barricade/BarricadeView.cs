@@ -25,7 +25,7 @@ namespace GameMain
 
             model.OnLifeUpdated += () =>
             {
-                Debug.Log("life is " + model.life + " @barricade");
+
             };
 
             model.OnRemoved += () => { Detach(); };
