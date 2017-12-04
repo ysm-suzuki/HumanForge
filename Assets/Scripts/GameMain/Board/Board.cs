@@ -115,6 +115,10 @@ namespace GameMain
                     if (OnBossWipedOut != null)
                         OnBossWipedOut();
             };
+            _map.OnBarricadeDead += barricade => 
+            {
+
+            };
 
             _map.SetUp(_level);
         }

@@ -23,6 +23,11 @@ namespace GameMain
 
             _model = model;
 
+            model.OnLifeUpdated += () =>
+            {
+                Debug.Log("life is " + model.life + " @barricade");
+            };
+
             model.OnRemoved += () => { Detach(); };
 
             UpdatePosition();

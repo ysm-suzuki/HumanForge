@@ -16,6 +16,7 @@ namespace GameMain
 
         public delegate void BarricadeEventHandler(Barricade barricade);
         public event BarricadeEventHandler OnBarricadeAdded;
+        public event BarricadeEventHandler OnBarricadeDead;
 
 
         private MapMasterData _data;
@@ -83,6 +84,8 @@ namespace GameMain
             {
                 if (OnUnitDead != null)
                     OnUnitDead(unit);
+
+                unit.Remove();
             };
 
             _addingUnits.Add(unit);
@@ -129,6 +132,13 @@ namespace GameMain
             {
                 RemoveBarricade(barricade);
             };
+            barricade.OnDead += () =>
+            {
+                if (OnBarricadeDead != null)
+                    OnBarricadeDead(barricade);
+
+                barricade.Remove();
+            };
 
             _addingBarricades.Add(barricade);
         }
@@ -155,12 +165,18 @@ namespace GameMain
                         && !unit.IsSame(targetUnit))
                         recognizedUnits.Add(targetUnit);
                 recognition.UpdateUnits(recognizedUnits);
-                
+
                 var recognizedWalls = new List<Wall>();
                 foreach (var wall in _walls)
                     if (unit.IsInSight(wall))
                         recognizedWalls.Add(wall);
                 recognition.UpdateWalls(recognizedWalls);
+
+                var recognizedBarricades = new List<Barricade>();
+                foreach (var barricade in _barricades)
+                    if (unit.IsInSight(barricade))
+                        recognizedBarricades.Add(barricade);
+                recognition.UpdateBarricades(recognizedBarricades);
             }
         }
 
