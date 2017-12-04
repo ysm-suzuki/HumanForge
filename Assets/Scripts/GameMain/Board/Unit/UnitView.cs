@@ -59,10 +59,20 @@ namespace GameMain
                 var current = _model.shapePoints[i % vertexCount];
                 var next = _model.shapePoints[(i + 1) % vertexCount];
 
+                Color color;
+                if (_model.isPlayerUnit)
+                    color = Color.blue;
+                else if (_model.isOwnedUnit)
+                    color = Color.cyan;
+                else if (_model.isBoss)
+                    color = Color.black;
+                else
+                    color = Color.red;
+
                 LineSegmentView
-                    .Attach(GetRoot())
+                .Attach(GetRoot())
                     .SetSegment(current.ToVector2(), next.ToVector2())
-                    .SetColor(UnityEngine.Color.blue);
+                    .SetColor(color);
             }
         }
     }
