@@ -16,6 +16,11 @@ namespace GameMain
         {
         }
 
+        public void Cancel()
+        {
+            End();
+        }
+
         virtual protected void End()
         {
             _isFinished = true;
