@@ -22,11 +22,7 @@ public class UnitSetMasterData
     {
         var unit = new Unit(UnitMasterData.loader.Get(unitId).ToUnitData());
         unit.position = Position.Create(x, y);
-
-        var individualAttribute = new IndividualAttribute().Set(individualAttributeFlags);
-
-        unit.isPlayerUnit = individualAttribute.isPlayerUnit;
-        unit.isOwnedUnit = individualAttribute.isOwned;
+        unit.SetIndividualAttribute(individualAttributeFlags);
 
         return unit;
     }

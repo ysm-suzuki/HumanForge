@@ -6,10 +6,10 @@ namespace GameMain
 {
     public class Map : FieldObject
     {
-        public event EventHandler OnUnitDead;
-
         public delegate void UnitEventHandler(Unit unit);
         public event UnitEventHandler OnUnitAdded;
+        public event UnitEventHandler OnUnitDead;
+
 
         public delegate void WallEventHandler(Wall wall);
         public event WallEventHandler OnWallAdded;
@@ -82,7 +82,7 @@ namespace GameMain
             unit.OnDead += () => 
             {
                 if (OnUnitDead != null)
-                    OnUnitDead();
+                    OnUnitDead(unit);
             };
 
             _addingUnits.Add(unit);

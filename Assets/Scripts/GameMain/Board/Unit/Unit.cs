@@ -13,7 +13,7 @@ namespace GameMain
         private UnitData _data;
 
         private Recognition _recognition = null;
-        private IndividualAttribute _individualAttribute = null;
+        private IndividualAttribute _individualAttribute = new IndividualAttribute();
 
         private UnitTaskAgent _taskAgent = null;
         private int _attackActionIndex = 0;
@@ -37,10 +37,14 @@ namespace GameMain
                 });
             
             _recognition = new Recognition(this);
-            _individualAttribute = new IndividualAttribute();
             _taskAgent = new UnitTaskAgent(this);
         }
 
+
+        public void SetIndividualAttribute(int flags)
+        {
+            _individualAttribute.Set(flags);
+        }
 
 
         override public void Tick(float delta)

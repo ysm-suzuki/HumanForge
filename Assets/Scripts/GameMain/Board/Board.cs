@@ -103,7 +103,7 @@ namespace GameMain
             {
                 unit.ui = _ui;
             };
-            _map.OnUnitDead += () =>
+            _map.OnUnitDead += unit =>
             {
                 int remainingBossCount = 0;
                 var enemies = _map.enemyUnits;
