@@ -16,5 +16,7 @@ namespace GameMain
         public List<Position> shapePoints;
 
         public List<UnitAttackData> attackActions;
+
+        public int groupeId = -1;
     }
 }
