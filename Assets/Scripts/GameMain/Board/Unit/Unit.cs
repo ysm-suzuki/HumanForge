@@ -215,6 +215,11 @@ namespace GameMain
             }
         }
 
+        public int groupeId
+        {
+            get { return _data.groupeId; }
+        }
+
 
         public Recognition recognition
         {
