@@ -60,11 +60,11 @@ public class ResolutionManager
 
     public float width
     {
-        get { return _rootRectTransform.sizeDelta.x; }
+        get { return _screenWidth; }
     }
     public float height
     {
-        get { return _rootRectTransform.sizeDelta.y; }
+        get { return _screenHeight; }
     }
 
 

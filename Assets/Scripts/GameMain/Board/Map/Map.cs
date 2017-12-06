@@ -34,6 +34,35 @@ namespace GameMain
         private List<Unit> _addingUnits = new List<Unit>();
         private List<Barricade> _addingBarricades = new List<Barricade>();
 
+        public Map()
+        {
+            // Limitation of the map position
+            OnPositionUpdated += () =>
+            {
+                var newPosition = position.Clone();
+
+                float resW = ResolutionManager.Instance.width;
+                float resH = ResolutionManager.Instance.height;
+
+                float minX = -1 * width / 2 + resW / 2;
+                float maxX = width / 2 - resW / 2;
+                float minY = -1 * height / 2 + resH / 2;
+                float maxY = height / 2 - resH / 2;
+
+                if (newPosition.x < minX)
+                    newPosition.x = minX;
+                if (newPosition.x > maxX)
+                    newPosition.x = maxX;
+                if (newPosition.y < minY)
+                    newPosition.y = minY;
+                if (newPosition.y > maxY)
+                    newPosition.y = maxY;
+
+                if (!newPosition.Equals(position))
+                    position = newPosition;
+            };
+        }
+
 
         public void SetUp(int level)
         {
