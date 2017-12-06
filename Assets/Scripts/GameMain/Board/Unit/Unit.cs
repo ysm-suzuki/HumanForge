@@ -220,6 +220,11 @@ namespace GameMain
             get { return _data.groupeId; }
         }
 
+        public string name
+        {
+            get { return _data.name; }
+        }
+
 
         public Recognition recognition
         {

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 using UnityMVC;
 
@@ -6,6 +7,9 @@ namespace GameMain
 {
     public class UnitView : View
     {
+        [SerializeField]
+        private Text _name;
+
         private static string PrefabPath = "Prefabs/GameMain/Board/Unit";
 
         new private Unit _model;
@@ -73,6 +77,8 @@ namespace GameMain
                     .SetSegment(current.ToVector2(), next.ToVector2())
                     .SetColor(color);
             }
+
+            _name.text = _model.name;
         }
     }
 }

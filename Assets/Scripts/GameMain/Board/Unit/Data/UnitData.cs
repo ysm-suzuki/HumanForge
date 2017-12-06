@@ -5,6 +5,8 @@ namespace GameMain
 {
     public class UnitData
     {
+        public string name;
+
         public float life;
         public float attack;
         public float defence;

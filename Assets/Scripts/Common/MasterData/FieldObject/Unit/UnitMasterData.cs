@@ -17,6 +17,8 @@ public class UnitMasterData
     }
 
     public int id;
+    public string name;
+
     public float life;
     public float attack;
     public float defence;
@@ -49,6 +51,7 @@ public class UnitMasterData
         return new UnitData
         {
             life = life,
+            name = name,
             attack = attack,
             defence = defence,
             moveSpeed = moveSpeed,
