@@ -25,7 +25,7 @@ namespace GameMain
             public float attackPower = 0;
             public float attackRange = 0;
             public float attackCoolDownReductioin = 0;
-            public float defence = 0;
+            public float defense = 0;
             public float moveSpeed = 0;
 
             static public Aura operator+ (Aura a, Aura b)
@@ -36,7 +36,7 @@ namespace GameMain
                     attackPower = a.attackPower + b.attackPower,
                     attackRange = a.attackRange + b.attackRange,
                     attackCoolDownReductioin = a.attackCoolDownReductioin + b.attackCoolDownReductioin,
-                    defence = a.defence + b.defence,
+                    defense = a.defense + b.defense,
                     moveSpeed = a.moveSpeed + b.moveSpeed,
                 };
             }
@@ -83,7 +83,7 @@ namespace GameMain
         
         public override void Damage(Unit attacker, float damage)
         {
-            var newDamage = damage - defence;
+            var newDamage = damage - defense;
 
             if (newDamage < 0)
                 newDamage = 0;
@@ -192,7 +192,7 @@ namespace GameMain
                         buffValue;
             }
         }
-        public float defence
+        public float defense
         {
             get
             {
@@ -205,8 +205,8 @@ namespace GameMain
                         buff.duration.End();
                 }
 
-                return _data.defence +
-                        _aura.defence +
+                return _data.defense +
+                        _aura.defense +
                         buffValue;
             }
         }

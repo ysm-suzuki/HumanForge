@@ -9,7 +9,7 @@ namespace GameMain
 
         public float life;
         public float attack;
-        public float defence;
+        public float defense;
         public float moveSpeed;
 
         public float sightRange;

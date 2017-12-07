@@ -36,8 +36,20 @@ namespace GameMain
                         manaType = ManaData.Type.Red,
                         value = value
                     };
+                case Type.MaxManaRed:
+                    return new FacePowerMaxMana
+                    {
+                        manaType = ManaData.Type.Red,
+                        value = value
+                    };
                 case Type.ManaGreen:
                     return new FacePowerMana
+                    {
+                        manaType = ManaData.Type.Green,
+                        value = value
+                    };
+                case Type.MaxManaGreen:
+                    return new FacePowerMaxMana
                     {
                         manaType = ManaData.Type.Green,
                         value = value
@@ -48,7 +60,49 @@ namespace GameMain
                         manaType = ManaData.Type.Blue,
                         value = value
                     };
+                case Type.MaxManaBlue:
+                    return new FacePowerMaxMana
+                    {
+                        manaType = ManaData.Type.Blue,
+                        value = value
+                    };
+                case Type.Heal: // TODO : Integrates into The cast spell type
+                    return new FacePowerHeal
+                    {
+                        value = value
+                    };
+                case Type.MaxLife:
+                    return new FacePowerMaxLife
+                    {
+                        value = value
+                    };
+                case Type.AttackPower:
+                    return new FacePowerAttackPower
+                    {
+                        value = value
+                    };
+                case Type.AttackRange:
+                    return new FacePowerAttackRange
+                    {
+                        value = value
+                    };
+                case Type.AttackCoolDownReduction:
+                    return new FacePowerAttackCoolDownReduction
+                    {
+                        value = value
+                    };
+                case Type.Defense:
+                    return new FacePowerDefense
+                    {
+                        value = value
+                    };
+                case Type.MoveSpeed:
+                    return new FacePowerMoveSpeed
+                    {
+                        value = value
+                    };
             }
+
 
             return null;
         }

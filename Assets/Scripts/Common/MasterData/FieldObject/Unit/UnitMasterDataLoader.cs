@@ -28,7 +28,7 @@ public class UnitMasterDataLoader : MasterDataLoader<UnitMasterData>
             data.name = item.name;
             data.life = item.life;
             data.attack = item.attack;
-            data.defence = item.defence;
+            data.defense = item.defence;
             data.moveSpeed = item.moveSpeed;
             data.sightRange = item.sightRange;
             data.sizeRadius = item.sizeRadius;

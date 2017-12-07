@@ -12,8 +12,6 @@ namespace GameMain
         }
         public Type type = Type.Normal;
 
-        public Dictionary<ManaData.Type, float> manaGenerators = new Dictionary<ManaData.Type, float>();
-
-        public List<Buff> buffs = new List<Buff>();
+        public Dictionary<FacePower.Type, float> powers = new Dictionary<FacePower.Type, float>();
     }
 }

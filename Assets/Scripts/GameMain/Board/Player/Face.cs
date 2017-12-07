@@ -16,9 +16,9 @@ namespace GameMain
         {
             _data = data;
 
-            // kari
+            foreach(var pair in _data.powers)
             {
-                var power = FacePower.Create(FacePower.Type.ManaRed, 1);
+                var power = FacePower.Create(pair.Key, pair.Value);
                 power.OnActivated += () =>
                 {
                     if (OnFacePowerActivated != null)
@@ -33,23 +33,6 @@ namespace GameMain
         {
             foreach (var power in _powers)
                 power.Activate(player);
-        }
-
-
-        public Dictionary<ManaData.Type, float> manaGenerators
-        {
-            get
-            {
-                return _data.manaGenerators;
-            }
-        }
-
-        public List<Buff> buffs
-        {
-            get
-            {
-                return _data.buffs;
-            }
         }
     }
 }

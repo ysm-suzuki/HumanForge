@@ -21,11 +21,7 @@ namespace GameMain
         private RepeatTimer _diceTimer = null;
 
 
-
         private const int TeamId = 1; // kari
-
-
-
 
 
         public void SetUp(int level)
@@ -79,9 +75,6 @@ namespace GameMain
             _manas[ManaData.Type.Red].OnAmountUpdated += () => { UnityEngine.Debug.Log("red mana : " + _manas[ManaData.Type.Red].amount); };
             _manas[ManaData.Type.Green].OnAmountUpdated += () => { UnityEngine.Debug.Log("green mana : " + _manas[ManaData.Type.Green].amount); };
             _manas[ManaData.Type.Blue].OnAmountUpdated += () => { UnityEngine.Debug.Log("blue mana : " + _manas[ManaData.Type.Blue].amount); };
-
-
-
         }
 
 
@@ -111,22 +104,13 @@ namespace GameMain
         {
             _faces.Add(face);
 
-            foreach(var buff in face.buffs)
-                _playerUnit.AddBuff(buff);
-
             if (OnFacesUpdated != null)
                 OnFacesUpdated();
         }
         public void ReplaceFace(Face face, int index)
         {
             var replacedFace = _faces[index];
-            foreach (var buff in replacedFace.buffs)
-                buff.duration.End();
-
             _faces[index] = face;
-
-            foreach (var buff in face.buffs)
-                _playerUnit.AddBuff(buff);
 
             if (OnFacesUpdated != null)
                 OnFacesUpdated();
@@ -151,10 +135,21 @@ namespace GameMain
             return true;
         }
 
+        public void ExpandMana(ManaData.Type type, float amount)
+        {
+            _manas[type].max += amount;
+        }
+
 
         public void MoveTo(Position to)
         {
             _playerUnit.MoveTo(to);
+        }
+
+
+        public void PowerUp(Unit.Aura aura)
+        {
+            _playerUnit.PowerUp(aura);
         }
 
 
@@ -178,6 +173,11 @@ namespace GameMain
         public Position position
         {
             get { return _playerUnit.position; }
+        }
+        public float life
+        {
+            get { return _playerUnit.life; }
+            set { _playerUnit.life = value; }
         }
     }
 }

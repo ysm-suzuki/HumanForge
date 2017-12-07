@@ -38,14 +38,7 @@ public class FaceMasterData
 
         return new FaceData
         {
-            type = (FaceData.Type)type,
-            manaGenerators = new Dictionary<ManaData.Type, float>
-            {
-                { ManaData.Type.Red, generateRed},
-                { ManaData.Type.Green, generateGreen},
-                { ManaData.Type.Blue, generateBlue},
-            },
-            buffs = buffs
+            type = (FaceData.Type)type
         };
     }
 

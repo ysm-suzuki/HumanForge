@@ -10,11 +10,13 @@ namespace GameMain
 
         private ManaData _data;
         private float _amount = 0;
+        private float _max = 0;
 
 
         public Mana(ManaData data)
         {
             _data = data;
+            _max = _data.max;
         }
         
 
@@ -51,7 +53,11 @@ namespace GameMain
         {
             get
             {
-                return _data.max;
+                return _max;
+            }
+            set
+            {
+                _max = value;
             }
         }
 

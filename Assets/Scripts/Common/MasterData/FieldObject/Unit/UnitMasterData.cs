@@ -21,7 +21,7 @@ public class UnitMasterData
 
     public float life;
     public float attack;
-    public float defence;
+    public float defense;
     public float moveSpeed;
 
     public float sightRange;
@@ -53,7 +53,7 @@ public class UnitMasterData
             life = life,
             name = name,
             attack = attack,
-            defence = defence,
+            defense = defense,
             moveSpeed = moveSpeed,
             sightRange = sightRange,
             sizeRadius = sizeRadius,
