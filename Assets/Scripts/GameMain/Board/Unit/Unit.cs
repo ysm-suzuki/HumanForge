@@ -18,6 +18,32 @@ namespace GameMain
         private UnitTaskAgent _taskAgent = null;
         private int _attackActionIndex = 0;
 
+
+        public class Aura
+        {
+            public float life = 0;
+            public float attackPower = 0;
+            public float attackRange = 0;
+            public float attackCoolDownReductioin = 0;
+            public float defence = 0;
+            public float moveSpeed = 0;
+
+            static public Aura operator+ (Aura a, Aura b)
+            {
+                return new Aura
+                {
+                    life = a.life + b.life,
+                    attackPower = a.attackPower + b.attackPower,
+                    attackRange = a.attackRange + b.attackRange,
+                    attackCoolDownReductioin = a.attackCoolDownReductioin + b.attackCoolDownReductioin,
+                    defence = a.defence + b.defence,
+                    moveSpeed = a.moveSpeed + b.moveSpeed,
+                };
+            }
+        }
+        private Aura _aura = new Aura();
+
+
         public Unit(UnitData data)
         {
             _serialId = ++s_serialCounter;
@@ -63,6 +89,11 @@ namespace GameMain
                 newDamage = 0;
 
             base.Damage(attacker, newDamage);
+        }
+
+        public void PowerUp(Aura aura)
+        {
+            _aura += aura;
         }
 
         // ===================================== actions
@@ -117,6 +148,7 @@ namespace GameMain
 
                 return _data.attack + 
                         attackAction.power +
+                        _aura.attackPower + 
                         buffValue;
             }
         }
@@ -134,6 +166,7 @@ namespace GameMain
                 }
 
                 return attackAction.range +
+                        _aura.attackRange +
                         buffValue;
             }
         }
@@ -155,6 +188,7 @@ namespace GameMain
                 }
 
                 return attackAction.coolDownSeconds +
+                        -1 * _aura.attackCoolDownReductioin +
                         buffValue;
             }
         }
@@ -172,6 +206,7 @@ namespace GameMain
                 }
 
                 return _data.defence +
+                        _aura.defence +
                         buffValue;
             }
         }
@@ -189,6 +224,7 @@ namespace GameMain
                 }
 
                 return _data.moveSpeed +
+                        _aura.moveSpeed +
                         buffValue;
             }
         }

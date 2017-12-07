@@ -18,8 +18,14 @@ namespace GameMain
         private List<Face> _faces = new List<Face>();
         private Dictionary<ManaData.Type, Mana> _manas = new Dictionary<ManaData.Type, Mana>();
 
+        private RepeatTimer _diceTimer = null;
+
+
 
         private const int TeamId = 1; // kari
+
+
+
 
 
         public void SetUp(int level)
@@ -45,6 +51,13 @@ namespace GameMain
                 AddFace(mold.Pick());
 
 
+            _diceTimer = new RepeatTimer(diceIntervalSeconds, 
+                () => 
+                {
+                    int index = Random.Range(0, faceCount - 1);
+                    var targetFace = _faces[index];
+                    targetFace.Activate(this);
+                });
 
             
             float MaxMana = 99999; // kari
@@ -66,16 +79,15 @@ namespace GameMain
             _manas[ManaData.Type.Red].OnAmountUpdated += () => { UnityEngine.Debug.Log("red mana : " + _manas[ManaData.Type.Red].amount); };
             _manas[ManaData.Type.Green].OnAmountUpdated += () => { UnityEngine.Debug.Log("green mana : " + _manas[ManaData.Type.Green].amount); };
             _manas[ManaData.Type.Blue].OnAmountUpdated += () => { UnityEngine.Debug.Log("blue mana : " + _manas[ManaData.Type.Blue].amount); };
+
+
+
         }
 
 
         public void Tick(float delta)
         {
-            foreach(var face in _faces)
-            {
-                foreach (var generator in face.manaGenerators)
-                    GainMana(generator.Key, generator.Value * delta);
-            }
+            _diceTimer.Tick(delta);
         }
 
 
@@ -151,6 +163,15 @@ namespace GameMain
             get
             {
                 return _faces.Count;
+            }
+        }
+
+        public float diceIntervalSeconds
+        {
+            get
+            {
+                float diceInterval = 5.0f; // kari
+                return diceInterval;
             }
         }
 
