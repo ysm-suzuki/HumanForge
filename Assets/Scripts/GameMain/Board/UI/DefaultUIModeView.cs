@@ -45,8 +45,8 @@ namespace GameMain
 
                     // kari
                     view.transform.localPosition = Position.Create(
-                        -250 + (i % 5) * 100,
-                        -50 + (i / 5) * 120)
+                        -250 + (i % 6) * 100,
+                        -50 + (i / 6) * 120)
                         .ToVector3();
                 }
             };

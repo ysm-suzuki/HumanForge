@@ -14,31 +14,25 @@ public class FaceMasterData
     public int id;
     public int type;
 
-    public float generateRed;
-    public float generateGreen;
-    public float generateBlue;
-
     public float requireRed;
     public float requireGreen;
     public float requireBlue;
 
-    public int buffSetId;
+    public int facePoewrSetId;
 
 
     public FaceData ToFaceData()
     {
-        var buffs = new List<Buff>();
-        foreach(var buffData in BuffSetMasterData.loader.GetList(buffSetId))
-        {
-            var buff = BuffMasterData.loader.Get(buffData.buffMasterId).ToBuff();
-            buff.parameter *= buffData.parameterRatio;
-            buff.duration.ratio = buffData.durationRatio;
-            buffs.Add(buff);
-        }
+        var powers = new Dictionary<FacePower.Type, float>();
+        var powerData = FacePowerSetMasterData.loader.GetList(facePoewrSetId);
+
+        foreach (var data in powerData)
+            powers[data.type] = data.value;
 
         return new FaceData
         {
-            type = (FaceData.Type)type
+            type = (FaceData.Type)type,
+            powers = powers
         };
     }
 

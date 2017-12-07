@@ -29,13 +29,10 @@ public class FaceDataLoader : MasterDataLoader<FaceMasterData>
             data.id = item.id;
             data.type = item.type;
 
-            data.generateRed = item.generateRed;
-            data.generateGreen = item.generateGreen;
-            data.generateBlue = item.generateBlue;
             data.requireRed = item.requireRed;
             data.requireGreen = item.requireGreen;
             data.requireBlue = item.requireBlue;
-            data.buffSetId = item.buffSetId;
+            data.facePoewrSetId = item.facePoewrSetId;
 
             _data[data.id] = data;
         }
@@ -59,14 +56,10 @@ public class FaceDataLoader : MasterDataLoader<FaceMasterData>
         public int id { get; set; }
         public int type { get; set; }
 
-        public float generateRed { get; set; }
-        public float generateGreen { get; set; }
-        public float generateBlue { get; set; }
-
         public float requireRed { get; set; }
         public float requireGreen { get; set; }
         public float requireBlue { get; set; }
 
-        public int buffSetId { get; set; }
+        public int facePoewrSetId { get; set; }
     }
 }

@@ -28,7 +28,7 @@ public class UnitMasterDataLoader : MasterDataLoader<UnitMasterData>
             data.name = item.name;
             data.life = item.life;
             data.attack = item.attack;
-            data.defense = item.defence;
+            data.defense = item.defense;
             data.moveSpeed = item.moveSpeed;
             data.sightRange = item.sightRange;
             data.sizeRadius = item.sizeRadius;
@@ -68,7 +68,7 @@ public class UnitMasterDataLoader : MasterDataLoader<UnitMasterData>
 
         public float life { get; set; }
         public float attack { get; set; }
-        public float defence { get; set; }
+        public float defense { get; set; }
         public float moveSpeed { get; set; }
 
         public float sightRange { get; set; }
