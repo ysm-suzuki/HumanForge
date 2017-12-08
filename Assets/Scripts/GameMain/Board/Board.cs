@@ -147,6 +147,10 @@ namespace GameMain
             _player.SetUp(_level);
 
             _ui.mode.SetPlayer(_player);
+
+            PlayerManaConditionView
+                .Attach(ViewManager.Instance.GetRoot(GameMainKicker.UIRootTag))
+                .SetModel(_player);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 using UnityMVC;
 
@@ -13,6 +14,8 @@ namespace GameMain
         public event UnitEventHandler OnUnitPlaced;
         public event UnitEventHandler OnUnitDead;
 
+        public delegate void ManaEventHandler(Mana mana);
+        public event ManaEventHandler OnManaUpdated;
 
         private Unit _playerUnit = null;
         private List<Face> _faces = new List<Face>();
@@ -56,25 +59,37 @@ namespace GameMain
                 });
 
             
-            float MaxMana = 99999; // kari
+            float InitialMaxMana = 20; // kari
             _manas[ManaData.Type.Red] = new Mana(new ManaData
             {
                 type = ManaData.Type.Red,
-                max = MaxMana,
+                max = InitialMaxMana,
             });
             _manas[ManaData.Type.Green] = new Mana(new ManaData
             {
                 type = ManaData.Type.Green,
-                max = MaxMana,
+                max = InitialMaxMana,
             });
             _manas[ManaData.Type.Blue] = new Mana(new ManaData
             {
                 type = ManaData.Type.Blue,
-                max = MaxMana,
+                max = InitialMaxMana,
             });
-            _manas[ManaData.Type.Red].OnAmountUpdated += () => { UnityEngine.Debug.Log("red mana : " + _manas[ManaData.Type.Red].amount); };
-            _manas[ManaData.Type.Green].OnAmountUpdated += () => { UnityEngine.Debug.Log("green mana : " + _manas[ManaData.Type.Green].amount); };
-            _manas[ManaData.Type.Blue].OnAmountUpdated += () => { UnityEngine.Debug.Log("blue mana : " + _manas[ManaData.Type.Blue].amount); };
+            _manas[ManaData.Type.Red].OnAmountUpdated += () => 
+            {
+                if (OnManaUpdated != null)
+                    OnManaUpdated(_manas[ManaData.Type.Red]);
+            };
+            _manas[ManaData.Type.Green].OnAmountUpdated += () => 
+            {
+                if (OnManaUpdated != null)
+                    OnManaUpdated(_manas[ManaData.Type.Green]);
+            };
+            _manas[ManaData.Type.Blue].OnAmountUpdated += () => 
+            {
+                if (OnManaUpdated != null)
+                    OnManaUpdated(_manas[ManaData.Type.Blue]);
+            };
         }
 
 
@@ -138,6 +153,9 @@ namespace GameMain
         public void ExpandMana(ManaData.Type type, float amount)
         {
             _manas[type].max += amount;
+
+            if (OnManaUpdated != null)
+                OnManaUpdated(_manas[type]);
         }
 
 
@@ -178,6 +196,17 @@ namespace GameMain
         {
             get { return _playerUnit.life; }
             set { _playerUnit.life = value; }
+        }
+
+        public ReadOnlyCollection<Mana> allMana
+        {
+            get
+            {
+                var manaList = new List<Mana>();
+                foreach (var mana in _manas.Values)
+                    manaList.Add(mana);
+                return manaList.AsReadOnly();
+            }
         }
     }
 }
