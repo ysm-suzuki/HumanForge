@@ -9,6 +9,8 @@ namespace GameMain
     {
         public delegate void EventHandler();
         public event EventHandler OnFacesUpdated;
+        public event EventHandler OnLifeUpdated;
+        public event EventHandler OnAuraUpdated;
 
         public delegate void UnitEventHandler(Unit unit);
         public event UnitEventHandler OnUnitPlaced;
@@ -34,6 +36,13 @@ namespace GameMain
             _playerUnit = levelData.playerUnit;
             UnityEngine.Debug.Assert(_playerUnit != null, "The player unit not set at level " + level);
             PlaceUnit(_playerUnit);
+
+            _playerUnit.OnLifeUpdated += () => 
+            {
+                if (OnLifeUpdated != null)
+                    OnLifeUpdated();
+            };
+
 
             foreach (var unit in levelData.ownedUnits)
                 PlaceUnit(unit);
@@ -168,6 +177,9 @@ namespace GameMain
         public void PowerUp(Unit.Aura aura)
         {
             _playerUnit.PowerUp(aura);
+
+            if (OnAuraUpdated != null)
+                OnAuraUpdated();
         }
 
 
@@ -196,6 +208,18 @@ namespace GameMain
         {
             get { return _playerUnit.life; }
             set { _playerUnit.life = value; }
+        }
+        public float maxLife
+        {
+            get { return _playerUnit.maxLife; }
+        }
+        public float attack
+        {
+            get { return _playerUnit.attack; }
+        }
+        public float defense
+        {
+            get { return _playerUnit.defense; }
         }
 
         public ReadOnlyCollection<Mana> allMana

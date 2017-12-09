@@ -148,6 +148,10 @@ namespace GameMain
 
             _ui.mode.SetPlayer(_player);
 
+            PlayerStatusView
+                .Attach(ViewManager.Instance.GetRoot(GameMainKicker.UIRootTag))
+                .SetModel(_player);
+
             PlayerManaConditionView
                 .Attach(ViewManager.Instance.GetRoot(GameMainKicker.UIRootTag))
                 .SetModel(_player);
