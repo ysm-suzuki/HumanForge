@@ -19,6 +19,7 @@ namespace GameMain
             {
                 view.Detach();
                 _player.OnFacesUpdated -= FaceUpdated;
+                _player.OnFaceActivated -= FaceActivated;
             };
         }
 
@@ -29,17 +30,12 @@ namespace GameMain
             base.SetPlayer(player);
 
             _player.OnFacesUpdated += FaceUpdated;
-            
-            if (OnFaceUpdated != null)
-                OnFaceUpdated();
-
 
             // todo refactor
-            _player.OnFaceActivated += index => 
-            {
-                if (OnFaceActivated != null)
-                    OnFaceActivated(index);
-            };
+            _player.OnFaceActivated += FaceActivated;
+
+            if (OnFaceUpdated != null)
+                OnFaceUpdated();
         }
 
         public override void ClickMap(Position position)
@@ -84,6 +80,12 @@ namespace GameMain
         {
             if (OnFaceUpdated != null)
                 OnFaceUpdated();
+        }
+
+        private void FaceActivated(int index)
+        {
+            if (OnFaceActivated != null)
+                OnFaceActivated(index);
         }
     }
 }

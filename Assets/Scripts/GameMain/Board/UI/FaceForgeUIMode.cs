@@ -21,6 +21,8 @@ namespace GameMain
             OnFinished += () =>
             {
                 view.Detach();
+
+                _player.OnManaUpdated -= ManaUpdated;
             };
         }
 
@@ -28,12 +30,8 @@ namespace GameMain
         {
             base.SetPlayer(player);
 
-            player.OnManaUpdated += mana =>
-            {
-                foreach (var mold in _molds)
-                    mold.UpdateStatus();
-            };
-
+            player.OnManaUpdated += ManaUpdated;
+            
             foreach (var mold in _molds)
             {
                 mold.RegisterConditionFunction(_player.HasEnoughMana);
@@ -94,6 +92,14 @@ namespace GameMain
         public List<FaceMold> molds
         {
             get { return _molds; }
+        }
+
+
+        // =============================== delegate
+        private void ManaUpdated(Mana mana)
+        {
+            foreach (var mold in _molds)
+                mold.UpdateStatus();
         }
     }
 }

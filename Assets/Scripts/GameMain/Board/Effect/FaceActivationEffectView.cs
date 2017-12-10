@@ -16,5 +16,10 @@ namespace GameMain
             view.SetParent(parent);
             return view;
         }
+
+        public void RegisterFinishCallback(System.Action callback)
+        {
+            _finishCallback = callback;
+        }
     }
 }

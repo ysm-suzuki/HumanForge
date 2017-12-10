@@ -207,7 +207,7 @@ namespace GameMain
         {
             get
             {
-                float diceInterval = 5.0f; // kari
+                float diceInterval = 2.0f; // kari
                 return diceInterval;
             }
         }

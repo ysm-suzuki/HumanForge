@@ -54,6 +54,7 @@ namespace GameMain
             _model.OnFaceActivated += index => 
             {
                 var effect = FaceActivationEffectView.Attach(_faceForgeButtonRoot);
+                effect.RegisterFinishCallback(() => { effect.Detach(); });
 
                 // kari
                 effect.transform.localPosition = Position.Create(
