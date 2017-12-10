@@ -13,8 +13,7 @@ namespace GameMain
         public FaceForgeUIMode()
         {
             ListUpMolds();
-
-
+            
             var view = FaceForgeUIModeView
                                 .Attach(ViewManager.Instance.GetRoot(GameMainKicker.UIRootTag))
                                 .SetModel(this);
@@ -23,6 +22,23 @@ namespace GameMain
             {
                 view.Detach();
             };
+        }
+
+        override public void SetPlayer(Player player)
+        {
+            base.SetPlayer(player);
+
+            player.OnManaUpdated += mana =>
+            {
+                foreach (var mold in _molds)
+                    mold.UpdateStatus();
+            };
+
+            foreach (var mold in _molds)
+            {
+                mold.RegisterConditionFunction(_player.HasEnoughMana);
+                mold.UpdateStatus();
+            }
         }
 
         public FaceForgeUIMode SetTargetIndex(int index)
