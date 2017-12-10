@@ -37,7 +37,7 @@ namespace GameMain
                     int index = i;
                     var view = FaceForgeButtonView
                         .Attach(_faceForgeButtonRoot)
-                        .SetImage("kari")
+                        .SetImage(_model.GetFaceName(index)) // kari
                         .RegisterOnClickCallback(() =>
                         {
                             _model.ClickFaceForgeButton(index);

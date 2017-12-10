@@ -190,6 +190,10 @@ namespace GameMain
                 return _faces.Count;
             }
         }
+        public string GetFaceName(int index)
+        {
+            return _faces[index].name;
+        }
 
         public float diceIntervalSeconds
         {

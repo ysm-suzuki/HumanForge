@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 
 using UnityEngine;
+using UnityEngine.UI;
 
 using UnityMVC;
 
@@ -8,19 +9,23 @@ namespace GameMain
 {
     public class FaceForgeButtonView : ButtonView
     {
+        [SerializeField]
+        private Text _kari;
+
         private static string PrefabPath = "Prefabs/GameMain/Board/UI/FaceForgeButton";
         
-        public static FaceForgeButtonView Attach(GameObject parent)
+        new public static FaceForgeButtonView Attach(GameObject parent)
         {
             var view = View.Attach<FaceForgeButtonView>(PrefabPath);
             view.SetParent(parent);
             return view;
         }
 
-        public ButtonView SetImage(string imageName)
+        new public FaceForgeButtonView SetImage(string imageName)
         {
             // debug
             ShowBoundary();
+            _kari.text = imageName;
 
             return this;
         }

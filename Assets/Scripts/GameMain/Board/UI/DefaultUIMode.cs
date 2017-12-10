@@ -56,7 +56,6 @@ namespace GameMain
             Change(new BuildUnitUIMode());
         }
 
-
         public int faceCount
         {
             get { return _player != null
@@ -64,6 +63,10 @@ namespace GameMain
                         : 0; }
         }
 
+        public string GetFaceName(int index)
+        {
+            return _player.GetFaceName(index);
+        }
 
         // =============================== delegate
         private void FaceUpdated()

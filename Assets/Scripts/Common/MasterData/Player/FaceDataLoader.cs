@@ -28,6 +28,7 @@ public class FaceDataLoader : MasterDataLoader<FaceMasterData>
 
             data.id = item.id;
             data.type = item.type;
+            data.name = item.name;
 
             data.requireRed = item.requireRed;
             data.requireGreen = item.requireGreen;
@@ -55,6 +56,7 @@ public class FaceDataLoader : MasterDataLoader<FaceMasterData>
         [PrimaryKey, AutoIncrement]
         public int id { get; set; }
         public int type { get; set; }
+        public string name { get; set; }
 
         public float requireRed { get; set; }
         public float requireGreen { get; set; }

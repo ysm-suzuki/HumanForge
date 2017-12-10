@@ -12,6 +12,9 @@ namespace GameMain
         }
         public Type type = Type.Normal;
 
+        public string name = "";
+        public string description = "";
+
         public Dictionary<FacePower.Type, float> powers = new Dictionary<FacePower.Type, float>();
     }
 }

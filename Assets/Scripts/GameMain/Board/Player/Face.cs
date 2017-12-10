@@ -34,5 +34,10 @@ namespace GameMain
             foreach (var power in _powers)
                 power.Activate(player);
         }
+
+        public string name
+        {
+            get { return _data.name; }
+        }
     }
 }

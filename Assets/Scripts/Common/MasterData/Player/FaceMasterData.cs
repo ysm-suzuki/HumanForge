@@ -13,6 +13,8 @@ public class FaceMasterData
 
     public int id;
     public int type;
+    public string name;
+    public string description;
 
     public float requireRed;
     public float requireGreen;
@@ -32,6 +34,7 @@ public class FaceMasterData
         return new FaceData
         {
             type = (FaceData.Type)type,
+            name = name,
             powers = powers
         };
     }
