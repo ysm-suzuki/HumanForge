@@ -6,6 +6,9 @@ namespace GameMain
     {
         public event EventHandler OnFaceUpdated;
 
+        public delegate void IndexEventHandler(int index);
+        public event IndexEventHandler OnFaceActivated;
+
         public DefaultUIMode()
         {
             var view = DefaultUIModeView
@@ -29,6 +32,14 @@ namespace GameMain
             
             if (OnFaceUpdated != null)
                 OnFaceUpdated();
+
+
+            // todo refactor
+            _player.OnFaceActivated += index => 
+            {
+                if (OnFaceActivated != null)
+                    OnFaceActivated(index);
+            };
         }
 
         public override void ClickMap(Position position)

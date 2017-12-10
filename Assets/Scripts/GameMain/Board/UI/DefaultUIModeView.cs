@@ -50,7 +50,17 @@ namespace GameMain
                         .ToVector3();
                 }
             };
-            
+
+            _model.OnFaceActivated += index => 
+            {
+                var effect = FaceActivationEffectView.Attach(_faceForgeButtonRoot);
+
+                // kari
+                effect.transform.localPosition = Position.Create(
+                    -250 + (index % 6) * 100,
+                    -50 + (index / 6) * 120)
+                    .ToVector3();
+            };
 
             return this;
         }

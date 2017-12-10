@@ -19,6 +19,10 @@ namespace GameMain
         public delegate void ManaEventHandler(Mana mana);
         public event ManaEventHandler OnManaUpdated;
 
+        public delegate void IndexEventHandler(int index);
+        public event IndexEventHandler OnFaceActivated;
+
+
         private Unit _playerUnit = null;
         private List<Face> _faces = new List<Face>();
         private Dictionary<ManaData.Type, Mana> _manas = new Dictionary<ManaData.Type, Mana>();
@@ -65,6 +69,10 @@ namespace GameMain
                     int index = Random.Range(0, faceCount - 1);
                     var targetFace = _faces[index];
                     targetFace.Activate(this);
+
+                    // todo refactor
+                    if (OnFaceActivated != null)
+                        OnFaceActivated(index);
                 });
 
             
