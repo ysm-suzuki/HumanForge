@@ -140,6 +140,22 @@ namespace GameMain
             get { return _serialId; }
         }
 
+
+        override public float maxLife
+        {
+            get
+            {
+                return _maxLife + _aura.life;
+            }
+            set
+            {
+                _maxLife = value;
+
+                if (life > _maxLife)
+                    life = _maxLife;
+            }
+        }
+
         public float attack
         {
             get

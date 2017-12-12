@@ -144,7 +144,7 @@ namespace GameMain
         }
 
         
-        public float maxLife
+        virtual public float maxLife
         {
             get { return _maxLife; }
             set
