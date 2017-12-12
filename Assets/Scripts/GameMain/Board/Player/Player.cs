@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 using UnityMVC;
 
@@ -8,15 +9,25 @@ namespace GameMain
     {
         public delegate void EventHandler();
         public event EventHandler OnFacesUpdated;
+        public event EventHandler OnLifeUpdated;
+        public event EventHandler OnAuraUpdated;
 
         public delegate void UnitEventHandler(Unit unit);
         public event UnitEventHandler OnUnitPlaced;
         public event UnitEventHandler OnUnitDead;
 
+        public delegate void ManaEventHandler(Mana mana);
+        public event ManaEventHandler OnManaUpdated;
+
+        public delegate void IndexEventHandler(int index);
+        public event IndexEventHandler OnFaceActivated;
+
 
         private Unit _playerUnit = null;
         private List<Face> _faces = new List<Face>();
         private Dictionary<ManaData.Type, Mana> _manas = new Dictionary<ManaData.Type, Mana>();
+
+        private RepeatTimer _diceTimer = null;
 
 
         private const int TeamId = 1; // kari
@@ -29,6 +40,13 @@ namespace GameMain
             _playerUnit = levelData.playerUnit;
             UnityEngine.Debug.Assert(_playerUnit != null, "The player unit not set at level " + level);
             PlaceUnit(_playerUnit);
+
+            _playerUnit.OnLifeUpdated += () => 
+            {
+                if (OnLifeUpdated != null)
+                    OnLifeUpdated();
+            };
+
 
             foreach (var unit in levelData.ownedUnits)
                 PlaceUnit(unit);
@@ -45,37 +63,56 @@ namespace GameMain
                 AddFace(mold.Pick());
 
 
+            _diceTimer = new RepeatTimer(diceIntervalSeconds, 
+                () => 
+                {
+                    int index = Random.Range(0, faceCount);
+                    var targetFace = _faces[index];
+                    targetFace.Activate(this);
+
+                    // todo refactor
+                    if (OnFaceActivated != null)
+                        OnFaceActivated(index);
+                });
 
             
-            float MaxMana = 99999; // kari
+            float InitialMaxMana = 20; // kari
             _manas[ManaData.Type.Red] = new Mana(new ManaData
             {
                 type = ManaData.Type.Red,
-                max = MaxMana,
+                max = InitialMaxMana,
             });
             _manas[ManaData.Type.Green] = new Mana(new ManaData
             {
                 type = ManaData.Type.Green,
-                max = MaxMana,
+                max = InitialMaxMana,
             });
             _manas[ManaData.Type.Blue] = new Mana(new ManaData
             {
                 type = ManaData.Type.Blue,
-                max = MaxMana,
+                max = InitialMaxMana,
             });
-            _manas[ManaData.Type.Red].OnAmountUpdated += () => { UnityEngine.Debug.Log("red mana : " + _manas[ManaData.Type.Red].amount); };
-            _manas[ManaData.Type.Green].OnAmountUpdated += () => { UnityEngine.Debug.Log("green mana : " + _manas[ManaData.Type.Green].amount); };
-            _manas[ManaData.Type.Blue].OnAmountUpdated += () => { UnityEngine.Debug.Log("blue mana : " + _manas[ManaData.Type.Blue].amount); };
+            _manas[ManaData.Type.Red].OnAmountUpdated += () => 
+            {
+                if (OnManaUpdated != null)
+                    OnManaUpdated(_manas[ManaData.Type.Red]);
+            };
+            _manas[ManaData.Type.Green].OnAmountUpdated += () => 
+            {
+                if (OnManaUpdated != null)
+                    OnManaUpdated(_manas[ManaData.Type.Green]);
+            };
+            _manas[ManaData.Type.Blue].OnAmountUpdated += () => 
+            {
+                if (OnManaUpdated != null)
+                    OnManaUpdated(_manas[ManaData.Type.Blue]);
+            };
         }
 
 
         public void Tick(float delta)
         {
-            foreach(var face in _faces)
-            {
-                foreach (var generator in face.manaGenerators)
-                    GainMana(generator.Key, generator.Value * delta);
-            }
+            _diceTimer.Tick(delta);
         }
 
 
@@ -99,22 +136,13 @@ namespace GameMain
         {
             _faces.Add(face);
 
-            foreach(var buff in face.buffs)
-                _playerUnit.AddBuff(buff);
-
             if (OnFacesUpdated != null)
                 OnFacesUpdated();
         }
         public void ReplaceFace(Face face, int index)
         {
             var replacedFace = _faces[index];
-            foreach (var buff in replacedFace.buffs)
-                buff.duration.End();
-
             _faces[index] = face;
-
-            foreach (var buff in face.buffs)
-                _playerUnit.AddBuff(buff);
 
             if (OnFacesUpdated != null)
                 OnFacesUpdated();
@@ -139,10 +167,27 @@ namespace GameMain
             return true;
         }
 
+        public void ExpandMana(ManaData.Type type, float amount)
+        {
+            _manas[type].max += amount;
+
+            if (OnManaUpdated != null)
+                OnManaUpdated(_manas[type]);
+        }
+
 
         public void MoveTo(Position to)
         {
             _playerUnit.MoveTo(to);
+        }
+
+
+        public void PowerUp(Unit.Aura aura)
+        {
+            _playerUnit.PowerUp(aura);
+
+            if (OnAuraUpdated != null)
+                OnAuraUpdated();
         }
 
 
@@ -153,10 +198,51 @@ namespace GameMain
                 return _faces.Count;
             }
         }
+        public string GetFaceName(int index)
+        {
+            return _faces[index].name;
+        }
+
+        public float diceIntervalSeconds
+        {
+            get
+            {
+                float diceInterval = 2.0f; // kari
+                return diceInterval;
+            }
+        }
 
         public Position position
         {
             get { return _playerUnit.position; }
+        }
+        public float life
+        {
+            get { return _playerUnit.life; }
+            set { _playerUnit.life = value; }
+        }
+        public float maxLife
+        {
+            get { return _playerUnit.maxLife; }
+        }
+        public float attack
+        {
+            get { return _playerUnit.attack; }
+        }
+        public float defense
+        {
+            get { return _playerUnit.defense; }
+        }
+
+        public ReadOnlyCollection<Mana> allMana
+        {
+            get
+            {
+                var manaList = new List<Mana>();
+                foreach (var mana in _manas.Values)
+                    manaList.Add(mana);
+                return manaList.AsReadOnly();
+            }
         }
     }
 }

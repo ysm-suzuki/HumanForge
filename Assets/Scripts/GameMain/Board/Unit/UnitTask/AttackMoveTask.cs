@@ -37,12 +37,7 @@ namespace GameMain
                 _owner.velocity = GetPositionDelta(delta);
             }
         }
-
-        public void Cancel()
-        {
-            End();
-        }
-
+        
         public Position GetPositionDelta(float delta)
         {
             var positionDelta = Position.Create(0, 0);

@@ -103,7 +103,7 @@ namespace GameMain
             {
                 unit.ui = _ui;
             };
-            _map.OnUnitDead += () =>
+            _map.OnUnitDead += unit =>
             {
                 int remainingBossCount = 0;
                 var enemies = _map.enemyUnits;
@@ -115,6 +115,10 @@ namespace GameMain
                     if (OnBossWipedOut != null)
                         OnBossWipedOut();
             };
+            _map.OnBarricadeDead += barricade => 
+            {
+
+            };
 
             _map.SetUp(_level);
         }
@@ -124,6 +128,14 @@ namespace GameMain
             _player = new Player();
             _player.OnUnitPlaced += unit =>
             {
+                if (unit.isPlayerUnit)
+                {
+                    _map.position =
+                        Position.Create(
+                            -1 * unit.position.x,
+                            -1 * unit.position.y);
+                }
+
                 _map.AddUnit(unit);
             };
             _player.OnUnitDead += unit => 
@@ -135,6 +147,14 @@ namespace GameMain
             _player.SetUp(_level);
 
             _ui.mode.SetPlayer(_player);
+
+            PlayerStatusView
+                .Attach(ViewManager.Instance.GetRoot(GameMainKicker.UIRootTag))
+                .SetModel(_player);
+
+            PlayerManaConditionView
+                .Attach(ViewManager.Instance.GetRoot(GameMainKicker.UIRootTag))
+                .SetModel(_player);
         }
     }
 }

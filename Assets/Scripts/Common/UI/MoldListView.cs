@@ -32,6 +32,12 @@ public class MoldListView : View
     virtual public void Initialize<T>(List<T> molds) where T : Model
     {
         AddMolds(molds);
+
+        _listRoot.GetComponent<RectTransform>().sizeDelta = 
+            new Vector2(
+                600,
+                (Mathf.CeilToInt(1.0f*_molds.Count/HorizontalCount) + 1) * VerticalInterval
+                );
     }
 
     private void AddMolds<T>(List<T> molds) where T : Model

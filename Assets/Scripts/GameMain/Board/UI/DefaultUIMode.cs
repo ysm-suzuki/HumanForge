@@ -6,6 +6,9 @@ namespace GameMain
     {
         public event EventHandler OnFaceUpdated;
 
+        public delegate void IndexEventHandler(int index);
+        public event IndexEventHandler OnFaceActivated;
+
         public DefaultUIMode()
         {
             var view = DefaultUIModeView
@@ -16,6 +19,7 @@ namespace GameMain
             {
                 view.Detach();
                 _player.OnFacesUpdated -= FaceUpdated;
+                _player.OnFaceActivated -= FaceActivated;
             };
         }
 
@@ -26,7 +30,10 @@ namespace GameMain
             base.SetPlayer(player);
 
             _player.OnFacesUpdated += FaceUpdated;
-            
+
+            // todo refactor
+            _player.OnFaceActivated += FaceActivated;
+
             if (OnFaceUpdated != null)
                 OnFaceUpdated();
         }
@@ -56,7 +63,6 @@ namespace GameMain
             Change(new BuildUnitUIMode());
         }
 
-
         public int faceCount
         {
             get { return _player != null
@@ -64,12 +70,22 @@ namespace GameMain
                         : 0; }
         }
 
+        public string GetFaceName(int index)
+        {
+            return _player.GetFaceName(index);
+        }
 
         // =============================== delegate
         private void FaceUpdated()
         {
             if (OnFaceUpdated != null)
                 OnFaceUpdated();
+        }
+
+        private void FaceActivated(int index)
+        {
+            if (OnFaceActivated != null)
+                OnFaceActivated(index);
         }
     }
 }

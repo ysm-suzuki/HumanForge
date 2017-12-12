@@ -13,10 +13,37 @@ namespace GameMain
         private UnitData _data;
 
         private Recognition _recognition = null;
-        private IndividualAttribute _individualAttribute = null;
+        private IndividualAttribute _individualAttribute = new IndividualAttribute();
 
         private UnitTaskAgent _taskAgent = null;
         private int _attackActionIndex = 0;
+        
+
+        public class Aura
+        {
+            public float life = 0;
+            public float attackPower = 0;
+            public float attackRange = 0;
+            public float attackCoolDownReductioin = 0;
+            public float defense = 0;
+            public float moveSpeed = 0;
+            public float penetrationRate = 0;
+            
+            static public Aura operator+ (Aura a, Aura b)
+            {
+                return new Aura
+                {
+                    life = a.life + b.life,
+                    attackPower = a.attackPower + b.attackPower,
+                    attackRange = a.attackRange + b.attackRange,
+                    attackCoolDownReductioin = a.attackCoolDownReductioin + b.attackCoolDownReductioin,
+                    defense = a.defense + b.defense,
+                    moveSpeed = a.moveSpeed + b.moveSpeed,
+                };
+            }
+        }
+        private Aura _aura = new Aura();
+
 
         public Unit(UnitData data)
         {
@@ -37,10 +64,14 @@ namespace GameMain
                 });
             
             _recognition = new Recognition(this);
-            _individualAttribute = new IndividualAttribute();
             _taskAgent = new UnitTaskAgent(this);
         }
 
+
+        public void SetIndividualAttribute(int flags)
+        {
+            _individualAttribute.Set(flags);
+        }
 
 
         override public void Tick(float delta)
@@ -50,6 +81,27 @@ namespace GameMain
             _taskAgent.Tick(delta);
         }
 
+        
+        public override void Damage(Unit attacker, float damage)
+        {
+            var newDamage = damage - defense;
+            var penetrationDamage = damage * penetrationRate;
+
+            if (newDamage < penetrationDamage)
+            {
+                newDamage = penetrationDamage;
+
+                if (newDamage <= 0)
+                    newDamage = 1;
+            }
+
+            base.Damage(attacker, newDamage);
+        }
+
+        public void PowerUp(Aura aura)
+        {
+            _aura += aura;
+        }
 
         // ===================================== actions
 
@@ -103,6 +155,7 @@ namespace GameMain
 
                 return _data.attack + 
                         attackAction.power +
+                        _aura.attackPower + 
                         buffValue;
             }
         }
@@ -120,6 +173,7 @@ namespace GameMain
                 }
 
                 return attackAction.range +
+                        _aura.attackRange +
                         buffValue;
             }
         }
@@ -141,10 +195,11 @@ namespace GameMain
                 }
 
                 return attackAction.coolDownSeconds +
+                        -1 * _aura.attackCoolDownReductioin +
                         buffValue;
             }
         }
-        public float defence
+        public float defense
         {
             get
             {
@@ -157,7 +212,8 @@ namespace GameMain
                         buff.duration.End();
                 }
 
-                return _data.defence +
+                return _data.defense +
+                        _aura.defense +
                         buffValue;
             }
         }
@@ -175,11 +231,30 @@ namespace GameMain
                 }
 
                 return _data.moveSpeed +
+                        _aura.moveSpeed +
                         buffValue;
             }
         }
+        public float penetrationRate
+        {
+            get
+            {
+                float buffValue = 0;
+                foreach (var buff in _buffs)
+                {
+                    buffValue += buff.parameter.penetrationRate;
 
-        public float sizeRadius
+                    if (buff.isOnce)
+                        buff.duration.End();
+                }
+
+                return _data.penetrationRate +
+                        _aura.penetrationRate +
+                        buffValue;
+            }
+        }
+        
+        override public float sizeRadius
         {
             get { return _data.sizeRadius; }
         }
@@ -199,6 +274,16 @@ namespace GameMain
                 return _data.sightRange +
                         buffValue;
             }
+        }
+
+        public int groupeId
+        {
+            get { return _data.groupeId; }
+        }
+
+        public string name
+        {
+            get { return _data.name; }
         }
 
 

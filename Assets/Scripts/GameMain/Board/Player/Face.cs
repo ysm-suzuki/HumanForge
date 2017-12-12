@@ -4,29 +4,40 @@ namespace GameMain
 {
     public class Face
     {
+        public delegate void FacePowerEventHandler(FacePower power);
+        public event FacePowerEventHandler OnFacePowerActivated;
+
+
         private FaceData _data;
 
+        private List<FacePower> _powers = new List<FacePower>();
 
         public Face(FaceData data)
         {
             _data = data;
-        }
 
-
-        public Dictionary<ManaData.Type, float> manaGenerators
-        {
-            get
+            foreach(var pair in _data.powers)
             {
-                return _data.manaGenerators;
+                var power = FacePower.Create(pair.Key, pair.Value);
+                power.OnActivated += () =>
+                {
+                    if (OnFacePowerActivated != null)
+                        OnFacePowerActivated(power);
+                };
+                _powers.Add(power);
             }
         }
 
-        public List<Buff> buffs
+
+        public void Activate(Player player)
         {
-            get
-            {
-                return _data.buffs;
-            }
+            foreach (var power in _powers)
+                power.Activate(player);
+        }
+
+        public string name
+        {
+            get { return _data.name; }
         }
     }
 }

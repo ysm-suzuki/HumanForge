@@ -12,6 +12,7 @@ public class UnitSetMasterData
 
     public int id;
     public int setId;
+    public int groupeId;
 
     public int unitId;
     public float x;
@@ -20,13 +21,11 @@ public class UnitSetMasterData
 
     public Unit ToUnit()
     {
-        var unit = new Unit(UnitMasterData.loader.Get(unitId).ToUnitData());
+        var data = UnitMasterData.loader.Get(unitId).ToUnitData();
+        data.groupeId = groupeId;
+        var unit = new Unit(data);
         unit.position = Position.Create(x, y);
-
-        var individualAttribute = new IndividualAttribute().Set(individualAttributeFlags);
-
-        unit.isPlayerUnit = individualAttribute.isPlayerUnit;
-        unit.isOwnedUnit = individualAttribute.isOwned;
+        unit.SetIndividualAttribute(individualAttributeFlags);
 
         return unit;
     }

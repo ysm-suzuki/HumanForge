@@ -76,8 +76,7 @@ public class LevelMasterData
                     continue;
                 if (unit.isOwnedUnit)
                     continue;
-
-
+                
                 units.Add(unit);
             }
 

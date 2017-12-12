@@ -7,6 +7,9 @@ namespace GameMain
         private Position _destination;
         private MoveToTask _next = null;
 
+        // kari
+        public bool isRetreat = false;
+
         public MoveToTask(Position destination, Unit owner)
         {
             _destination = destination;

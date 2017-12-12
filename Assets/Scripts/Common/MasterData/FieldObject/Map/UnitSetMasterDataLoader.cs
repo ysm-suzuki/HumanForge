@@ -57,7 +57,8 @@ public class UnitSetMasterDataLoader : MasterDataLoader<UnitSetMasterData>
 
         convertedData.id = data.id;
         convertedData.setId = data.setId;
-
+        convertedData.groupeId = data.groupeId;
+        
         convertedData.unitId = data.unitId;
         convertedData.x = data.x;
         convertedData.y = data.y;
@@ -71,6 +72,7 @@ public class UnitSetMasterDataLoader : MasterDataLoader<UnitSetMasterData>
         [PrimaryKey, AutoIncrement]
         public int id { get; set; }
         public int setId { get; set; }
+        public int groupeId { get; set; }
 
         public int unitId { get; set; }
         public float x { get; set; }

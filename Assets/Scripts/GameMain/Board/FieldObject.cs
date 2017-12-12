@@ -84,21 +84,20 @@ namespace GameMain
 
         // =========================== battle
 
-        public void Damage(Unit attacker, float damage)
+        virtual public void Damage(Unit attacker, float damage)
         {
             float ratio = 1.0f;
             float offset = 0.0f;
-
-            bool hasWeakArmor = false;
+            
             foreach (var buff in _buffs)
             {
                 foreach (var armor in buff.armors)
                 {
-                    if (armor.attribute != ArmorBuff.Attribute.Weak)
+                    if (armor.attribute == ArmorBuff.Attribute.Weak)
                         ratio *= 1.5f;
                 }
             }
-
+            
             life -= damage * ratio + offset;
         }
 
@@ -178,6 +177,11 @@ namespace GameMain
                     && OnDead != null)
                     OnDead();
             }
+        }
+        
+        virtual public float sizeRadius
+        {
+            get { return 0; }
         }
 
         public BoardUI ui

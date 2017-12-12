@@ -6,16 +6,17 @@ namespace GameMain
 {
     public class Map : FieldObject
     {
-        public event EventHandler OnUnitDead;
-
         public delegate void UnitEventHandler(Unit unit);
         public event UnitEventHandler OnUnitAdded;
+        public event UnitEventHandler OnUnitDead;
+
 
         public delegate void WallEventHandler(Wall wall);
         public event WallEventHandler OnWallAdded;
 
         public delegate void BarricadeEventHandler(Barricade barricade);
         public event BarricadeEventHandler OnBarricadeAdded;
+        public event BarricadeEventHandler OnBarricadeDead;
 
 
         private MapMasterData _data;
@@ -32,6 +33,35 @@ namespace GameMain
         private List<Wall> _addingWalls = new List<Wall>();
         private List<Unit> _addingUnits = new List<Unit>();
         private List<Barricade> _addingBarricades = new List<Barricade>();
+
+        public Map()
+        {
+            // Limitation of the map position
+            OnPositionUpdated += () =>
+            {
+                var newPosition = position.Clone();
+
+                float resW = ResolutionManager.Instance.width;
+                float resH = ResolutionManager.Instance.height;
+
+                float minX = -1 * width / 2 + resW / 2;
+                float maxX = width / 2 - resW / 2;
+                float minY = -1 * height / 2 + resH / 2;
+                float maxY = height / 2 - resH / 2;
+
+                if (newPosition.x < minX)
+                    newPosition.x = minX;
+                if (newPosition.x > maxX)
+                    newPosition.x = maxX;
+                if (newPosition.y < minY)
+                    newPosition.y = minY;
+                if (newPosition.y > maxY)
+                    newPosition.y = maxY;
+
+                if (!newPosition.Equals(position))
+                    position = newPosition;
+            };
+        }
 
 
         public void SetUp(int level)
@@ -82,7 +112,9 @@ namespace GameMain
             unit.OnDead += () => 
             {
                 if (OnUnitDead != null)
-                    OnUnitDead();
+                    OnUnitDead(unit);
+
+                unit.Remove();
             };
 
             _addingUnits.Add(unit);
@@ -129,6 +161,13 @@ namespace GameMain
             {
                 RemoveBarricade(barricade);
             };
+            barricade.OnDead += () =>
+            {
+                if (OnBarricadeDead != null)
+                    OnBarricadeDead(barricade);
+
+                barricade.Remove();
+            };
 
             _addingBarricades.Add(barricade);
         }
@@ -155,12 +194,18 @@ namespace GameMain
                         && !unit.IsSame(targetUnit))
                         recognizedUnits.Add(targetUnit);
                 recognition.UpdateUnits(recognizedUnits);
-                
+
                 var recognizedWalls = new List<Wall>();
                 foreach (var wall in _walls)
                     if (unit.IsInSight(wall))
                         recognizedWalls.Add(wall);
                 recognition.UpdateWalls(recognizedWalls);
+
+                var recognizedBarricades = new List<Barricade>();
+                foreach (var barricade in _barricades)
+                    if (unit.IsInSight(barricade))
+                        recognizedBarricades.Add(barricade);
+                recognition.UpdateBarricades(recognizedBarricades);
             }
         }
 
@@ -197,6 +242,16 @@ namespace GameMain
 
                 return units;
             }
+        }
+
+        public float width
+        {
+            get { return _data.width; }
+        }
+
+        public float height
+        {
+            get { return _data.height; }
         }
 
         // ======================================== adding or removing field objects

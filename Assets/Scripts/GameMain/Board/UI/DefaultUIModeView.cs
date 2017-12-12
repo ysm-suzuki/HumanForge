@@ -37,7 +37,7 @@ namespace GameMain
                     int index = i;
                     var view = FaceForgeButtonView
                         .Attach(_faceForgeButtonRoot)
-                        .SetImage("kari")
+                        .SetImage(_model.GetFaceName(index)) // kari
                         .RegisterOnClickCallback(() =>
                         {
                             _model.ClickFaceForgeButton(index);
@@ -45,12 +45,23 @@ namespace GameMain
 
                     // kari
                     view.transform.localPosition = Position.Create(
-                        -250 + (i % 5) * 100,
-                        -50 + (i / 5) * 120)
+                        -250 + (i % 6) * 100,
+                        -50 + (i / 6) * 120)
                         .ToVector3();
                 }
             };
-            
+
+            _model.OnFaceActivated += index => 
+            {
+                var effect = FaceActivationEffectView.Attach(_faceForgeButtonRoot);
+                effect.RegisterFinishCallback(() => { effect.Detach(); });
+
+                // kari
+                effect.transform.localPosition = Position.Create(
+                    -250 + (index % 6) * 100,
+                    -50 + (index / 6) * 120)
+                    .ToVector3();
+            };
 
             return this;
         }

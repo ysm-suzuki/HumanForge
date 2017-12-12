@@ -30,7 +30,8 @@ public class GimmickMasterDataLoader : MasterDataLoader<GimmickMasterData>
 
             data.triggerSetId = item.triggerSetId;
             data.productType = (GameMain.Gimmick.Product.Type)item.productType;
-
+            data.groupeId = item.groupeId;
+            
             _data[data.id] = data;
         }
 
@@ -51,8 +52,9 @@ public class GimmickMasterDataLoader : MasterDataLoader<GimmickMasterData>
     {
         [PrimaryKey, AutoIncrement]
         public int id { get; set; }
-
+        
         public int triggerSetId { get; set; }
         public int productType { get; set; }
+        public int groupeId { get; set; }
     }
 }

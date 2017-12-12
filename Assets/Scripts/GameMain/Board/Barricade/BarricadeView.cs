@@ -23,6 +23,11 @@ namespace GameMain
 
             _model = model;
 
+            model.OnLifeUpdated += () =>
+            {
+
+            };
+
             model.OnRemoved += () => { Detach(); };
 
             UpdatePosition();

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 using UnityMVC;
 
@@ -6,6 +7,9 @@ namespace GameMain
 {
     public class UnitView : View
     {
+        [SerializeField]
+        private Text _name;
+
         private static string PrefabPath = "Prefabs/GameMain/Board/Unit";
 
         new private Unit _model;
@@ -28,7 +32,6 @@ namespace GameMain
                 Debug.Log("life is " + model.life + " @unit#" + model.serialId);
             };
 
-            model.OnDead += () => { model.Remove(); };
             model.OnRemoved += () => { Detach(); };
 
             SetUpController();
@@ -59,11 +62,23 @@ namespace GameMain
                 var current = _model.shapePoints[i % vertexCount];
                 var next = _model.shapePoints[(i + 1) % vertexCount];
 
+                Color color;
+                if (_model.isPlayerUnit)
+                    color = Color.blue;
+                else if (_model.isOwnedUnit)
+                    color = Color.cyan;
+                else if (_model.isBoss)
+                    color = Color.black;
+                else
+                    color = Color.red;
+
                 LineSegmentView
-                    .Attach(GetRoot())
+                .Attach(GetRoot())
                     .SetSegment(current.ToVector2(), next.ToVector2())
-                    .SetColor(UnityEngine.Color.blue);
+                    .SetColor(color);
             }
+
+            _name.text = _model.name;
         }
     }
 }

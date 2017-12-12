@@ -48,10 +48,32 @@ namespace GameMain
             return enemies;
         }
 
+        public List<Barricade> GetEnemyBarricades()
+        {
+            var barricades = new List<Barricade>();
+            foreach (var barricade in _barricades)
+                if (barricade.isAlive
+                    && IsOpposite(barricade))
+                    barricades.Add(barricade);
+
+            return barricades;
+        }
+
         public FieldObject GetTopPriorityTarget()
         {
             float minDistance = float.MaxValue;
             FieldObject target = null;
+
+            foreach (var barricade in GetEnemyBarricades())
+            {
+                float distance = (barricade.position - _owner.position).ToVector().GetLength();
+
+                if (distance >= minDistance)
+                    continue;
+
+                minDistance = distance;
+                target = barricade;
+            }
 
             foreach (var unit in GetEnemyUnits())
             {

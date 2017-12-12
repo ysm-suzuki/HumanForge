@@ -51,9 +51,10 @@ namespace GameMain
             {
                 None = 0,
                 PlaceInitialEnemies,
-                StartAllEnemiesRaid,
+                StartEnemiesRaid,
             }
             public Type type = Type.None;
+            public int groupeId;
         }
 
         private List<Trigger> _orCondition;

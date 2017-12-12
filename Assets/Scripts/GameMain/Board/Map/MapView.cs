@@ -77,9 +77,9 @@ namespace GameMain
                 _model.ui.ClickMap(clickdPosition);
             };
 
-            _controller.OnTouchMoved += (diff, duration) => 
+            _controller.OnTouchMoved += (diff, duration) =>
             {
-                _model.position += Position.Create(diff.x, diff.y);
+                _model.position = _model.position + Position.Create(diff.x, diff.y);
             };
         }
     }

@@ -17,9 +17,11 @@ public class UnitMasterData
     }
 
     public int id;
+    public string name;
+
     public float life;
     public float attack;
-    public float defence;
+    public float defense;
     public float moveSpeed;
 
     public float sightRange;
@@ -49,8 +51,9 @@ public class UnitMasterData
         return new UnitData
         {
             life = life,
+            name = name,
             attack = attack,
-            defence = defence,
+            defense = defense,
             moveSpeed = moveSpeed,
             sightRange = sightRange,
             sizeRadius = sizeRadius,
@@ -62,7 +65,7 @@ public class UnitMasterData
                     new UnitAttackData
                     {
                         power = 1,
-                        range = 50,
+                        range = 20,
                         warmUpSeconds = 0.1f,
                         coolDownSeconds = 0.5f
                     }

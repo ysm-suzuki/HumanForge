@@ -7,23 +7,24 @@ namespace GameMain
     public class GimmickAgent
     {
         private List<Gimmick> _gimmicks = new List<Gimmick>();
-        private Dictionary<Gimmick.Product.Type, System.Action> _productDelegates 
-            = new Dictionary<Gimmick.Product.Type, System.Action>();
+        private Dictionary<Gimmick.Product.Type, System.Action<Gimmick.Product>> _productDelegates 
+            = new Dictionary<Gimmick.Product.Type, System.Action<Gimmick.Product>>();
 
         public GimmickAgent(Board board)
         {
             RegisterProductType(
                 Gimmick.Product.Type.PlaceInitialEnemies,
-                () =>
+                product =>
                 {
                     board.AddInitialEnemies();
                 });
             RegisterProductType(
-                Gimmick.Product.Type.StartAllEnemiesRaid,
-                () =>
+                Gimmick.Product.Type.StartEnemiesRaid,
+                product =>
                 {
                     var enemies = board.map.enemyUnits;
                     foreach (var enemy in enemies)
+                        if (enemy.groupeId == product.groupeId)
                         enemy.Attack(new List<FieldObject>
                             {
                                 board.map.playerUnit
@@ -49,7 +50,7 @@ namespace GameMain
                     _productDelegates.ContainsKey(type)
                     , "Triggered the unregistered gimmick");
 
-                _productDelegates[type]();
+                _productDelegates[type](gimmick.product);
             };
 
             _gimmicks.Add(gimmick);
@@ -62,7 +63,7 @@ namespace GameMain
         }
 
 
-        private void RegisterProductType(Gimmick.Product.Type type, System.Action action)
+        private void RegisterProductType(Gimmick.Product.Type type, System.Action<Gimmick.Product> action)
         {
             _productDelegates[type] = action;
         }

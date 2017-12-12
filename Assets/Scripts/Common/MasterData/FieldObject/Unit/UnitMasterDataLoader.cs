@@ -25,9 +25,10 @@ public class UnitMasterDataLoader : MasterDataLoader<UnitMasterData>
             var data = new UnitMasterData();
 
             data.id = item.id;
+            data.name = item.name;
             data.life = item.life;
             data.attack = item.attack;
-            data.defence = item.defence;
+            data.defense = item.defense;
             data.moveSpeed = item.moveSpeed;
             data.sightRange = item.sightRange;
             data.sizeRadius = item.sizeRadius;
@@ -62,9 +63,12 @@ public class UnitMasterDataLoader : MasterDataLoader<UnitMasterData>
     {
         [PrimaryKey, AutoIncrement]
         public int id { get; set; }
+
+        public string name { get; set; }
+
         public float life { get; set; }
         public float attack { get; set; }
-        public float defence { get; set; }
+        public float defense { get; set; }
         public float moveSpeed { get; set; }
 
         public float sightRange { get; set; }

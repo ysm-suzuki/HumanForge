@@ -15,6 +15,7 @@ public class GimmickMasterData
 
     public int triggerSetId;
     public Gimmick.Product.Type productType;
+    public int groupeId;
 
     public Gimmick ToGimmick()
     {
@@ -27,7 +28,8 @@ public class GimmickMasterData
                 triggers,
                 new Gimmick.Product
                 {
-                    type = productType
+                    type = productType,
+                    groupeId = groupeId
                 });
     }
 }

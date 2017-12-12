@@ -41,6 +41,18 @@ namespace GameMain
         public void MoveTo(Position destination)
         {
             _moveTo = new MoveToTask(destination, _owner);
+
+            if (_attackMoveTask != null)
+            {
+                _attackMoveTask.Cancel();
+                _moveTo.isRetreat = true;
+            }
+            if (_attackTask != null)
+            {
+                _attackTask.Cancel();
+                _moveTo.isRetreat = true;
+            }
+
             _moveTo.OnFinished += () =>
             {
                 _moveTo = _moveTo.next;
@@ -49,14 +61,25 @@ namespace GameMain
 
         public void Attack(List<FieldObject> targets)
         {
-            _moveTo = null;
+            if (_moveTo != null)
+            {
+                if (_moveTo.isRetreat)
+                    return;
+
+                _moveTo = null;
+            }
 
             float attackPower = _owner.attack;
             float attackRange = _owner.attackRange;
 
             foreach (var target in targets)
             {
-                float distance = (target.position - _owner.position).ToVector().GetLength();
+                float distance = 
+                    (target.position - _owner.position).ToVector().GetLength()
+                    - (target.sizeRadius + _owner.sizeRadius);
+
+                if (distance < 0)
+                    distance = 0;
 
                 if (distance > attackRange)
                 {
