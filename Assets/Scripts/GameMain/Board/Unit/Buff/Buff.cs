@@ -16,19 +16,22 @@ namespace GameMain
             public float attack = 0;
             public float defense = 0;
             public float moveSpeed = 0;
+            public float penetrationRate = 0;
+            
             public float sightRange = 0;
 
             public float attackPower = 0;
             public float attackRange = 0;
             public float attackCoolDownSeconds = 0;
 
-
+            
             public static Parameter operator *(Parameter Pparameter, float ratio)
             {
                 Pparameter.life *= ratio;
                 Pparameter.attack *= ratio;
                 Pparameter.defense *= ratio;
                 Pparameter.moveSpeed *= ratio;
+                Pparameter.penetrationRate *= ratio;
                 Pparameter.sightRange *= ratio;
                 Pparameter.attackPower *= ratio;
                 Pparameter.attackRange *= ratio;

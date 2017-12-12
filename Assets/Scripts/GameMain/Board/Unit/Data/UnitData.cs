@@ -12,6 +12,8 @@ namespace GameMain
         public float defense;
         public float moveSpeed;
 
+        public float penetrationRate = 0.05f;
+
         public float sightRange;
 
         public float sizeRadius;

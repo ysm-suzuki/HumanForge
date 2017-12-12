@@ -17,7 +17,7 @@ namespace GameMain
 
         private UnitTaskAgent _taskAgent = null;
         private int _attackActionIndex = 0;
-
+        
 
         public class Aura
         {
@@ -27,7 +27,8 @@ namespace GameMain
             public float attackCoolDownReductioin = 0;
             public float defense = 0;
             public float moveSpeed = 0;
-
+            public float penetrationRate = 0;
+            
             static public Aura operator+ (Aura a, Aura b)
             {
                 return new Aura
@@ -84,9 +85,15 @@ namespace GameMain
         public override void Damage(Unit attacker, float damage)
         {
             var newDamage = damage - defense;
+            var penetrationDamage = damage * penetrationRate;
 
-            if (newDamage < 0)
-                newDamage = 0;
+            if (newDamage < penetrationDamage)
+            {
+                newDamage = penetrationDamage;
+
+                if (newDamage <= 0)
+                    newDamage = 1;
+            }
 
             base.Damage(attacker, newDamage);
         }
@@ -228,7 +235,25 @@ namespace GameMain
                         buffValue;
             }
         }
+        public float penetrationRate
+        {
+            get
+            {
+                float buffValue = 0;
+                foreach (var buff in _buffs)
+                {
+                    buffValue += buff.parameter.penetrationRate;
 
+                    if (buff.isOnce)
+                        buff.duration.End();
+                }
+
+                return _data.penetrationRate +
+                        _aura.penetrationRate +
+                        buffValue;
+            }
+        }
+        
         override public float sizeRadius
         {
             get { return _data.sizeRadius; }
