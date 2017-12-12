@@ -66,7 +66,7 @@ namespace GameMain
             _diceTimer = new RepeatTimer(diceIntervalSeconds, 
                 () => 
                 {
-                    int index = Random.Range(0, faceCount - 1);
+                    int index = Random.Range(0, faceCount);
                     var targetFace = _faces[index];
                     targetFace.Activate(this);
 
