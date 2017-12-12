@@ -84,13 +84,27 @@ namespace GameMain
 
         private void Win()
         {
-            UnityEngine.Debug.Log("Win");
+            SimpleMessageNotiifcationView
+                .Attach(ViewManager.Instance.GetRoot(GameMainKicker.InformationRootTag))
+                .SetModel(new VisualNotification.Product
+                {
+                    type = VisualNotification.Product.Type.ShowMessage,
+                    text = "クリア！"
+                });
+
             End();
         }
 
         private void Lose()
         {
-            UnityEngine.Debug.Log("Lose");
+            SimpleMessageNotiifcationView
+                .Attach(ViewManager.Instance.GetRoot(GameMainKicker.InformationRootTag))
+                .SetModel(new VisualNotification.Product
+                {
+                    type = VisualNotification.Product.Type.ShowMessage,
+                    text = "Game Over"
+                });
+
             End();
         }
     }
