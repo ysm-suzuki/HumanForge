@@ -59,29 +59,26 @@ namespace GameMain
 
                     UnityEngine.Debug.Assert(_connection != null,
                         "Database(" + filepath + ") could not open.");
-
+                    
                     _initilizeCallback = callback;
                 }).Start();
             };
 
+            // TODO : delete when the existing file is lower versoin 
             if (File.Exists(filepath))
+                File.Delete(filepath);
+
+            FileManager.Instance.LoadSQlite3FromStreamingAssets(DatabaseName, bytes =>
             {
+                var lastIndex = filepath.LastIndexOf("/");
+                string directory = filepath.Substring(0, lastIndex);
+                if (!Directory.Exists(directory))
+                    Directory.CreateDirectory(directory);
+
+                File.WriteAllBytes(filepath, bytes);
+
                 ConnectDataBase();
-            }
-            else
-            {
-                FileManager.Instance.LoadSQlite3FromStreamingAssets(DatabaseName, bytes =>
-                {
-                    var lastIndex = filepath.LastIndexOf("/");
-                    string directory = filepath.Substring(0, lastIndex);
-                    if (!Directory.Exists(directory))
-                        Directory.CreateDirectory(directory);
-
-                    File.WriteAllBytes(filepath, bytes);
-
-                    ConnectDataBase();
-                });
-            }
+            });
         }
         
 

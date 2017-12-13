@@ -17,4 +17,34 @@ public class VersionData
     {
         return "v" + major + "." + minor + "." + revision;
     }
+
+    public bool IsUpperFor(int targetMajor, int targetMinor, int targetRevision)
+    {
+        if (major > targetMajor)
+            return true;
+        if (major < targetMajor)
+            return false;
+
+        if (minor > targetMinor)
+            return true;
+        if (minor < targetMinor)
+            return false;
+
+        return revision > targetRevision;
+    }
+
+    public bool IsLowerFor(int targetMajor, int targetMinor, int targetRevision)
+    {
+        if (major < targetMajor)
+            return true;
+        if (major > targetMajor)
+            return false;
+
+        if (minor < targetMinor)
+            return true;
+        if (minor > targetMinor)
+            return false;
+
+        return revision < targetRevision;
+    }
 }

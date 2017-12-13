@@ -2,6 +2,9 @@
 {
     public class Version
     {
-        public static string Code = "0.0.2";
+        public static int major = 0;
+        public static int minor = 0;
+        public static int revision = 4;
+        public static string Code = "v" + major + "." + minor + "." + revision;
     }
 }
